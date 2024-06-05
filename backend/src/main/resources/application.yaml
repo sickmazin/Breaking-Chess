@@ -1,0 +1,35 @@
+spring:
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8080/realms/playerRealm
+          jwk-set-uri: ${spring.security.oauth2.resourceserver.jwt.issuer-uri}/protocol/openid-connect/certs
+
+
+  application:
+    name: BreakingChess
+  datasource:
+    url: jdbc:mysql://localhost:3306/breaking_chess_schema
+    username: root
+    password: mattia1611!
+
+  jpa:
+    hibernate:
+      ddl-auto: update  # other options: validate, create, create-drop, none
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL8Dialect
+        show_sql: true  # set to false in production
+        format_sql: true
+        use_sql_comments: true
+        jdbc:
+          lob:
+            non_contextual_creation: true
+server:
+  port: 8081
+jwt:
+  auth:
+    converter:
+      resource-id: player-Rest-api
+      principle-attribute: preferred_username
