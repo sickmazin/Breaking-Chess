@@ -1,0 +1,132 @@
+// Variabili
+$background-color: #e1ddd3;
+$font-family: "Inter", sans-serif;
+$font-color: #000000;
+$button-background-color: #262a29;
+$button-font-color: #dfdbd1;
+$text-color: #6b6b6b;
+$main-color: #131313;
+
+// Mixin
+@mixin flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin font-settings($size, $weight) {
+  font-family: $font-family;
+  font-size: $size;
+  font-weight: $weight;
+  color: $font-color;
+}
+
+// Stili
+body{
+}
+.schermata-login {
+  background-color: $background-color;
+  @include flex-center;
+  flex-direction: row;
+  width: 100%;
+  height: 100%;
+}
+
+.chess2 {
+  border-radius: 20px;
+  width: 400px;
+  height: 390px;
+  position: absolute;
+  left: 62px;
+  top: 144px;
+  box-shadow: 0px 4px 0px rgba(0, 0, 0, 0.25);
+  object-fit: cover;
+}
+
+.breaking-chess {
+  position: absolute;
+  width: 274px;
+  height: 113px;
+  top: 70px;
+  left: 55px;
+  @include font-settings(48px, 700);
+  text-align: center;
+}
+
+.frame-26 {
+  width: 50%;
+  height: 100%;
+  @include flex-center;
+  flex-direction: column;
+}
+
+.login {
+  color: $main-color;
+  @include flex-center;
+  @include font-settings(3rem, 700);
+  width: 100%;
+  height: 10%;
+  position: relative;
+}
+
+.button-login {
+  background-color: $button-background-color;
+  border-radius: 10px;
+  width: 90%;
+  height: 25%;
+  @include flex-center;
+  color: $button-font-color;
+  @include font-settings(2rem, 700);
+  text-align: center;
+}
+
+.frame-19 {
+  padding: 1rem;
+  display: flex;
+  flex-direction: row;
+  gap: 22rem;
+  width: 100%;
+}
+
+.text-under-button {
+  color: $text-color;
+  text-align: left;
+  @include font-settings(0.8rem, 500);
+  @include flex-center;
+  justify-content: flex-start;
+}
+
+.frame-20 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.remember-me {
+  color: $text-color;
+  text-align: left;
+  @include font-settings(15px, 600);
+  @include flex-center;
+  justify-content: flex-start;
+}
+
+.input {
+  width: 80%;
+  height: 35%;
+}
+
+form {
+  width: 100%;
+  height: 25%;
+  @include flex-center;
+  flex-direction: column;
+}
+
+.CENTRALE {
+  width: 80%;
+  height: 100%;
+  margin-left: 20%;
+  @include flex-center;
+  background-color: white;
+  border-radius: 40px 0 0 40px;
+}
