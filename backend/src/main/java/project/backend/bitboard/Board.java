@@ -47,7 +47,6 @@ public class Board {
        generateSliderAttack(true);
        generateSliderAttack(false);
     }
-
     public Board(String FEN_String) {
         FENConverter(FEN_String);
     }
@@ -220,10 +219,15 @@ public class Board {
     }
 
     public boolean makeMove(String move) {
+        boolean increment = true;
         saveState();
-
         char piece = move.charAt(0);
+        if (Character.isLowerCase(piece)!=(side==BLACK))
+            throw new IllegalArgumentException("Invalid move: "+move+", it's "+
+                                                (side==WHITE?"white":"black"+" turn"));
+        if (Character.toLowerCase(piece)=='p') increment = false;
         char type = ' ';
+
         if (move.length() == 6) {
             type = move.charAt(move.length()-1);
             move = move.substring(0, move.length()-1);
@@ -236,7 +240,6 @@ public class Board {
         int enPassantSquare = 8;
         char rook = 'r';
 
-        //handle capture
         if (side == WHITE) {
             enemyPieces = BLACK_PIECE; enPassantSquare = -8; rook = 'R';
         }
@@ -271,8 +274,10 @@ public class Board {
         }
 
         else
+            //handle capture
             for (char c : enemyPieces)
                 if (getBit(c, squareEnd) != 0) {
+                    increment = false;
                     popBit(c, squareEnd);
                     break;
                 }
@@ -296,6 +301,15 @@ public class Board {
 
             // change side
             side ^= 1;
+
+            // increment moves
+            if (side == WHITE)
+                moves++;
+
+            // increment ply for fifty move rule
+            if (increment) fiftyMove++;
+            else fiftyMove = 0;
+
         }
         return true;
     }

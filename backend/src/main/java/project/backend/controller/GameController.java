@@ -1,6 +1,7 @@
 package project.backend.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,9 +26,11 @@ public class GameController {
 
 
     @GetMapping("/startGame/{nickname}/{mode}")
-    public ResponseEntity<String> startGame(@PathVariable String nickname, @PathVariable String mode) {
+    public ResponseEntity<String> startGame(HttpServletRequest request,
+                                            @PathVariable String nickname,
+                                            @PathVariable String mode) {
         try {
-            liveGameService.startGame(nickname, mode);
+            liveGameService.startGame(nickname, mode, request.getRemoteAddr());
             return ResponseEntity.ok("Game started");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
@@ -47,6 +50,7 @@ public class GameController {
     @GetMapping("/draw/{nickname}")
     public ResponseEntity<String> draw(@PathVariable String nickname) {
         try {
+            //TODO gestire la rischiesta di patta
             liveGameService.endGame(nickname, true);
             return ResponseEntity.ok("Ask for draw");
         } catch (Exception e) {

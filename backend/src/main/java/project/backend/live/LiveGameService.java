@@ -4,12 +4,14 @@ import jakarta.persistence.LockModeType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Service;
-import project.chessbackend.data.Game;
-import project.chessbackend.exception.GameException;
-import project.chessbackend.exception.LiveGameNotFoundException;
-import project.chessbackend.exception.PlayerNotFoundException;
-import project.chessbackend.service.GameService;
-import project.chessbackend.service.PlayerService;
+import project.backend.bitboard.Board;
+import project.backend.bitboard.Constant;
+import project.backend.data.Game;
+import project.backend.exceptions.GameException;
+import project.backend.exceptions.LiveGameNotFoundException;
+import project.backend.exceptions.PlayerNotFoundException;
+import project.backend.service.GameService;
+import project.backend.service.PlayerService;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -29,23 +31,25 @@ public class LiveGameService {
         this.gameService = gameService;
     }
 
+    //TODO da vedere se il lock è corretto
+
     @Lock(LockModeType.OPTIMISTIC)
     public String makeMove(String gameId, String move, String player) throws GameException, LiveGameNotFoundException {
         LiveGame liveGame = liveGameStorage.getLiveGame(gameId);
 
-        if (player.equals(liveGame.getTurn()) && canMove(move, liveGame)) {
-            //TODO move
-            return "moved";
+
+        if (player.equals(liveGame.getTurn())) {
+            Board board = new Board(liveGame.getFENs().getLast());
+
+            if (board.getMoves().contains(move) && board.makeMove(move)) {
+                liveGame.switchTurn();
+                return "moved";
+            }
+            else throw new GameException(GameException.TYPE.INVALID_MOVE);
         } else throw new GameException(GameException.TYPE.INVALID_MOVE);
     }
 
-    private boolean canMove(String move, LiveGame liveGame) {
-        //TODO
-        return false;
-    }
-
-
-    public void startGame(String nickname, String mode) throws PlayerNotFoundException {
+    public void startGame(String nickname, String mode, String remoteAddr) throws PlayerNotFoundException {
         try {
 //            if (!playerService.isGuest(nickname)) {
 //                //check for player presence if not guest
@@ -60,18 +64,16 @@ public class LiveGameService {
             List<LiveGame> list = liveGameStorage.getGamesByModeAndState(Game.TYPE.valueOf(mode), GameState.FINDING_OPPONENT);
 
             if (list.isEmpty()) {
-                LiveGame liveGame = new LiveGame(nickname);
+                LiveGame liveGame = new LiveGame(nickname, remoteAddr);
                 liveGameStorage.setLiveGame(liveGame);
             }
             else {
                 LiveGame liveGame = list.get(0);
-                liveGame.setRemainingPlayer(nickname);
-                liveGame.setFENs(List.of("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"));
+                liveGame.setRemainingPlayer(nickname, remoteAddr);
+                liveGame.setFENs(List.of(Constant.STARTING_POSITION));
             }
         }
     }
-
-
 
     public void endGame(String nickname, boolean isDraw) throws LiveGameNotFoundException, PlayerNotFoundException {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);

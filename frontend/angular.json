@@ -54,12 +54,21 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@chrisoakman/chessboardjs/img",
+                "output": "./img"
               }
             ],
             "styles": [
-              "src/styles.scss"
+              "src/styles.scss",
+              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -113,12 +122,22 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@chrisoakman/chessboardjs/img",
+                "output": "./img"
               }
             ],
             "styles": [
+              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css",
+              "./node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.js"
+            ]
           }
         }
       }

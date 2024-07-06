@@ -1,8 +1,8 @@
 package project.backend.live;
 
 import org.springframework.stereotype.Component;
-import project.chessbackend.data.Game;
-import project.chessbackend.exception.LiveGameNotFoundException;
+import project.backend.data.Game;
+import project.backend.exceptions.LiveGameNotFoundException;
 
 import java.util.HashMap;
 import java.util.List;
@@ -11,7 +11,7 @@ import java.util.Map;
 @Component
 public class LiveGameStorage {
 
-    //Lock su singolo LiveGame
+    //TODO? Lock su singolo LiveGame
 
     private final Map<String, LiveGame> liveGames = new HashMap<String, LiveGame>();
 

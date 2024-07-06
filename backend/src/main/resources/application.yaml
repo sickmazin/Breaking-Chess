@@ -28,8 +28,12 @@ spring:
             non_contextual_creation: true
 server:
   port: 8081
+  forward-headers-strategy: NATIVE
+
 jwt:
   auth:
     converter:
       resource-id: player-Rest-api
       principle-attribute: preferred_username
+
+
