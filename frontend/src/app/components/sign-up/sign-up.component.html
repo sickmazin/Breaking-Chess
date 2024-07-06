@@ -1,0 +1,68 @@
+<body class="SCHERMATA-CREA">
+
+<div class="CENTRALE">
+    <div class="component">
+        <div style="display: flex;flex-direction: row; width: 70%; height: 10%; gap: 4rem; margin-bottom: 2rem">
+            <div class="text-CreateAccount">Create Account</div>
+            <div class="box-avatar" (click)="openAvatarDialog()">
+                <img class="man" src="assets/avatar/avatar.png"  alt=""/>
+                <div class="frame-avatar ">Seleziona avatar</div>
+            </div>
+        </div>
+        <form #inputForm="ngForm" (ngSubmit)="registerWithEmailAndPassword(inputForm)">
+            <div class="input-line">
+                <mat-form-field appearance="outline" class="input-line1">
+                    <mat-label>First name</mat-label>
+                    <input matInput placeholder="" name="firstName" ngModel>
+                </mat-form-field>
+
+                <mat-form-field appearance="outline" class="input-line1">
+                    <mat-label>Last name</mat-label>
+                    <input matInput placeholder="" name="lastName" ngModel>
+                </mat-form-field>
+            </div>
+            <mat-form-field appearance="outline" class="input">
+                <mat-label>E-mail</mat-label>
+                <input matInput type="email" placeholder="email@example.com" name="email" email required ngModel>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="input">
+                <mat-label>Username</mat-label>
+                <input matInput placeholder="" required name="username" ngModel>
+            </mat-form-field>
+            <mat-form-field appearance="outline" class="input">
+                <mat-label>Password</mat-label>
+                <input matInput placeholder="" [type]="hide ? 'password' : 'text'" name="password" required ngModel>
+                <button mat-icon-button matSuffix (click)="viewPassword($event)" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                    <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                </button>
+            </mat-form-field>
+            <button mat-flat-button color="primary" class="create-account-button" type="submit"  >Create Account</button>
+        </form>
+
+        <div class="frame-19">
+            <div class="text-under-button">Already have an account? <a style="margin-left: 0.2rem" routerLink="/signIn">Login </a> </div>
+            <div class="frame-20">
+                <mat-checkbox #checkbox></mat-checkbox>
+                <div class="text-under-button"> Remember me </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="partite-da-guest">
+    <div class="text-giocaDaGuests" >Gioca da Guests</div>
+    <img class="imgSchacchiera" src="assets/scacchiera.jpg" alt=""/>
+    <button class="button-guests" (click)="createGame('bullet')">
+        <img class="imageButton" src="assets/modality/1-minute.png" alt="" /> Gioca a 1 minuto
+    </button>
+    <button class="button-guests" (click)="createGame('blitz')">
+        <img class="imageButton" src="assets/modality/5-minute.png" /> Gioca a 5 minuti
+    </button>
+    <button class="button-guests" (click)="createGame('rapid')">
+        <img class="imageButton" src="assets/modality/10-minute.png"  alt=""/> Gioca a 10 minuti
+    </button>
+</div>
+<h1 class="chess-web">Breaking<br />Chess</h1>
+<img src="assets/SCACCHI1.png" class="SCHACCHI-IMG"  alt="SCHACCHI 3D">
+</body>
+

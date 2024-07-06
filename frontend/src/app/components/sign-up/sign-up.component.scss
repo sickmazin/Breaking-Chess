@@ -1,0 +1,242 @@
+$primary-font: "Inter-Bold", Helvetica;
+$secondary-font: "Inter-SemiBold", Helvetica;
+$tertiary-font: "Inter-Medium", Helvetica, serif;
+$primary-color: #262a29;
+$secondary-color: #dfdbd1;
+$background-color: #e1ddd3;
+$text-color: #131212;
+$highlight-color: #6b6b6b;
+$border-radius-large: 40px;
+$border-radius-small: 10px;
+$padding: 1rem;
+$margin: 1rem;
+$gap-large: 7rem;
+$gap-small: 0.5rem;
+
+.component {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 80%;
+  height: 100%;
+  align-self: center;
+  margin: 3rem;
+  padding: $padding;
+}
+
+.text-CreateAccount {
+  width: 70%;
+  font-family: $primary-font;
+  font-weight: 700;
+  color: $text-color;
+  font-size: 3rem;
+  text-align: center;
+  align-self: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.create-account-button {
+  background-color: $primary-color;
+  border-radius: $border-radius-small;
+  width: 60%;
+  height: 15%;
+  align-items: center;
+  color: $secondary-color;
+  font-family: $primary-font;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  align-self: center;
+  margin-top: 2.5rem;
+  gap: 3rem;
+  padding: $padding;
+}
+
+.input {
+  width: 50%;
+  height: 10%;
+}
+
+.input-line1 {
+  width: 40%;
+  height: 100%;
+}
+
+.input-line {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 50%;
+  height: 10%;
+  gap: $gap-large;
+}
+
+.SCHERMATA-CREA {
+  background-color: $background-color;
+  display: flex;
+  flex-direction: row;
+  width: 100vh;
+  height: 100vh;
+
+  .CENTRALE {
+    position: absolute;
+    width: 78%;
+    height: 100vh;
+    left: 16%;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: $border-radius-large 0 0 $border-radius-large;
+    overflow: hidden;
+  }
+}
+
+.SCHACCHI-IMG {
+  width: 25rem;
+  height: 25rem;
+  position: relative;
+  right: 10rem;
+  top: 20%;
+  object-fit: cover;
+}
+
+.imgSchacchiera {
+  width: 100%;
+  height: 45%;
+  margin: $margin 0;
+}
+
+.partite-da-guest {
+  background: $primary-color;
+  border-radius: $border-radius-large 0 0 $border-radius-large;
+  width: 18%;
+  height: 100vh;
+  padding: 2rem;
+  position: absolute;
+  right: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.imageButton {
+  width: 20%;
+  height: 100%;
+}
+
+.button-guests {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 70%;
+  height: 5%;
+  background-color: $secondary-color;
+  border-radius: 16px;
+  align-self: center;
+  font-family: $secondary-font;
+  font-weight: 600;
+  margin: $margin;
+  color: $primary-color;
+  gap: 0.2rem;
+  font-size: 1.1rem;
+}
+
+.text-giocaDaGuests {
+  width: 100%;
+  height: 10%;
+  font-family: $primary-font;
+  font-weight: 700;
+  color: $background-color;
+  margin-top: 2rem;
+  font-size: 2.3rem;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.chess-web {
+  position: relative;
+  left: 7%;
+  top: 7%;
+  font-family: $primary-font, ui-serif;
+  font-weight: 700;
+  color: #000000;
+  font-size: 3.6rem;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.box-avatar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 7.3rem;
+  height: 8.5rem;
+  padding: 0.4rem;
+  gap: $gap-small;
+  border-radius: 5%;
+  background: $secondary-color;
+}
+
+.frame-avatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 2rem;
+  font-family: $tertiary-font;
+  font-weight: 500;
+  color: $highlight-color;
+  font-size: 1rem;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+  white-space: nowrap;
+}
+
+.man {
+  width: 90%;
+  height: 80%;
+  object-fit: fill;
+}
+
+.frame-19 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  width: 60%;
+  padding: $padding;
+  gap: 17rem;
+  height: 5%;
+}
+
+.text-under-button {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  color: $highlight-color;
+  text-align: left;
+  font-family: $tertiary-font, sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  position: relative;
+}
+
+.frame-20 {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: flex-start;
+  flex-shrink: 0;
+  position: relative;
+}
