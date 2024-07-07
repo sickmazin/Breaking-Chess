@@ -22,23 +22,7 @@ export class SignInComponent {
   }
 
   loginWithEmailAndPassword(loginForm: NgForm) {
-    const user={
-      username: loginForm.value.username,
-      password:  loginForm.value.password
-    }
-    let rememberMe = this.checkBox?.checked
-    this.authService.signInWithEmailAndPassword(user).then(
-        (response:Player|any)=>{
-          this.toastr.success("Login eseguito con successo!")
-          console.log("Risposta ottenuta :", response)
-          this.router.navigate(['../homepage'],{state: {player: response}}).then();
-        },
-        error=>{
-          console.log(error);
-          this.toastr.error(error.message);
-          console.log(error)
-        }
-    )
+    //TODO
   }
 
   viewPassword(event: MouseEvent) {

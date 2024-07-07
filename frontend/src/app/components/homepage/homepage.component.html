@@ -1,1 +1,109 @@
-<p>homepage works!</p>
+<div class="homepage">
+    <!-- FRAME A SINISTRA DEL GIOCATORE  -->
+    <div class="giocatore-sx">
+        <div style="display:flex;flex-direction: row; padding: 1rem; margin-top: 0.5rem">
+            <img alt="" class="imgAvatar" src="assets/avatar/Man1.jpg"/>
+            <div style="width: 90%; padding: 0.5rem">
+                <div class="nickname"> {{player.nickname}}  </div>
+                <div class="frame-punti-elo">
+                    @switch (modality){
+                        @case (1) {
+                            <button class="modalitàElo1"  (click)="changeModalityEloPoints()"></button>
+                        }
+                        @case (2) {
+                            <button class="modalitàElo5"  (click)="changeModalityEloPoints()"></button>
+                        }
+                        @default {
+                            <button class="modalitàElo10"  (click)="changeModalityEloPoints()"></button>
+                        }
+                    }
+                    <div class="punti-elo"> Punti elo: {{ getPuntiEloByModality() }}</div>
+                </div>
+            </div>
+        </div>
+        <div class="textListaPartite"> Lista partite</div>
+        <div class="lista-partite" >
+            @for (game of games;track game){
+                <app-game-display [game]="game" ></app-game-display>
+            }
+        </div>
+    </div>
+    <!-- FRAME CENTRALE  -->
+    <div class="CENTRALE">
+        <div class="divGiocaPartite">
+            <div class="boxGioca" (click)="postGame('bullet')">
+                <img src="assets/scacchiera.jpg" alt=""/>
+                <div class="text-Image-giocaBox">
+                    <img src="assets/modality/1-minute.png" class="iconGioca" alt="">
+                    <div class="textGioca"> Gioca a 1 minuto </div>
+                </div>
+            </div>
+            <div  class="boxGioca" (click)="postGame('blitz')" >
+                <img src="assets/scacchiera.jpg" alt=""/>
+                <div class="text-Image-giocaBox">
+                    <img src="assets/modality/5-minute.png" class="iconGioca" alt="">
+                    <div class="textGioca"> Gioca a 5 minuti </div>
+                </div>
+            </div>
+            <div class="boxGioca" (click)="postGame('rapid')">
+                <img src="assets/scacchiera.jpg" alt=""/>
+                <div class="text-Image-giocaBox">
+                    <img src="assets/modality/10-minute.png" class="iconGioca" alt="">
+                    <div class="textGioca"> Gioca a 10 minuti </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="divlibri">
+            <div class="divText-Icon">
+                <div class="text-Libri-Video">Studia dai libri</div>
+                <img class="iconQueen" src="assets/queen.svg" alt=""/>
+            </div>
+            <div class="scroll-libri-orizzontale">
+                <img  *ngFor="let libro of books"  class="libro" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
+            </div>
+        </div>
+        <div class="video-frame">
+            <div class="divText-Icon">
+                <div class="text-Libri-Video"> Studia dai video dei migliori </div>
+                <img class="iconQueen" src="assets/rook.svg" alt=""/>
+            </div>
+            <div class="scroll-orizzontale-video">
+                @for (video of videos; track video){
+                    <img class="frameVideo" src="{{video.linkImg}}" (click)="openLink(video.linkVideo)" alt="">
+                }
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FRAME A DESTRA  -->
+    <div class="divDestra">
+        <div class="divDifferentButton">
+            @if (isLightTheme) {
+                <img class="iconDiffButton" ngSrc="assets/lightTheme.svg" (click)="changeTheme()" alt="" height="30" width="30">
+            } @else {
+                <img class="iconDiffButton" ngSrc="assets/darkTheme.svg" (click)="changeTheme()" alt="" height="24" width="24">
+            }
+            <img class="iconDiffButton" src="assets/friends.svg" (click)="openFriendsPage()" alt="">
+            <img class="iconDiffButton" src="assets/logout.png" (click)="logout()" alt="">
+            <!--<img class="iconDiffButton" src="assets/chat.svg" (click)="openChatPage()" alt=""> -->
+            <img class="iconDiffButton" src="assets/options.svg" (click)="openOptionsPage()" alt="">
+
+        </div>
+        <!-- FRAME CLASSIFICA  -->
+        <div class="classifica">
+            <div class="classifica-giocatori"> Classifica giocatori </div>
+            <div class="button-classifica">
+                <button class="buttonModalità" (click)="showClassificaByModality('bullet')" style="background-image: url(' assets/modality/1-minute.png')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('blitz')" style="background-image: url(' assets/modality/5-minute.png')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('rapid')" style="background-image: url('assets/modality/10-minute.png')"></button>
+            </div>
+            <div class="scroll-orizzontale-giocatori">
+                @for (player of leaderboard; track leaderboard; let index = $index){
+                    <app-leaderboard-element [player]="player" [position]="index" [modality]="leardBoardModality"  ></app-leaderboard-element>
+                }
+            </div>
+        </div>
+    </div>
+</div>

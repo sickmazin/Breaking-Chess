@@ -1,0 +1,28 @@
+$background-color: #dfdbd1;
+//TODO
+//$background-image: url('../../../assets/backgroundMatchmaking2.png');
+
+.chess-theme-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background: $background-color url($background-image) no-repeat center center fixed;
+  background-size: cover;
+}
+
+.waiting-card {
+  text-align: center;
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  border-radius: 8px;
+}
+
+.loading-spinner {
+  margin: 20px auto;
+}
+
+.loading-text {
+  font-size: 18px;
+  margin-top: 10px;
+}
