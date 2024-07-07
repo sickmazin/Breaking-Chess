@@ -1,0 +1,18 @@
+<div id="container">
+  <div id="board1" style="width: 400px; height: 400px"></div>
+
+  <div class="modal" tabindex="-1">
+    <div class="modal-dialog">
+      <div #promotionDiv id="promotion" class="promotion" [hidden]="!promotion" style="z-index: 3">
+        <img (click)="setPromotion('q')" ngSrc="img/chesspieces/wikipedia/{{mySide}}Q.png" width="50" height="50" alt="queen">
+        <img (click)="setPromotion('r')" ngSrc="img/chesspieces/wikipedia/{{mySide}}R.png" width="50" height="50" alt="rook">
+        <img (click)="setPromotion('b')" ngSrc="img/chesspieces/wikipedia/{{mySide}}B.png" width="50" height="50" alt="bishop">
+        <img (click)="setPromotion('n')" ngSrc="img/chesspieces/wikipedia/{{mySide}}N.png" width="50" height="50" alt="knight">
+      </div>
+    </div>
+  </div>
+
+</div>
+
+
+

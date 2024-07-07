@@ -7,3 +7,4 @@ export const REQUEST_LOGIN: string = "/realms/" + REALM + "/protocol/openid-conn
 export const REQUEST_REG: string = "/" + REALM + "/protocol/openid-connect/token";
 export const REQUEST_LOGOUT: string = "/realms/" + REALM + "/protocol/openid-connect/logout";
 export const ADDRESS_AUTHENTICATION_SERVER: string = "http://localhost:8080";
+
