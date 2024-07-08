@@ -5,6 +5,7 @@ import {Video} from "../../data/video";
 import {Router} from "@angular/router";
 import {AuthService} from "../../auth/auth.service";
 import {GameService} from "../../service/game.service";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-homepage',
@@ -23,7 +24,8 @@ export class HomepageComponent implements OnInit{
   gettendInfo:boolean;
   constructor(private router: Router,
               private authService: AuthService,
-              private gameService: GameService
+              private gameService: GameService,
+              private toastrService: ToastrService
               ) {
     if(this.router.getCurrentNavigation()!.extras.state?.['player']!=undefined ){
       this.player= this.router.getCurrentNavigation()!.extras.state?.['player']
@@ -55,7 +57,7 @@ export class HomepageComponent implements OnInit{
           throw  new Error(error)
         }
     )
-    console.log(this.player)
+    console.log("Player: "+this.player)
   }
 
   showClassificaByModality( rapid: string ) {
@@ -84,8 +86,17 @@ export class HomepageComponent implements OnInit{
     window.open(link)
   }
 
-  postGame( rapid: string ) {
-    //TODO
+  postGame( modality: string ) {
+    this.gameService.postGame(modality,this.player).then(
+       (response:Game|undefined) =>{
+        this.router.navigate(['/matchmaking'],{state:{game:response}}).then(r=> {
+          this.toastrService.success("Matchmaking iniziato!")
+        })
+      },
+       err => {
+        this.toastrService.error(err)
+      }
+    )
   }
 
   changeModalityEloPoints() {

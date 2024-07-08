@@ -72,6 +72,7 @@ export class AuthService {
         next: (response: any) => {
           console.log("SETTING TOKEN");
           localStorage.setItem('token', response.access_token);
+          localStorage.setItem('refresh_token', response.refresh_token);
           this.startTokenRefresh(response.refresh_token);
           resolve();
         },
@@ -101,6 +102,11 @@ export class AuthService {
 
   async loginWithToken() {
     try {
+      const refresh_token=localStorage.getItem('refresh_token');
+      if (refresh_token!=null){
+        console.log("Refreshing token");
+        this.startTokenRefresh(refresh_token)
+      }
       return await firstValueFrom (this.http.get<Player> (LOGIN_URL));
     } catch (error: any) {
       throw new Error (error || 'Error during sign in');
