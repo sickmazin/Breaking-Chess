@@ -3,7 +3,9 @@ package project.backend.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import project.backend.data.Game;
 import project.backend.data.Player;
@@ -55,9 +57,9 @@ public class GamesController {
     }
 
     //TODO
-    @GetMapping("/listFrom/{player_nickname}")
-    public ResponseEntity<List<Game>> getListGameFromPlayer(@PathVariable String player_nickname) {
-        return new ResponseEntity<>(gameService.getListOfGames(player_nickname), HttpStatus.OK);
+    @GetMapping("/listOfGame")
+    public ResponseEntity<List<Game>> getListGameFromPlayer(@AuthenticationPrincipal Jwt token) {
+        return new ResponseEntity<>(gameService.getListOfGames(token.getClaimAsString("preferred_username")), HttpStatus.OK);
     }
 
     //TODO

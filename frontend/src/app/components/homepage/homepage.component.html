@@ -4,7 +4,7 @@
         <div style="display:flex;flex-direction: row; padding: 1rem; margin-top: 0.5rem">
             <img alt="" class="imgAvatar" src="assets/avatar/Man1.jpg"/>
             <div style="width: 90%; padding: 0.5rem">
-                <div class="nickname"> {{player.nickname}}  </div>
+                <div class="nickname"> {{player.username}} </div> <!-- sick.mazin -->
                 <div class="frame-punti-elo">
                     @switch (modality){
                         @case (1) {
@@ -34,21 +34,21 @@
             <div class="boxGioca" (click)="postGame('bullet')">
                 <img src="assets/scacchiera.jpg" alt=""/>
                 <div class="text-Image-giocaBox">
-                    <img src="assets/modality/1-minute.png" class="iconGioca" alt="">
+                    <img src="assets/modality/bullet.svg" class="iconGioca" alt="">
                     <div class="textGioca"> Gioca a 1 minuto </div>
                 </div>
             </div>
             <div  class="boxGioca" (click)="postGame('blitz')" >
                 <img src="assets/scacchiera.jpg" alt=""/>
                 <div class="text-Image-giocaBox">
-                    <img src="assets/modality/5-minute.png" class="iconGioca" alt="">
+                    <img src="assets/modality/blitz.svg" class="iconGioca" alt="">
                     <div class="textGioca"> Gioca a 5 minuti </div>
                 </div>
             </div>
             <div class="boxGioca" (click)="postGame('rapid')">
                 <img src="assets/scacchiera.jpg" alt=""/>
                 <div class="text-Image-giocaBox">
-                    <img src="assets/modality/10-minute.png" class="iconGioca" alt="">
+                    <img src="assets/modality/rapid.svg" class="iconGioca" alt="">
                     <div class="textGioca"> Gioca a 10 minuti </div>
                 </div>
             </div>
@@ -86,7 +86,7 @@
                 <img class="iconDiffButton" ngSrc="assets/darkTheme.svg" (click)="changeTheme()" alt="" height="24" width="24">
             }
             <img class="iconDiffButton" src="assets/friends.svg" (click)="openFriendsPage()" alt="">
-            <img class="iconDiffButton" src="assets/logout.png" (click)="logout()" alt="">
+            <img class="iconDiffButton" src="assets/logout.svg" (click)="logout()" alt="">
             <!--<img class="iconDiffButton" src="assets/chat.svg" (click)="openChatPage()" alt=""> -->
             <img class="iconDiffButton" src="assets/options.svg" (click)="openOptionsPage()" alt="">
 
@@ -95,9 +95,9 @@
         <div class="classifica">
             <div class="classifica-giocatori"> Classifica giocatori </div>
             <div class="button-classifica">
-                <button class="buttonModalità" (click)="showClassificaByModality('bullet')" style="background-image: url(' assets/modality/1-minute.png')"></button>
-                <button class="buttonModalità" (click)="showClassificaByModality('blitz')" style="background-image: url(' assets/modality/5-minute.png')"></button>
-                <button class="buttonModalità" (click)="showClassificaByModality('rapid')" style="background-image: url('assets/modality/10-minute.png')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('bullet')" style="background-image: url(' assets/modality/bulletDARK.svg')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('blitz')" style="background-image: url(' assets/modality/blitzDARK.svg')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('rapid')" style="background-image: url('assets/modality/rapidDARK.svg')"></button>
             </div>
             <div class="scroll-orizzontale-giocatori">
                 @for (player of leaderboard; track leaderboard; let index = $index){

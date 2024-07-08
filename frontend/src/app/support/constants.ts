@@ -9,8 +9,6 @@ export const REQUEST_LOGOUT: string = "/realms/" + REALM + "/protocol/openid-con
 export const ADDRESS_AUTHENTICATION_SERVER: string = "http://localhost:8080";
 
 //CONSTANT FOR YOUTUBE VIDEOS
-
-//
 export const YOUTUBE_KEY="AIzaSyBjPKQx2aNnpVeFE_vC-1Kpo_Nby4IFzy8"
 export const channelID="UCQHX6ViZmPsWiYSFAyS0a3Q" //ID CANALE DI GOTHAM CHESS
 export const PLAYLIST_ID="UUQHX6ViZmPsWiYSFAyS0a3Q"// ID PLAYLIST ULTIMI VIDEO DI GOTHAM
@@ -54,3 +52,13 @@ export const WOMAN_AVATAR=[
     "assets/avatar/Women15.jpg",
 ]
 
+//BACK END LINK
+export const BASE_URL = "http://localhost:8081/api/";
+export const HOME_URL = BASE_URL+"home/";
+export const LEADERBOARD_URL= HOME_URL+"leaderboard"
+export const GAMES_URL = BASE_URL+"games"
+
+// login e registrazione
+export const ACCOUNT_URL= BASE_URL+"auth";
+export const LOGIN_URL =ACCOUNT_URL+"/login"
+export const CREATE_USER=ACCOUNT_URL+"/register";

@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -81,14 +82,17 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers( //RICHIESTE CHE SONO PUBLICHE
-                                        "/api/auth/**",
-                                        "/api/auth/ciao"
+                                        "/api/auth/register"
                                 ).permitAll()
                                 .anyRequest().authenticated()// TUTTE LE ALTRE SONO SOLO DA AUTENTICATI
                 )
                 .oauth2ResourceServer(auth ->
                         auth.jwt(token ->
-                                token.jwtAuthenticationConverter(new KeyCloackJwtAuthenticationConverter())));
+                                token.jwtAuthenticationConverter(new KeyCloackJwtAuthenticationConverter())))
+
+                .sessionManagement(session ->
+                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                );;
         return http.build();
     }
 

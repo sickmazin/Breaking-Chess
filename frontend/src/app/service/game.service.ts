@@ -1,13 +1,20 @@
 import { Injectable } from '@angular/core';
+import {Game} from "../data/game";
+import {GAMES_URL} from "../support/constants";
+import {HttpClient} from "@angular/common/http";
 
 @Injectable({
   providedIn: 'root'
 })
 export class GameService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
 
   deleteGame( id: string ) {
 
+  }
+
+  getGames() {
+    return this.http.get<Game[]>(`${GAMES_URL}/listOfGame`).toPromise();
   }
 }

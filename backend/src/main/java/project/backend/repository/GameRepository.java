@@ -11,9 +11,8 @@ import java.util.List;
 public interface GameRepository extends JpaRepository<Game, Long> {
 
     @Query( "SELECT g " +
-            "FROM Game g,Player p " +
-            "WHERE (g.whitePlayer.username=p.username  OR g.blackPlayer.username = p.username)" +
-            "AND p.username LIKE ?1" +
+            "FROM Game g " +
+            "WHERE (g.whitePlayer.username = :username OR g.blackPlayer.username = :username)" +
             "ORDER BY g.date DESC LIMIT 20")
-    List<Game> findLast20ByPlayer(String nickname);
+    List<Game> findLast20ByPlayer(String username);
 }

@@ -30,6 +30,7 @@ public class GameService {
     public List<Game> getListOfGames(String playerNickname) {
         //CHECK SE IL PLAYER CHE L'HA RICHIESTO C'è NEL DB
         Player player= playerRepository.findByUsername(playerNickname).orElseThrow( () -> new IllegalArgumentException(" PLAYER NON PRESENTE NEL DB"));
+        System.out.println(player.getUsername());
         return gameRepository.findLast20ByPlayer(player.getUsername());
     }
 

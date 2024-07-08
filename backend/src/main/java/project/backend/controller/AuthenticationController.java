@@ -1,11 +1,14 @@
 package project.backend.controller;
 
 
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +24,12 @@ public class AuthenticationController {
     private final KeycloakUserServiceImpl keycloakUserService;
     private final PlayerService playerService;
 
+    @GetMapping("/ciao")
+    public ResponseEntity<String> ciao() {
+        return ResponseEntity.ok("ciao");
+    }
+
+
     @Autowired
     public AuthenticationController(KeycloakUserServiceImpl keycloakUserService, PlayerService playerService) {
         this.keycloakUserService = keycloakUserService;
@@ -33,12 +42,10 @@ public class AuthenticationController {
         return keycloakUserService.createUser(player);
     }
 
-    //TO TEST
     @GetMapping("/login")
-    public ResponseEntity<?> login(@AuthenticationPrincipal Authentication auth){
+    public ResponseEntity<?> login(@AuthenticationPrincipal Jwt jwt){
         try {
-            Jwt token = (Jwt) auth.getPrincipal();
-            String username = token.getClaimAsString("preferred_username");
+            String username = jwt.getClaimAsString("preferred_username");
             if(username.isBlank() || username.isEmpty()){
                 return new ResponseEntity<>(HttpStatus.NOT_FOUND);
             }
