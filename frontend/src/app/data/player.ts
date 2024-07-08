@@ -1,5 +1,5 @@
 export interface Player{
-    nickname: string,
+    username: string,
     email: string,
     avatar: string,
     blitzPoints: number;

@@ -1,5 +1,6 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
+import {ToastrService} from "ngx-toastr";
 
 export const authGuard: CanActivateFn = (route, state) => {
   if (localStorage.getItem('token')) {
@@ -9,6 +10,7 @@ export const authGuard: CanActivateFn = (route, state) => {
   }else {
     console.log('no token');
     // User is not logged in, redirect to login page and return false
+    inject(ToastrService).error("Non puoi accedere all\'homepage senza l\'accesso");
     inject(Router).navigate(['/signUp']).then(r => false);
     return false;
   }
