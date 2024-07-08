@@ -10,7 +10,7 @@ spring:
   application:
     name: BreakingChess
   datasource:
-    url: jdbc:mysql://localhost:3306/breaking_chess_schema
+    url: jdbc:mysql://localhost:3306/chess
     username: root
     password: mattia1611!
 
@@ -26,13 +26,17 @@ spring:
         jdbc:
           lob:
             non_contextual_creation: true
+
 server:
   port: 8081
+  forward-headers-strategy: NATIVE
+
 jwt:
   auth:
     converter:
       resource-id: player-Rest-api
       principle-attribute: preferred_username
+
 keycloak:
   realm: "playerRealm"
   domain: "http://localhost:8080"

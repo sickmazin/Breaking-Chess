@@ -6,11 +6,11 @@ import project.backend.data.Game;
 import project.backend.data.Player;
 import project.backend.repository.GameRepository;
 import project.backend.repository.PlayerRepository;
-
 import java.util.List;
 
 @Service
 public class GameService {
+
     @Autowired
     private GameRepository gameRepository;
     @Autowired
@@ -34,6 +34,11 @@ public class GameService {
         return gameRepository.findLast20ByPlayer(player.getUsername());
     }
 
+  
+    public void save(Game game) {
+        gameRepository.save(game);
+    }
+  
     public Game getGameByID(long id) {
         return gameRepository.getById(id);
     }

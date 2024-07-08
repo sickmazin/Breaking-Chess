@@ -4,6 +4,7 @@
   "compilerOptions": {
     "strictPropertyInitialization": false,
     "outDir": "./dist/out-tsc",
+    "allowJs": true,
     "strict": true,
     "noImplicitOverride": true,
     "noPropertyAccessFromIndexSignature": true,

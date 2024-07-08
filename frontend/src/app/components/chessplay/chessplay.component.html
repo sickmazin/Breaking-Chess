@@ -1,0 +1,54 @@
+<div class="column column-a">
+</div>
+
+<div class="column column-b">
+  <div id="second">
+    <img src="" alt="Immagine avversario">
+    <label> Name </label>
+    <label> (Elo) </label>
+    <label> timer </label>
+  </div>
+
+  <app-chessgame id="board" [game] = game >
+
+  </app-chessgame>
+
+  <div id="first">
+    <img src="" alt="Immagine mia">
+    <label> Name </label>
+    <label> (Elo) </label>
+    <label> timer </label>
+  </div>
+</div>
+
+
+<div class="column column-c" [hidden]="!game.isGameOver()">
+  <button (click)="startBullet();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Gioca bullet
+  </button>
+  <button (click)="startBlitz();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Gioca blitz
+  </button>
+  <button (click)="startRapid();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Gioca rapid
+  </button>
+
+  <!-- Modal
+  <div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h1 class="modal-title fs-5" id="exampleModalLabel">Ricerca in corso...</h1>
+        </div>
+        <div class="modal-body" style="align-self: center">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary" style="align-self: center">Annulla</button>
+        </div>
+      </div>
+    </div>
+  </div> -->
+</div>

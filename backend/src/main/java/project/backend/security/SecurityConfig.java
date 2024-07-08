@@ -19,7 +19,6 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import project.backend.security.keycloak.KeyCloackJwtAuthenticationConverter;
-
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -83,6 +82,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers( //RICHIESTE CHE SONO PUBLICHE
                                         "/api/auth/register"
+
                                 ).permitAll()
                                 .anyRequest().authenticated()// TUTTE LE ALTRE SONO SOLO DA AUTENTICATI
                 )

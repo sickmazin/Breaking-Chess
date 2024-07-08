@@ -17,7 +17,6 @@ import java.util.stream.Stream;
 
 public class KeyCloackJwtAuthenticationConverter implements Converter<Jwt, AbstractAuthenticationToken> {
 
-
     @Value("${jwt.auth.converter.principle-attribute}")
     private String principleAttribute;
     @Value("${jwt.auth.converter.resource-id}")

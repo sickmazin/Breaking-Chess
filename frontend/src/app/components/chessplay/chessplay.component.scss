@@ -1,0 +1,24 @@
+body,
+html {
+  height: 100%;
+  padding: 0;
+  margin: 0;
+}
+
+.column {
+  display:inline-block;
+  width:33.33%;
+  margin-right:-4px;
+}
+
+.btn {
+  margin: 5px;
+}
+
+/*.column-a {background-color: #88594c;}
+
+.column-b {background-color:Gray;}*/
+
+.column-c {
+  display: inline-block;
+}
