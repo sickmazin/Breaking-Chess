@@ -1,0 +1,51 @@
+$box-background: #e1ddd3;
+$box-border-radius: 8px;
+$text-color: #3f3f3f;
+$inter-font: 'Inter-Medium', sans-serif;
+$box-padding: 0.1rem;
+$avatar-size: 25%;
+
+.class-box {
+  contain: content;
+  background-color: $box-background;
+  border-radius: $box-border-radius;
+  width: 98%;
+  margin-bottom: 0.4rem;
+  height: 2.5rem;
+  padding: $box-padding;
+  display: flex;
+  flex-direction: row;
+}
+
+.posClass,
+.textBoxClasifica {
+  color: $text-color;
+  text-align: center;
+  font-family: $inter-font;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.posClass {
+  font-size: 0.9rem;
+  font-weight: 600;
+  width: 15%;
+  height: 100%;
+}
+
+.textBoxClasifica {
+  font-size: 0.75rem;
+  font-weight: 500;
+  width: 60%;
+  height: 98%;
+}
+
+.avatar {
+  border-radius: 4px;
+  height: $avatar-size; /* Use variable for consistency */
+  align-self: center;
+  width: $avatar-size;
+  margin: $box-padding; /* Use variable for consistency */
+  object-fit: cover;
+}

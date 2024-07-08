@@ -51,6 +51,7 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
+              "src/assets",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -64,6 +65,8 @@
             "styles": [
               "src/styles.scss",
               "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css"
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+              "src/styles.scss"
             ],
             "scripts": [
               "./node_modules/jquery/dist/jquery.min.js",
@@ -132,6 +135,8 @@
             "styles": [
               "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css",
               "./node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "@angular/material/prebuilt-themes/cyan-orange.css",
+
               "src/styles.scss"
             ],
             "scripts": [

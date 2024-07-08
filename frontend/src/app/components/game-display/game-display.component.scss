@@ -1,0 +1,78 @@
+$player-text-color: #3f3f3f;
+$inter-font: 'Inter-Medium', sans-serif;
+$box-background: #e1ddd3;
+$box-border-radius: 20px;
+$box-padding: 0.6rem;
+$player-box-width: 9rem;
+$avatar-size: 2rem;
+$data-text-size: 0.7rem;
+
+.img-Modalità-partita {
+  image-rendering: optimizeQuality;
+  border: 0;
+  width: $avatar-size;
+  height: $avatar-size;
+  object-fit: cover;
+}
+
+.divPlayers,
+.partita {
+  display: flex;
+  gap: 0.3rem;
+  align-items: center;
+}
+
+.divPlayers {
+  flex-direction: column;
+  margin-left: 0.2rem;
+}
+
+.partita {
+  background-color: $box-background;
+  border-radius: $box-border-radius;
+  width: 94%;
+  height: 3.3rem;
+  position: relative;
+  margin-bottom: 0.7rem;
+  overflow: hidden;
+  padding: $box-padding;
+  flex-direction: row;
+}
+
+.rectangle {
+  border-style: solid;
+  align-self: center;
+  border-color: #262a29;
+  border-width: 0.5px;
+  width: 0.8rem;
+  height: 0.8rem;
+}
+
+.textPlayer {
+  color: $player-text-color;
+  text-align: center;
+  justify-content: flex-start;
+  align-self: center;
+  font-family: $inter-font;
+  font-size: 1rem;
+  font-weight: 520;
+  width: $player-box-width;
+  height: 1.3rem;
+}
+
+.risultato-icon-box {
+  width: $avatar-size;
+  height: $avatar-size;
+  align-self: center;
+}
+
+.data {
+  color: $player-text-color;
+  font-family: $inter-font;
+  text-align: center;
+  font-size: $data-text-size;
+  font-weight: 500;
+  align-self: center;
+  width: 4rem;
+  height: 2rem;
+}

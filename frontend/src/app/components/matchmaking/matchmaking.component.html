@@ -1,1 +1,18 @@
-<p>matchmaking works!</p>
+<div class="chess-theme-container">
+    <mat-card class="waiting-card">
+        <mat-card-header>
+            <mat-card-title>Attesa di trovare una partita</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+            <mat-progress-spinner
+                    class="loading-spinner"
+                    color="primary"
+                    mode="indeterminate">
+            </mat-progress-spinner>
+            <div class="loading-text">Sto cercando una partita per te...</div>
+        </mat-card-content>
+        <mat-card-actions >
+            <button style="background: #3f3f3f" mat-button color="primary" (click)="cancelSearch()">Annulla</button>
+        </mat-card-actions>
+    </mat-card>
+</div>

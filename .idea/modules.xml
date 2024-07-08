@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Chess-Fullstack.iml" filepath="$PROJECT_DIR$/Chess-Fullstack.iml" />
-      <module fileurl="file://$PROJECT_DIR$/frontend.iml" filepath="$PROJECT_DIR$/frontend.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/ProgettoWEB.iml" filepath="$PROJECT_DIR$/.idea/ProgettoWEB.iml" />
     </modules>
   </component>
 </project>

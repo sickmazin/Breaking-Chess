@@ -1,0 +1,80 @@
+$base-font-family: Arial, sans-serif;
+$background-color: #f0f0f0;
+$error-color: #333;
+$error-background: rgba(255, 255, 255, 0.9);
+$error-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+$link-color: #fff;
+$link-background: #333;
+$link-hover: #555;
+$link-border-radius: 5px;
+
+body {
+  margin: 0;
+  font-family: $base-font-family;
+  background-color: $background-color;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.container {
+  text-align: center;
+  width: 90%;
+  height: 90%;
+}
+
+.chessboard {
+  margin: 20%;
+  position: relative;
+  width: 55%;
+  height: 55%;
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Chessboard480.svg/800px-Chessboard480.svg.png');
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-self: center;
+  border: 5px solid $error-color;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+}
+
+.error-message {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background-color: $error-background;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: $error-shadow;
+}
+
+.error-message h1 {
+  font-size: 5rem;
+  margin: 1rem;
+  color: $error-color;
+}
+
+.error-message p {
+  font-size: 1.2rem;
+  color: #666;
+  margin: 10px;
+}
+
+.error-message a {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 1rem;
+  color: $link-color;
+  background-color: $link-background;
+  text-decoration: none;
+  border-radius: $link-border-radius;
+  transition: background-color 0.3s;
+}
+
+.error-message a:hover {
+  background-color: $link-hover;
+}

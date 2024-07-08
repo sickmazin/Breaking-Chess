@@ -4,20 +4,21 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+import java.util.Date;
 
-import java.time.LocalDateTime;
-
-
-@Entity
 @Data
+@AllArgsConstructor
+@Entity
 @NoArgsConstructor
+@Table(name = "Game")
 public class Game {
-    @Id
+    @jakarta.persistence.Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long Id;
 
     @NonNull
     @Enumerated(EnumType.STRING)
+
     private TYPE type;
 
     public enum TYPE {
@@ -39,11 +40,11 @@ public class Game {
 
     @NonNull
     private String pgn;
-
+  
     @NonNull
     @Enumerated(EnumType.STRING)
     private RESULT result;
-
+  
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "whiteNickname")
     private Player whitePlayer;

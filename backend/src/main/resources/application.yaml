@@ -12,7 +12,7 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/chess
     username: root
-    password: "234558"
+    password: mattia1611!
 
   jpa:
     hibernate:
@@ -37,11 +37,8 @@ jwt:
       resource-id: player-Rest-api
       principle-attribute: preferred_username
 
-
 keycloak:
   realm: "playerRealm"
   domain: "http://localhost:8080"
   adminClientId: "admin-cli"
   adminClientSecret: "1AOQeWXPye1e5qqF4K59ouosflq6E6P6"
-
-

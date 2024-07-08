@@ -1,1 +1,17 @@
-<p>avatar works!</p>
+<h2 mat-dialog-title> Scegli il tuo avatar</h2>
+
+<mat-dialog-content style="width: 100%">
+    <div class="popup-avatar">
+        <div class="text"> Male </div>
+        <div class="scroll-horizzontal-container">
+            <img src="{{img}}" *ngFor="let img of MAN_AVATAR" [mat-dialog-close]="img" alt="">
+        </div>
+        <div class="text"> Female </div>
+        <div class="scroll-horizzontal-container">
+            <img src="{{img}}" *ngFor="let img of WOMAN_AVATAR" [mat-dialog-close]="img" alt="">
+        </div>
+    </div>
+</mat-dialog-content>
+<mat-dialog-actions style="align-items: center">
+    <button  mat-button (click)="onNoClick()">No Thanks</button>
+</mat-dialog-actions>
