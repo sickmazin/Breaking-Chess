@@ -6,5 +6,6 @@ export interface liveGame {
   validMove: boolean;
   whiteTime: number;
   blackTime: number;
-  fen: String;
+  drawRequest: boolean;
+  fen: string[];
 }

@@ -10,8 +10,15 @@ html {
   width:33.33%;
   margin-right:-4px;
 }
+
+.btn {
+  margin: 5px;
+}
+
 /*.column-a {background-color: #88594c;}
 
-.column-b {background-color:Gray;}
+.column-b {background-color:Gray;}*/
 
-.column-c {background-color: #785043;}*/
+.column-c {
+  display: inline-block;
+}

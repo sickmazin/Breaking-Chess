@@ -21,9 +21,15 @@ public class Game {
     private TYPE type;
 
     public enum TYPE {
-        BULLET,
-        BLITZ,
-        RAPID
+        BULLET(2),
+        BLITZ(5),
+        RAPID(10);
+
+        public final int minutes;
+
+        TYPE(int time) {
+            this.minutes = time;
+        }
     }
     public enum RESULT {
         BLACK,

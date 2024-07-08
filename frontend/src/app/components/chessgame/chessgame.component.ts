@@ -1,7 +1,8 @@
-import { Component, HostListener, Input, OnInit, ViewChild} from '@angular/core';
+import {Component, inject, Input, OnInit} from '@angular/core';
 import { Chess } from 'chess.js'
 import $ from 'jquery';
-import { BehaviorSubject} from "rxjs";
+import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {NgOptimizedImage} from "@angular/common";
 
 
 declare var ChessBoard: any;
@@ -16,28 +17,13 @@ export class ChessgameComponent implements OnInit {
   board: any;
   whiteSquareHigh = '#a9a9a9'
   blackSquareHigh = '#696969'
-
-  constructor() {
-  }
+  modalService = inject(NgbModal)
 
   config: any;
-  promotion: boolean = false;
-  promotionPiece: BehaviorSubject<String> = new BehaviorSubject<String>('');
-  promotionPiece$ = this.promotionPiece.asObservable()
 
   @Input() game!: Chess;
-  @ViewChild('promotionDiv') div: HTMLDivElement | undefined;
-  /*@Input()*/ mySide: String = 'w';
+  /*@Input()*/ mySide: string = 'w';
 
-  @HostListener('document:onmouseup', ['$event'])
-  handleMouseUpWhenPromotion(event: MouseEvent) {
-    if (!this.promotion) return
-    if (this.div != undefined) {
-      this.div.style.left = ''+event.x;
-      this.div.style.top = ''+event.y;
-    }
-    else console.log("DIV INDEFINITO")
-  }
 
   ngOnInit(): void {
     let removeHighlightedSquares = ()=> {
@@ -65,7 +51,7 @@ export class ChessgameComponent implements OnInit {
       }
     }
     // @ts-ignore
-    let onDrop = (source: any, target: any) => {
+    let onDrop = async (source: any, target: any) => {
       removeHighlightedSquares()
 
       let found = false
@@ -74,26 +60,22 @@ export class ChessgameComponent implements OnInit {
       for (let i=0; i<moves.length; i++) {
           if (moves[i].from === source && moves[i].to === target) {
             found = true;
+
             // NOTE: check for promotion
+            let promotionP: string ='';
             if ('promotion' in moves[i]) {
-              this.promotion = true;
-              this.promotionPiece$.subscribe(
-                value => {
-                  this.game.move({
-                    from: source,
-                    to: target,
-                    promotion: String(value)
-                  })
-                  onSnapEnd()
-                  this.promotion = false;
-                }
-              )
+              const modalRef = this.modalService.open(NgbdModalContent, { size : <any>'sm'})
+              modalRef.componentInstance.mySide = this.mySide
+              promotionP = await modalRef.result;
             }
             this.game.move({
               from: source,
-              to: target
+              to: target,
+              promotion: promotionP
             })
             this.mySide = this.game.turn()
+            if (promotionP!=='') onSnapEnd()
+            break;
           }
       }
       if (!found) {
@@ -142,14 +124,40 @@ export class ChessgameComponent implements OnInit {
     }
 
     this.startGame()
-    console.log("fatto")
   }
 
   startGame() {
     this.board = ChessBoard('board1', this.config)
   }
+}
 
-  setPromotion(piece: String) {
-    this.promotionPiece.next(piece)
+@Component({
+  selector: 'ngbd-modal-content',
+  standalone: true,
+  imports: [
+    NgOptimizedImage
+  ],
+  template: `
+    <div class="modal-body" style="align-self: center" >
+      <ul id="promotion" class="promotion" style="justify-content: space-between; margin-right: 8px !important; margin-top: 5px !important">
+        <img (click)="setPromotion('q')" ngSrc="img/chesspieces/wikipedia/{{mySide}}Q.png" width="50" height="50"
+             alt="queen">
+        <img (click)="setPromotion('r')" ngSrc="img/chesspieces/wikipedia/{{mySide}}R.png" width="50" height="50"
+             alt="rook">
+        <img (click)="setPromotion('b')" ngSrc="img/chesspieces/wikipedia/{{mySide}}B.png" width="50" height="50"
+             alt="bishop">
+        <img (click)="setPromotion('n')" ngSrc="img/chesspieces/wikipedia/{{mySide}}N.png" width="50" height="50"
+             alt="knight">
+      </ul>
+    </div>
+  `
+})
+export class NgbdModalContent {
+  mySide: string | undefined;
+  activeModal = inject(NgbActiveModal);
+
+
+  setPromotion(piece: string) {
+    this.activeModal.close(piece)
   }
 }

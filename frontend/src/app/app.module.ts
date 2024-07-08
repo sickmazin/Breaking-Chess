@@ -1,9 +1,8 @@
 import {NgModule} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-import { MDBBootstrapModule } from 'angular-bootstrap-md';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ChessgameComponent } from './components/chessgame/chessgame.component';
+import {ChessgameComponent, NgbdModalContent} from './components/chessgame/chessgame.component';
 import { ChessplayComponent } from './components/chessplay/chessplay.component';
 import { LeaderboardElementComponent } from "./components/leaderboard-element/leaderboard-element.component";
 import {AvatarComponent} from "./components/avatar/avatar.component";
@@ -17,6 +16,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
 import {MatButton, MatIconButton} from "@angular/material/button";
 import {MatInput} from "@angular/material/input";
 import {NgOptimizedImage} from "@angular/common";
+import {HttpClient, HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -31,6 +31,7 @@ import {NgOptimizedImage} from "@angular/common";
   ],
   imports: [
     BrowserModule,
+    HttpClientModule,
     AppRoutingModule,
     FormsModule,
     MatFormField,
@@ -40,9 +41,10 @@ import {NgOptimizedImage} from "@angular/common";
     MatInput,
     MatLabel,
     MatButton,
-    NgOptimizedImage
+    NgOptimizedImage,
+    NgbdModalContent
   ],
-  providers: [],
+  providers: [HttpClient],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

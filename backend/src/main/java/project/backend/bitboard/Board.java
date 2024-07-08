@@ -1,8 +1,11 @@
 package project.backend.bitboard;
 
+import jakarta.validation.constraints.AssertTrue;
 import project.backend.bitboard.Utils.SQUARE;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import static project.backend.bitboard.Constant.*;
@@ -27,20 +30,13 @@ public class Board {
 
     private long WO, BO, O;
 
-    public long getWhiteOccupancies() {
-        return WO;
-    }
-    public long getBlackOccupancies() {
-        return BO;
-    }
-    public long getOccupancies() {
-        return O;
-    }
     private int side;
     private int castle;
     private SQUARE enPassant = NO_SQUARE;
     private int fiftyMove = 0;
     private int moves = 0;
+
+    private List<String> FENList;
 
     static {
        generateFirstAttacks();
@@ -50,6 +46,78 @@ public class Board {
     public Board(String FEN_String) {
         FENConverter(FEN_String);
     }
+    public Board(List<String> FENList) {
+        this.FENList = FENList;
+        FENConverter(FENList.get(FENList.size() - 1));
+    }
+
+    public boolean isCheckMate() {
+        return getMoves().isBlank() && !drawStalemate();
+    }
+
+    public boolean isDraw() {
+        return drawInsufficient() || drawRepetition() || drawStalemate() || (fiftyMove/2 == 50);
+    }
+
+    private boolean drawStalemate() {
+        int kingSquare = (side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK);
+        return getMoves().isBlank() && !isSquareAttacked(kingSquare, side);
+    }
+
+    private boolean drawRepetition() {
+        HashMap<String, Integer> map = new HashMap<>();
+        for (String s : FENList) {
+            map.put(s, map.getOrDefault(s, 0) + 1);
+            if (map.getOrDefault(s, 0) == 3) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private boolean drawInsufficient() {
+        boolean kvsk = Utils.bitCount(BO) == 1 && Utils.bitCount(WO) == 1;
+        boolean kvskb = (Utils.bitCount(BO) == 2 && Utils.bitCount(BB) == 1 && Utils.bitCount(WO) == 1) ||
+                        (Utils.bitCount(WO) == 2 && Utils.bitCount(WB) == 1 && Utils.bitCount(BO) == 1);
+        boolean kvskn = (Utils.bitCount(BO) == 2 && Utils.bitCount(BN) == 1 && Utils.bitCount(WO) == 1) ||
+                        (Utils.bitCount(WO) == 2 && Utils.bitCount(WN) == 1 && Utils.bitCount(BO) == 1);
+        return kvsk || kvskb || kvskn;
+    }
+
+    public String getFENtrim() {
+        StringBuilder result = new StringBuilder();
+
+        for (int i=0; i<8; i++) {
+            int k=0;
+            for (int j=0; j<8; j++) {
+                if (((O >> i*8+j) & 1) != 1) {
+                    k++;
+                    continue;
+                }
+                if (k!=0) {
+                    result.append(k);
+                    k = 0;
+                }
+                if (((WP >> i*8+j) & 1) == 1) result.append('P');
+                else if (((WN >> i*8+j) & 1) == 1) result.append('N');
+                else if (((WB >> i*8+j) & 1) == 1) result.append('B');
+                else if (((WR >> i*8+j) & 1) == 1) result.append('R');
+                else if (((WQ >> i*8+j) & 1) == 1) result.append('Q');
+                else if (((WK >> i*8+j) & 1) == 1) result.append('K');
+                else if (((BP >> i*8+j) & 1) == 1) result.append('p');
+                else if (((BN >> i*8+j) & 1) == 1) result.append('n');
+                else if (((BB >> i*8+j) & 1) == 1) result.append('b');
+                else if (((BR >> i*8+j) & 1) == 1) result.append('r');
+                else if (((BQ >> i*8+j) & 1) == 1) result.append('q');
+                else if (((BK >> i*8+j) & 1) == 1) result.append('k');
+            }
+            if (k!=0) result.append(k);
+            if (i<7) result.append('/');
+        }
+
+        return result.toString();
+    }
+
     private static boolean verifyRank(String rank) {
         int count = 0;
         for (int i = 0; i < rank.length(); i++) {
@@ -217,7 +285,6 @@ public class Board {
     public static long getBit(long bitboard, int square) {
         return bitboard & (1L << square);
     }
-
     public boolean makeMove(String move) {
         boolean increment = true;
         saveState();
@@ -320,7 +387,6 @@ public class Board {
         state[WHITE] = new long[] {WN, WB, WR, WQ, WK, WP}; // knight, bishop, rook, queen, king, pawn;
         state[BLACK] = new long[] {BN, BB, BR, BQ, BK, BP};
     }
-
     private void takeBack() {
         WN=state[WHITE][0]; WB=state[WHITE][1]; WR=state[WHITE][2]; WQ=state[WHITE][3]; WK=state[WHITE][4]; WP=state[WHITE][5];
         BN=state[BLACK][0]; BB=state[BLACK][1]; BR=state[BLACK][2]; BQ=state[BLACK][3]; BK=state[BLACK][4]; BP=state[BLACK][5];
@@ -367,7 +433,6 @@ public class Board {
             PAWN_MOVEMENT[WHITE][i] = (bb >>> 8);
         }
     }
-
     public static long getBishopAttacks(int square, long occupancy) {
         occupancy &= BISHOP_MASK[square];
         occupancy *= BISHOP_MAGIC_NUMBERS[square];
@@ -394,7 +459,6 @@ public class Board {
 
         return BISHOP_ATTACK[square][(int)bishopOcc] | ROOK_ATTACK[square][(int)rookOcc];
     }
-
     public boolean isSquareAttacked(int square, int side) {
         long pawnBB, knightBB, kingBB, bishopBB, rookBB, queenBB;
         if (side == WHITE) {
@@ -656,26 +720,10 @@ public class Board {
 //            System.out.println(tokenizer.nextToken());
 //        }
 
-        Board b = new Board("r3k2r/pppppppp/8/8/8/8/PPPPPPPP/R3K2R b KQkq - 0 0");
-        Character[][] board = b.createBoard();
-        for (Character[] characters : board) {
-            System.out.println(Arrays.toString(characters));
-        }
-        System.out.println(b.castle);
+        Board b = new Board(CUSTOM);
 
-        Utils.printBitBoard(b.O);
-
-        System.out.println("\n");
-
-
-        b.makeMove("k"+e8+g8+"c");
-        board = b.createBoard();
-        for (Character[] characters : board) {
-            System.out.println(Arrays.toString(characters));
-        }
-
-        System.out.println(b.castle);
-        Utils.printBitBoard(b.O);
+        System.out.println(new StringTokenizer(CUSTOM).nextToken());
+        System.out.println(b.getFENtrim());
 
     }
 

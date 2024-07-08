@@ -1,3 +1,4 @@
+export const YOUTUBE_VIDEO_URL = '';
 
 // authentication
 export const REALM: string = "playerRealm";
