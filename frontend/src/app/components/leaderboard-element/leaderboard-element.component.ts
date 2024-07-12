@@ -13,9 +13,9 @@ export class LeaderboardElementComponent {
 
   getEloPoints() {
     switch (this.modality){
-      case 'bullet': return this.player.bulletPoints;
-      case 'blitz': return this.player.blitzPoints;
-      case 'rapid': return this.player.rapidPoints;
+      case 'BULLET': return this.player.bulletPoints;
+      case 'BLITZ': return this.player.blitzPoints;
+      case 'RAPID': return this.player.rapidPoints;
       default: return 0;
     }
   }

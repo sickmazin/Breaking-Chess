@@ -2,34 +2,28 @@
     <!-- FRAME A SINISTRA DEL GIOCATORE  -->
     <div class="giocatore-sx">
         <div style="display:flex;flex-direction: row; padding: 1rem; margin-top: 0.5rem">
-            <img alt="" class="imgAvatar" src="assets/avatar/Man1.jpg"/>
+            <img alt="" class="imgAvatar" src="assets/avatar/{{player.avatar}}"/>
             <div style="width: 90%; padding: 0.5rem">
                 <div class="nickname"> {{player.username}} </div> <!-- sick.mazin -->
                 <div class="frame-punti-elo">
-                    @switch (modality){
-                        @case (1) {
-                            <button class="modalitàElo1"  (click)="changeModalityEloPoints()"></button>
-                        }
-                        @case (2) {
-                            <button class="modalitàElo5"  (click)="changeModalityEloPoints()"></button>
-                        }
-                        @default {
-                            <button class="modalitàElo10"  (click)="changeModalityEloPoints()"></button>
-                        }
-                    }
+                    <img style="cursor: pointer;" src="assets/modality/{{typeElo}}.svg" (click)="changeModalityEloPoints()" alt="modality game">
                     <div class="punti-elo"> Punti elo: {{ getPuntiEloByModality() }}</div>
                 </div>
             </div>
         </div>
         <div class="textListaPartite"> Lista partite</div>
         <div class="lista-partite" >
-            @for (game of games;track game){
-                <app-game-display [game]="game" ></app-game-display>
+            <div *ngIf="loadingGames" class="spinnerGame">
+                <p class="textLoading">Stai attendo una risposta dal backend, se la risposta non arriva significa che non hai ancora fatto una partita!</p>
+                <mat-spinner></mat-spinner>
+            </div>
+            @for (game of games; track $index){
+                <app-game-display [game]="game" [playerUsername]="this.player.username"></app-game-display>
             }
         </div>
     </div>
     <!-- FRAME CENTRALE  -->
-    <div class="CENTRALE">
+    <main class="CENTRALE">
         <div class="divGiocaPartite">
             <div class="boxGioca" (click)="postGame('bullet')">
                 <img src="assets/scacchiera.jpg" alt=""/>
@@ -59,8 +53,20 @@
                 <div class="text-Libri-Video">Studia dai libri</div>
                 <img class="iconQueen" src="assets/queen.svg" alt=""/>
             </div>
-            <div class="scroll-libri-orizzontale">
-                <img  *ngFor="let libro of books"  class="libro" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
+            <div class="scroll-orizzontale-video">
+                <div *ngIf="loadingBooks" class="spinnerGame">
+                    <p class="textLoading">Stai attendo una risposta dal backend !</p>
+                    <mat-spinner></mat-spinner>
+                </div>
+                @for(libro of books; track $index;){
+                    <div class="libro">
+                        <img class="imgBook" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
+                        <div class="like-unlike">
+                            <app-animated-like (dataEvent)="handleDataFromChild($event)" [libro]="libro" [isThereLike]="isThereLike(libro)" ></app-animated-like>
+                            <p style="margin:0;text-align: center">{{libro.like}}</p>
+                        </div>
+                    </div>
+                }
             </div>
         </div>
         <div class="video-frame">
@@ -75,10 +81,10 @@
             </div>
         </div>
 
-    </div>
+    </main>
 
     <!-- FRAME A DESTRA  -->
-    <div class="divDestra">
+    <aside class="divDestra">
         <div class="divDifferentButton">
             @if (isLightTheme) {
                 <img class="iconDiffButton" ngSrc="assets/lightTheme.svg" (click)="changeTheme()" alt="" height="30" width="30">
@@ -95,15 +101,22 @@
         <div class="classifica">
             <div class="classifica-giocatori"> Classifica giocatori </div>
             <div class="button-classifica">
-                <button class="buttonModalità" (click)="showClassificaByModality('bullet')" style="background-image: url(' assets/modality/bulletDARK.svg')"></button>
-                <button class="buttonModalità" (click)="showClassificaByModality('blitz')" style="background-image: url(' assets/modality/blitzDARK.svg')"></button>
-                <button class="buttonModalità" (click)="showClassificaByModality('rapid')" style="background-image: url('assets/modality/rapidDARK.svg')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('BULLET')" style="background-image: url('../../../assets/modality/BULLETDARK.svg')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('BLITZ')" style="background-image: url('../../../assets/modality/BLITZDARK.svg')"></button>
+                <button class="buttonModalità" (click)="showClassificaByModality('RAPID')" style="background-image: url('../../../assets/modality/RAPIDDARK.svg')"></button>
             </div>
+            <div class="leaderboard-text"> {{ leardBoardModality }} </div>
+
+
             <div class="scroll-orizzontale-giocatori">
-                @for (player of leaderboard; track leaderboard; let index = $index){
+                <div *ngIf="loadingLeaderboard" class="spinnerLeaderboard">
+                    <p class="textLoading">Stai attendo una risposta dal backend!</p>
+                    <mat-spinner></mat-spinner>
+                </div>
+                @for (player of leaderboard; track trackById(index, player); let index = $index){
                     <app-leaderboard-element [player]="player" [position]="index" [modality]="leardBoardModality"  ></app-leaderboard-element>
                 }
             </div>
         </div>
-    </div>
+    </aside>
 </div>

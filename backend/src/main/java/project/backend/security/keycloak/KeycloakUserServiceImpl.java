@@ -51,7 +51,6 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
         UsersResource usersResource = getUsersResource();
         try (Response response = usersResource.create(user)) {
             if (response.getStatus() == Response.Status.CREATED.getStatusCode()) {
-                System.out.println("entrro qui");
                 Player newPlayerAdded=getPlayerByUserRepresentation(userReg);
                 playerRepository.save(newPlayerAdded);
                 return new ResponseEntity<>(newPlayerAdded,HttpStatus.CREATED);
@@ -63,16 +62,16 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
 
 
     private Player getPlayerByUserRepresentation (PlayerRegistrationRepresentation userReg){
-        Player p= new Player();
-        p.setUsername(userReg.username());
-        p.setEmail(userReg.email());
-        p.setFirstName(userReg.firstName());
-        p.setLastName(userReg.lastName());
-        p.setBlitzPoints((short) 600);
-        p.setBulletPoints((short) 600);
-        p.setRapidPoints((short) 600);
-        //TODO AGGIUNGERE ALTRO
-        return p;
+        return Player.builder()
+                .username(userReg.username())
+                .email(userReg.email())
+                .firstName(userReg.firstName())
+                .lastName(userReg.lastName())
+                .blitzPoints((short) 600)
+                .bulletPoints((short) 600)
+                .rapidPoints((short) 600)
+                .avatar(userReg.avatar())
+                .build();
     }
 
     private UsersResource getUsersResource() {

@@ -1,4 +1,3 @@
-export const YOUTUBE_VIDEO_URL = '';
 
 // authentication
 export const REALM: string = "playerRealm";
@@ -18,7 +17,7 @@ export const YOUTUBE_URL=`https://youtube.googleapis.com/youtube/v3/playlistItem
 export const YOUTUBE_VIDEO_URL="https://www.youtube.com/watch?v="
 
 //STATIC INFO FOR IMAGE
-export const MAN_AVATAR=[
+export const  MAN_AVATAR=[
     "../../assets/avatar/Man1.jpg",
     "../../assets/avatar/Man2.jpg",
     "../../assets/avatar/Man3.jpg",
@@ -58,7 +57,8 @@ export const BASE_URL = "http://localhost:8081/api/";
 export const HOME_URL = BASE_URL+"home/";
 export const LEADERBOARD_URL= HOME_URL+"leaderboard"
 export const GAMES_URL = BASE_URL+"games"
-
+export const BOOK_URL=HOME_URL+"books"
+export const LIKE_URL=BOOK_URL+"/like/"
 // login e registrazione
 export const ACCOUNT_URL= BASE_URL+"auth";
 export const LOGIN_URL =ACCOUNT_URL+"/login"

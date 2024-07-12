@@ -11,15 +11,12 @@ export class GameService {
 
   constructor(private http: HttpClient) { }
 
-  deleteGame( id: string ) {
-
+  abortGame( id: string ) {
+    //TODO
   }
 
   getGames() {
     return this.http.get<Game[]>(`${GAMES_URL}/listOfGame`).toPromise();
   }
 
-  postGame( modality: any , player: Player ) {
-    return this.http.post<Game>(`${GAMES_URL}/wantToPlay/${modality}`, player).toPromise()
-  }
 }

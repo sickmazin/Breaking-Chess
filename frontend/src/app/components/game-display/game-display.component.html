@@ -1,15 +1,15 @@
 <div class="partita" >
-    <img class="img-Modalità-partita" src="assets/modality/{{game.modality}}.png" alt=""/>
+    <img class="img-Modalità-partita" src="assets/modality/{{game.type}}DARK.svg" alt=""/>
     <div class="divPlayers">
         <div style="display:flex;flex-direction: row;">
             <div class="rectangle" style="background: #ffffff;"></div>
-            <div class="textPlayer">{{game.player1}}</div>
+            <div class="textPlayer">{{game.whitePlayer.username}}</div>
         </div>
         <div style="display:flex;flex-direction: row; align-items: center; align-self: center">
             <div class="rectangle" style="background: #000000;"></div>
-            <div class="textPlayer">{{game.player2}}</div>
+            <div class="textPlayer">{{game.blackPlayer.username}}</div>
         </div>
     </div>
-    <img class="risultato-icon-box" src="assets/check/check{{game.result}}.png" alt="">
-    <div class="data">{{ game.date }} </div>
+    <img class="risultato-icon-box" src="assets/check/check{{getResult()}}.png" alt="">
+    <div class="data">{{ formatDates(game.date) }} </div>
 </div>

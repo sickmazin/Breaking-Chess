@@ -11,7 +11,7 @@ export class YoutubeService {
   constructor(private http: HttpClient) { }
   videos: Array<Video> = [];
 
-  getVideos():Video[]{
+  getVideos() {
     fetch(YOUTUBE_URL).then(response => response.json()).then(
         data => {
           for (const video of data.items) {
@@ -23,6 +23,7 @@ export class YoutubeService {
           }
         },
         error=>{
+            this.videos=[]
           console.log(error);
         }
     )

@@ -8,9 +8,9 @@
                     <mat-label>Username</mat-label>
                     <input matInput type="username" placeholder="" name="username" required ngModel>
                 </mat-form-field>
-                <mat-form-field appearance="outline" class="input">
+                <mat-form-field  appearance="outline" class="input">
                     <mat-label>Password</mat-label>
-                    <input matInput placeholder="" [type]="hide ? 'password' : 'text'" name="password" required ngModel>
+                    <input  matInput placeholder="" [type]="hide ? 'password' : 'text'" name="password" required ngModel>
                     <button mat-icon-button matSuffix (click)="viewPassword($event)" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                     </button>

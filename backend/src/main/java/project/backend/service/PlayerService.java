@@ -31,15 +31,14 @@ public class PlayerService {
     public Player getPlayer(String nickname) throws PlayerNotFoundException {
         Optional<Player> player = playerRepository.findById(nickname);
         if (player.isPresent()) return player.get();
-
         else throw new PlayerNotFoundException();
     }
 
     public Optional<List<Player>> getLeaderboard(String modality) {
         return switch (modality) {
-            case "blitz" -> playerRepository.getBlitzLead();
-            case "bullet" -> playerRepository.getBulletLead();
-            case "rapid" -> playerRepository.getRapidLead();
+            case "BLITZ" -> playerRepository.getBlitzLead();
+            case "BULLET" -> playerRepository.getBulletLead();
+            case "RAPID" -> playerRepository.getRapidLead();
             default -> Optional.empty();
         };
     }

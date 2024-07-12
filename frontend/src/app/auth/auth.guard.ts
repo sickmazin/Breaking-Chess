@@ -3,8 +3,7 @@ import {inject} from "@angular/core";
 import {ToastrService} from "ngx-toastr";
 
 export const authGuard: CanActivateFn = (route, state) => {
-  if (localStorage.getItem('token')) {
-    console.log('yes token');
+  if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
     // User is logged in, so return true
     return true;
   }else {
@@ -16,9 +15,8 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 };
 export const authSignPage: CanActivateFn = (route, state) => {
-  if (localStorage.getItem('token')) {
+  if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
     // User is logged in, so return true
-    console.log("IL TOKEN C'è")
     inject(Router).navigate(['/homepage']).then(r => false);
     return false;
   }else {

@@ -9,9 +9,9 @@ $avatar-size: 25%;
   contain: content;
   background-color: $box-background;
   border-radius: $box-border-radius;
-  width: 98%;
+  gap: 0.3rem;
   margin-bottom: 0.4rem;
-  height: 2.5rem;
+  height: 3rem;
   padding: $box-padding;
   display: flex;
   flex-direction: row;
@@ -37,15 +37,12 @@ $avatar-size: 25%;
 .textBoxClasifica {
   font-size: 0.75rem;
   font-weight: 500;
-  width: 60%;
-  height: 98%;
 }
 
 .avatar {
   border-radius: 4px;
-  height: $avatar-size; /* Use variable for consistency */
-  align-self: center;
-  width: $avatar-size;
-  margin: $box-padding; /* Use variable for consistency */
+  height: auto;
+  width: auto;
+  margin: $box-padding;
   object-fit: cover;
 }
