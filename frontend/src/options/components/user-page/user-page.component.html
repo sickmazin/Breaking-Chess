@@ -1,0 +1,43 @@
+<body class="bodyUser">
+    <div class="base-info">
+        <div class="avatar">
+            <img style="width: 100%; height: 96%"  ngSrc="../assets/avatar/{{player.avatar}}" alt="" height="70" width="70"/>
+            <a style="color: #0ca4ca; font-size: 0.7rem; align-items: center; justify-self: center" (click)="clickedModifica('Avatar')">Modifica</a>
+        </div>
+        <div class="info-player">
+            <div class="nickname"> {{player.username}} </div>
+            <div class="first-name-last-name"> {{player.firstName}} {{player.lastName}} </div>
+        </div>
+    </div>
+    <div class="resto-info">
+        <div class="info-layer">
+            <p>Nickname:</p>
+            <div style="gap: 0.5rem; width: auto; display: flex; flex-direction: row"> <strong>{{player.username}}</strong></div>
+        </div>
+        <div class="info-layer">
+            <p>Nome:</p>
+            <div style="gap: 0.5rem; width: auto; display: flex; flex-direction: row"> <strong>{{player.firstName}}</strong> <a style="color: #0ca4ca; font-size: 0.7rem" (click)="clickedModifica('Nome')">Modifica</a></div>
+        </div>
+        <div class="info-layer">
+            <p>Cognome:</p>
+            <div style="gap: 0.5rem; width: auto; display: flex; flex-direction: row"> <strong>{{player.lastName}}</strong> <a style="color: #0ca4ca; font-size: 0.7rem" (click)="clickedModifica('Cognome')">Modifica</a></div>
+        </div>
+        <div class="info-layer">
+            <p>E-mail:</p>
+            <div style="gap: 0.5rem; width: auto; display: flex; flex-direction: row"> <strong>{{player.email}}</strong> <a style="color: #0ca4ca; font-size: 0.7rem" (click)="clickedModifica('E-mail')">Modifica</a></div>
+        </div>
+    </div>
+</body>
+<!--
+<div class="info-layer">
+            <span class="label">Nazionalità:</span>
+            <mat-form-field style="width: 20%; height: auto;">
+                <mat-select placeholder="Seleziona una nazionalità" style="width: auto;">
+                    <mat-option *ngFor="let country of COUNTRIES" [value]="country.code">
+                        <span class="flag-icon flag-icon-{{country.code.toLowerCase()}}"></span>
+                        {{country.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+-->
