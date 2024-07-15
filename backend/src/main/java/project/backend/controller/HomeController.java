@@ -36,25 +36,13 @@ public class HomeController {
     //TO TEST
     @GetMapping("/books")
     public ResponseEntity<?> books() {
-        List<Book> books = bookService.findAll();
-        if(books.isEmpty()) {
-            return ResponseEntity.noContent().build();
-        }
-        return new ResponseEntity<>(books, HttpStatus.OK);
+        return bookService.findAll();
     }
 
     // TESTED
     @GetMapping(value = "/leaderboard/{modality}")
     public ResponseEntity<?> leaderboard(@PathVariable("modality") String modality) {
-        try {
-            List<Player> leaderboard = playerService.getLeaderboard(modality).orElseThrow(() -> new RuntimeException("Error during db search for leaderboard"));
-            if(leaderboard.isEmpty()) {
-                return ResponseEntity.noContent().build();
-            }
-            return new ResponseEntity<>(leaderboard, HttpStatus.OK);
-        }catch (RuntimeException e){
-            return ResponseEntity.notFound().build();
-        }
+        return playerService.getLeaderboard(modality);
     }
 
     //TO TEST

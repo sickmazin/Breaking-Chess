@@ -146,13 +146,13 @@ export class AuthService {
 
   // @ts-ignore
   getToken () {
-    let token= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
+    const token= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
     let refresh_token= localStorage.getItem ("refresh_token")!=null? localStorage.getItem ("refresh_token"):sessionStorage.getItem("refresh_token");
     let  saveTokenOnLocalStorage = localStorage.getItem ("token") != null;
     if(this.jwtHelper.isTokenExpired(token) && token!=null && refresh_token!=null ){
-      this.refreshToken(refresh_token,saveTokenOnLocalStorage)
-      console.log("era expired")
-      return this.getToken() as string;
+      this.refreshToken(refresh_token,saveTokenOnLocalStorage).subscribe()
+      let tokenDopo= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
+      return tokenDopo as string;
     }
     return token;
   }

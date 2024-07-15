@@ -128,8 +128,7 @@ export class HomepageComponent implements OnInit{
     }
 
     openOptionsPage() {
-        //TODO
-
+        this.router.navigate (["options"]).then ()
     }
 
     logout() {

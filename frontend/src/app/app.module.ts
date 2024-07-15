@@ -1,5 +1,5 @@
 import {CUSTOM_ELEMENTS_SCHEMA , inject , NgModule} from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
+import {BrowserModule , DomSanitizer} from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -19,11 +19,12 @@ import {MatchmakingComponent} from "./components/matchmaking/matchmaking.compone
 import {LeaderboardElementComponent} from "./components/leaderboard-element/leaderboard-element.component";
 import { GameDisplayComponent } from './components/game-display/game-display.component';
 import {AuthInterceptor} from "./auth/interceptor.interceptor";
-import {IonicModule} from "@ionic/angular";
 import { AnimatedLikeComponent } from './components/animated-like/animated-like.component';
 import {JwtModule} from "@auth0/angular-jwt";
-import {AuthService} from "./auth/auth.service";
-
+import { OptionspageComponent } from '../options/optionspage/optionspage.component';
+import { SidePageComponent } from './components/side-page/side-page.component';
+import { CustomSideNavComponent } from './components/custom-side-nav/custom-side-nav.component';
+import { OptionsModule } from '../options/options.module';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,9 @@ import {AuthService} from "./auth/auth.service";
     GameDisplayComponent,
     LeaderboardElementComponent,
     AnimatedLikeComponent,
+    OptionspageComponent,
+    SidePageComponent,
+    CustomSideNavComponent,
   ],
   imports: [
     BrowserModule,
@@ -55,6 +59,7 @@ import {AuthService} from "./auth/auth.service";
         disallowedRoutes: ["http://example.com/examplebadroute/"],
       },
     }),
+    OptionsModule,
   ],
   providers: [
     provideAnimationsAsync(), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
@@ -62,4 +67,6 @@ import {AuthService} from "./auth/auth.service";
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule { }
+export class AppModule {
+
+}

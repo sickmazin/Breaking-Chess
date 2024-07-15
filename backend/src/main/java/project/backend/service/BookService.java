@@ -26,8 +26,12 @@ public class BookService {
     @Autowired
     private LikeRepository likeRepository;
 
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public ResponseEntity<?> findAll() {
+        List<Book> books = bookRepository.findAll();
+        if(books.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return new ResponseEntity<>(books, HttpStatus.OK);
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)

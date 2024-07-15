@@ -49,7 +49,6 @@ export class AnimatedLikeComponent implements OnInit{
 
 
   toggleLikeState ( book: Book ) {
-
     if (this.likeState == 'unliked') {
       this.likeState = 'liked';
       this.iconName = 'likefull';

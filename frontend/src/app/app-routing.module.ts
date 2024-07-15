@@ -13,8 +13,8 @@ const routes: Routes = [
   {path:'signIn', component: SignInComponent, canActivate: [authSignPage]},
   {path:'matchmaking', component: MatchmakingComponent, pathMatch: 'full'},
   {path:'homepage', component: HomepageComponent, canActivate: [authGuard]},
-  {path:'404', component:NotfoundComponent},
-  {path:'**', redirectTo:'404'},
+  {path:'404', component:NotfoundComponent, outlet:"primary"},
+  //{path:'**', redirectTo:'404',},
 ];
 
 @NgModule({

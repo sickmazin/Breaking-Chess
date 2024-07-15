@@ -39,15 +39,6 @@ public class AuthenticationController {
     //TESTED
     @GetMapping("/login")
     public ResponseEntity<?> login(@AuthenticationPrincipal Jwt jwt){
-        try {
-            String username = jwt.getClaimAsString("preferred_username");
-            if(username.isBlank() || username.isEmpty()){
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            Player player= playerService.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException("Player non trovato con questo username: "+username));
-            return new ResponseEntity<>(player, HttpStatus.OK);
-        }catch (UsernameNotFoundException e){
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+        return playerService.findPlayerByUsername(jwt.getClaimAsString("preferred_username"));
     }
 }

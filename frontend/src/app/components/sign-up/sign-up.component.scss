@@ -84,8 +84,8 @@ form {
   background-color: $background-color;
   display: flex;
   flex-direction: row;
-  width: 100vh;
-  height: 100vh;
+  width: auto;
+  height: 100%;
 
   .CENTRALE {
     position: absolute;
