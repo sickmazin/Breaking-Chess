@@ -12,6 +12,7 @@ public class LiveGameDTO {
     private String whitePlayer;
     private String blackPlayer;
     private String turn;
+    private Game.TYPE type;
     private List<String> FENs = new ArrayList<>(20);
     private String result;
     private long whiteTime;

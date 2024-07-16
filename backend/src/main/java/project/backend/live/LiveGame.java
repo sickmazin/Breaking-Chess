@@ -16,9 +16,9 @@ public class LiveGame {
     @Setter(AccessLevel.NONE)
     private String id;
     @Setter(AccessLevel.NONE)
-    private String whitePlayer;
+    private String whitePlayer = "";
     @Setter(AccessLevel.NONE)
-    private String blackPlayer;
+    private String blackPlayer = "";
     private Game.TYPE type;
     @Setter(AccessLevel.NONE)
     private String turn;
@@ -27,10 +27,11 @@ public class LiveGame {
     @Version
     private Long version;
     private List<String> FENs = new ArrayList<>(20);
-    private long wTimeBeforeMoveMillis;
-    private long bTimeBeforeMoveMillis;
+    private long timeBeforeMoveMillis;
     private long wRemainingTime;
     private long bRemainingTime;
+    private boolean whiteAsked;
+    private boolean blackAsked;
 
 
     public LiveGame(String player1, Game.TYPE type) {
@@ -46,19 +47,18 @@ public class LiveGame {
         }
 
         this.gameState = GameState.FINDING_OPPONENT;
-        this.wRemainingTime = type.minutes;
-        this.bRemainingTime = type.minutes;
+        this.wRemainingTime = (long) type.minutes *60*1000;
+        this.bRemainingTime = (long) type.minutes *60*1000;
         this.id = java.util.UUID.randomUUID().toString();
-        this.wTimeBeforeMoveMillis = Time.currentTimeMillis();
-        this.bTimeBeforeMoveMillis = wTimeBeforeMoveMillis;
+        this.timeBeforeMoveMillis = Time.currentTimeMillis();
     }
 
     public void setRemainingPlayer(String player) {
-        if (whitePlayer == null) {
+        if (whitePlayer.isBlank()) {
             whitePlayer = player;
             turn = player;
         }
-        else if (blackPlayer == null) {
+        else {
             blackPlayer = player;
         }
         gameState = GameState.STARTED;
@@ -66,5 +66,8 @@ public class LiveGame {
 
     public void switchTurn() {
         turn = turn.equals(blackPlayer) ? whitePlayer : blackPlayer;
+    }
+    public void addFEN(String fen) {
+        this.FENs.add(fen);
     }
 }

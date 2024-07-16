@@ -12,11 +12,11 @@ spring:
   datasource:
     url: jdbc:mysql://localhost:3306/breaking_chess_schema
     username: root
-    password: mattia1611!
+    password: 234558
 
   jpa:
     hibernate:
-      ddl-auto: update  # other options: validate, create, create-drop, none
+      ddl-auto: validate  # other options: validate, create, create-drop, none
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL8Dialect

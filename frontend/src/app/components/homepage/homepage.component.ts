@@ -149,12 +149,17 @@ export class HomepageComponent implements OnInit{
     }
 
 
-    postGame( modality: string ) {
-        this.router.navigate (['/matchmaking']).then (r => {
-            this.toastrService.success ("Matchmaking iniziato!")
-        })
-    }
-
+  startGame(mode: string ) {
+    this.backend.startGame(mode).toPromise().then(
+       (response: liveGameDTO|undefined) => {
+        this.router.navigate(['/matchmaking'],{state:{player: this.player,game:response}}).then(r=> {
+          this.toastrService.success("Matchmaking iniziato!")
+            },
+       err => {
+        this.toastrService.error(err)
+      }
+    )}
+  }
     changeModalityEloPoints() {
         if (this.modality==3) this.modality=0;
         this.modality += 1;

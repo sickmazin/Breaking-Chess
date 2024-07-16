@@ -1,9 +1,9 @@
-export interface liveGame {
+export interface liveGameDTO {
   id: string;
-  //modality: string;
+  mode: string;
   whitePlayer: string;
   blackPlayer: string;
-  validMove: boolean;
+  turn: string;
   whiteTime: number;
   blackTime: number;
   drawRequest: boolean;

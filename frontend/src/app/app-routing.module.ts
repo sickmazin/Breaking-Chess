@@ -6,6 +6,8 @@ import {MatchmakingComponent} from "./components/matchmaking/matchmaking.compone
 import {HomepageComponent} from "./components/homepage/homepage.component";
 import {NotfoundComponent} from "./components/notfound/notfound.component";
 import {authGuard , authSignPage} from "./auth/auth.guard";
+import {ChessplayComponent} from "./components/chessplay/chessplay.component";
+
 
 const routes: Routes = [
   {path:'', redirectTo:'signUp',pathMatch: "full" },
@@ -13,8 +15,9 @@ const routes: Routes = [
   {path:'signIn', component: SignInComponent, canActivate: [authSignPage]},
   {path:'matchmaking', component: MatchmakingComponent, pathMatch: 'full'},
   {path:'homepage', component: HomepageComponent, canActivate: [authGuard]},
-  {path:'404', component:NotfoundComponent, outlet:"primary"},
-  //{path:'**', redirectTo:'404',},
+  {path:'game', component: ChessplayComponent },
+    //{path:'**', redirectTo:'404',},
+    {path:'404', component:NotfoundComponent, outlet:"primary"},
 ];
 
 @NgModule({

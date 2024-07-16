@@ -1,5 +1,5 @@
-import {CUSTOM_ELEMENTS_SCHEMA , inject , NgModule} from '@angular/core';
-import {BrowserModule , DomSanitizer} from '@angular/platform-browser';
+import {CUSTOM_ELEMENTS_SCHEMA , NgModule} from '@angular/core';
+import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
@@ -9,7 +9,7 @@ import {MaterialModule} from "./MaterialModule/material.module";
 import {HTTP_INTERCEPTORS , HttpClientModule , provideHttpClient} from "@angular/common/http";
 import {BrowserAnimationsModule} from "@angular/platform-browser/animations";
 import {ToastrModule} from "ngx-toastr";
-import {FormsModule , ReactiveFormsModule} from "@angular/forms";
+import {FormsModule} from "@angular/forms";
 import {AvatarComponent} from "./components/avatar/avatar.component";
 import {SignInComponent} from "./components/sign-in/sign-in.component";
 import {SignUpComponent} from "./components/sign-up/sign-up.component";
@@ -25,9 +25,13 @@ import { OptionspageComponent } from '../options/optionspage/optionspage.compone
 import { SidePageComponent } from './components/side-page/side-page.component';
 import { CustomSideNavComponent } from './components/custom-side-nav/custom-side-nav.component';
 import { OptionsModule } from '../options/options.module';
+import {ChessplayComponent} from "./components/chessplay/chessplay.component";
+import {ChessgameComponent} from "./components/chessgame/chessgame.component";
 
 @NgModule({
   declarations: [
+    ChessplayComponent,
+    ChessgameComponent,
     AppComponent,
     SignInComponent,
     SignUpComponent,
@@ -51,6 +55,8 @@ import { OptionsModule } from '../options/options.module';
     ToastrModule.forRoot(), // ToastrModule added
     MaterialModule,
     HttpClientModule,
+    BrowserAnimationsModule, // required animations module
+    ToastrModule.forRoot(),
     FormsModule,
     NgOptimizedImage,
     JwtModule.forRoot({
@@ -62,11 +68,9 @@ import { OptionsModule } from '../options/options.module';
     OptionsModule,
   ],
   providers: [
-    provideAnimationsAsync(), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
+    provideAnimationsAsync(), { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },//  {provide:APP_INITIALIZER, deps:[KeycloakService],useFactory:initializer,multi:true}
   ],
   bootstrap: [AppComponent],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
-export class AppModule {
-
-}
+export class AppModule { }

@@ -1,9 +1,7 @@
 package project.backend.bitboard;
 
-import jakarta.validation.constraints.AssertTrue;
 import project.backend.bitboard.Utils.SQUARE;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -51,8 +49,21 @@ public class Board {
         FENConverter(FENList.get(FENList.size() - 1));
     }
 
+    private boolean noLegalMoves() {
+        StringTokenizer tokenizer = new StringTokenizer(getMoves());
+        while (tokenizer.hasMoreTokens()){
+            String move = tokenizer.nextToken();
+            if (makeMove(move)) {
+                takeBack();
+                return false;
+            }
+        }
+        return true;
+    }
+
     public boolean isCheckMate() {
-        return getMoves().isBlank() && !drawStalemate();
+        int kingSquare = (side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK);
+        return noLegalMoves() && isSquareAttacked(kingSquare, side);
     }
 
     public boolean isDraw() {
@@ -61,7 +72,7 @@ public class Board {
 
     private boolean drawStalemate() {
         int kingSquare = (side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK);
-        return getMoves().isBlank() && !isSquareAttacked(kingSquare, side);
+        return noLegalMoves() && !isSquareAttacked(kingSquare, side);
     }
 
     private boolean drawRepetition() {
@@ -84,7 +95,7 @@ public class Board {
         return kvsk || kvskb || kvskn;
     }
 
-    public String getFENtrim() {
+    public String getFEN() {
         StringBuilder result = new StringBuilder();
 
         for (int i=0; i<8; i++) {
@@ -114,6 +125,13 @@ public class Board {
             if (k!=0) result.append(k);
             if (i<7) result.append('/');
         }
+        result.append((side==WHITE)? " w ":" b ");   // append side
+        if ((castle & K) != 0) result.append("K");
+        if ((castle & Q) != 0) result.append("Q");
+        if ((castle & k) != 0) result.append("k");
+        if ((castle & q) != 0) result.append("q");
+        result.append((enPassant == NO_SQUARE)? " - ":" "+enPassant.name()+" ");   // append enPassant square
+        result.append(fiftyMove).append(" ").append(moves);  // append 50 move rule and move counters
 
         return result.toString();
     }
@@ -351,7 +369,7 @@ public class Board {
 
 
 
-        if (isSquareAttacked((side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK), side^1)) {
+        if (isSquareAttacked((side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK), side)) {
             takeBack();
             return false;
         }
@@ -459,15 +477,15 @@ public class Board {
 
         return BISHOP_ATTACK[square][(int)bishopOcc] | ROOK_ATTACK[square][(int)rookOcc];
     }
-    public boolean isSquareAttacked(int square, int side) {
+    public boolean isSquareAttacked(int square, int mySide) {
         long pawnBB, knightBB, kingBB, bishopBB, rookBB, queenBB;
-        if (side == WHITE) {
+        if (mySide == WHITE) {
             pawnBB = BP; knightBB = BN; kingBB = BK; bishopBB = BB; rookBB = BR; queenBB = BQ;
         }
         else {
             pawnBB = WP; knightBB = WN; kingBB = WK; bishopBB = WB; rookBB = WR; queenBB = WQ;
         }
-        if ((PAWN_ATTACK[side][square] & pawnBB) != 0) return true;
+        if ((PAWN_ATTACK[mySide][square] & pawnBB) != 0) return true;
         if ((KNIGHT_ATTACK[square] & knightBB) != 0) return true;
         if ((KING_ATTACK[square] & kingBB) != 0) return true;
         if ((getBishopAttacks(square, O) & bishopBB)!= 0 ) return true;
@@ -484,7 +502,7 @@ public class Board {
         else {
             bb = BP; opponentOccupancy = WO; pB = "b "; pN = "n "; pR = "r "; pQ = "q "; pawn = "p";
         }
-        StringBuilder sb = new StringBuilder(pawn);
+        StringBuilder sb = new StringBuilder();
 
         while (bb!=0) {
             int square = Utils.getLSB1Index(bb);
@@ -505,13 +523,13 @@ public class Board {
 
                 //check for promotion
                 if (squareToGo/8 == 7*side) {
-                    sb.append(squareString).append(squareToGoString).append(pB);
-                    sb.append(squareString).append(squareToGoString).append(pN);
-                    sb.append(squareString).append(squareToGoString).append(pR);
-                    sb.append(squareString).append(squareToGoString).append(pQ);
+                    sb.append(pawn).append(squareString).append(squareToGoString).append(pB).append(" ");
+                    sb.append(pawn).append(squareString).append(squareToGoString).append(pN).append(" ");
+                    sb.append(pawn).append(squareString).append(squareToGoString).append(pR).append(" ");
+                    sb.append(pawn).append(squareString).append(squareToGoString).append(pQ).append(" ");
                 }
 
-                else sb.append(squareString).append(squareToGoString).append(" ");
+                else sb.append(pawn).append(squareString).append(squareToGoString).append(" ");
 
 
                 moves ^= (1L << squareToGo);
@@ -543,14 +561,14 @@ public class Board {
 
             bb = BK; myOccupancy = BO;
         }
-        StringBuilder sb = new StringBuilder(king);
+        StringBuilder sb = new StringBuilder();
 
         if (((castle & kingsideC) != 0)                    &&
                 (O & (1L << kingsideFirst)) == 0               &&
                 (O & (1L << kingsideSecond)) == 0              &&
                 !isSquareAttacked(kingsideFirst, side)         &&
                 !isSquareAttacked(kingsideSecond, side))
-            sb.append(kingSquare).append(SQUARE.getValue(kingsideSecond)).append("c ");
+            sb.append(king).append(kingSquare).append(SQUARE.getValue(kingsideSecond)).append("c ");
 
         if (((castle & queensideC) != 0)                    &&
                 (O & (1L << queensideFirst)) == 0               &&
@@ -558,7 +576,7 @@ public class Board {
                 (O & (1L << queensideThird)) == 0               &&
                 !isSquareAttacked(queensideFirst, side)         &&
                 !isSquareAttacked(queensideSecond, side))
-            sb.append(kingSquare).append(SQUARE.getValue(queensideSecond)).append("c ");
+            sb.append(king).append(kingSquare).append(SQUARE.getValue(queensideSecond)).append("c ");
 
 
         int piece = Utils.getLSB1Index(bb);
@@ -568,7 +586,7 @@ public class Board {
             int squareToGo = Utils.getLSB1Index(moves);
 
             String squareToGoString = SQUARE.getValue(squareToGo);
-            sb.append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
+            sb.append(king).append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
             moves ^= (1L << squareToGo);
         }
 
@@ -578,12 +596,12 @@ public class Board {
         long bb, myOccupancy;
         String knight;
         if (side == WHITE) {
-            bb = WN; myOccupancy = WO; knight = "K";
+            bb = WN; myOccupancy = WO; knight = "N";
         }
         else {
-            bb = BN; myOccupancy = BO; knight = "k";
+            bb = BN; myOccupancy = BO; knight = "n";
         }
-        StringBuilder sb = new StringBuilder(knight);
+        StringBuilder sb = new StringBuilder();
 
         while (bb != 0) {
             int piece = Utils.getLSB1Index(bb);
@@ -593,7 +611,7 @@ public class Board {
                 int squareToGo = Utils.getLSB1Index(moves);
 
                 String squareToGoString = SQUARE.getValue(squareToGo);
-                sb.append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
+                sb.append(knight).append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
                 moves ^= (1L << squareToGo);
             }
             bb ^= (1L << piece);
@@ -611,20 +629,16 @@ public class Board {
         else {
             bb = BB; myOccupancy = BO; bishop = "b";
         }
-        StringBuilder sb = new StringBuilder(bishop);
+        StringBuilder sb = new StringBuilder();
 
         while (bb != 0) {
             int piece = Utils.getLSB1Index(bb);
-//            System.out.printf("attacks for bishop %d:\n", piece);
-//            Utils.printBitBoard(getBishopAttacks(piece, O));
             long moves = getBishopAttacks(piece, O) & ~myOccupancy;
-//            System.out.printf("moves for bishop %d:\n", piece);
-//            Utils.printBitBoard(moves);
             while (moves != 0) {
                 int squareToGo = Utils.getLSB1Index(moves);
 
                 String squareToGoString = SQUARE.getValue(squareToGo);
-                sb.append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
+                sb.append(bishop).append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
                 moves ^= (1L << squareToGo);
             }
             bb ^= (1L << piece);
@@ -642,7 +656,7 @@ public class Board {
         else {
             bb = BR; myOccupancy = BO; rook = "r";
         }
-        StringBuilder sb = new StringBuilder(rook);
+        StringBuilder sb = new StringBuilder();
         while (bb != 0) {
             int piece = Utils.getLSB1Index(bb);
             long moves = getRookAttacks(piece, O) & ~myOccupancy;
@@ -651,7 +665,7 @@ public class Board {
                 int squareToGo = Utils.getLSB1Index(moves);
 
                 String squareToGoString = SQUARE.getValue(squareToGo);
-                sb.append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
+                sb.append(rook).append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
                 moves ^= (1L << squareToGo);
             }
             bb ^= (1L << piece);
@@ -669,7 +683,7 @@ public class Board {
         else {
             bb = BQ; myOccupancy = BO; queen = "q";
         }
-        StringBuilder sb = new StringBuilder(queen);
+        StringBuilder sb = new StringBuilder();
         while (bb != 0) {
             int piece = Utils.getLSB1Index(bb);
 
@@ -678,7 +692,7 @@ public class Board {
                 int squareToGo = Utils.getLSB1Index(moves);
 
                 String squareToGoString = SQUARE.getValue(squareToGo);
-                sb.append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
+                sb.append(queen).append(SQUARE.getValue(piece)).append(squareToGoString).append(" ");
                 moves ^= (1L << squareToGo);
             }
             bb ^= (1L << piece);
@@ -723,7 +737,7 @@ public class Board {
         Board b = new Board(CUSTOM);
 
         System.out.println(new StringTokenizer(CUSTOM).nextToken());
-        System.out.println(b.getFENtrim());
+        System.out.println(b.getFEN());
 
     }
 
