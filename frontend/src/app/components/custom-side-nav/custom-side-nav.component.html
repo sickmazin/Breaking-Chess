@@ -1,0 +1,6 @@
+<mat-nav-list style="height: 100%; width: 100%;">
+    <a mat-list-item *ngFor="let item of menuItems()" style="margin: 1rem 0rem; height: 7%" [routerLink]="item.route" >
+        <img src="assets/optionsImg/{{item.icon}}.svg" matListItemIcon alt="">
+        <span class="textOptions" matListItemTitle>{{item.text}}</span>
+    </a>
+</mat-nav-list>

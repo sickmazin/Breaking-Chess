@@ -1,9 +1,12 @@
 package project.backend.data;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data

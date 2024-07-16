@@ -21,6 +21,7 @@ $gap-small: 0.5rem;
   height: 100%;
   align-self: center;
   margin: 3rem;
+  gap: 4rem;
   padding: $padding;
 }
 
@@ -74,10 +75,9 @@ form {
   display: flex;
   flex-direction: row;
   align-items: flex-start;
-  justify-content: flex-start;
   width: 50%;
-  height: 10%;
-  gap: $gap-large;
+  height: 15%;
+  justify-content: space-between;
 }
 
 .SCHERMATA-CREA {
@@ -89,7 +89,7 @@ form {
 
   .CENTRALE {
     position: absolute;
-    width: 78%;
+    width: 100%;
     height: 100vh;
     left: 16%;
     align-items: center;
@@ -114,56 +114,11 @@ form {
   margin: $margin 0;
 }
 
-.partite-da-guest {
-  background: $primary-color;
-  border-radius: $border-radius-large 0 0 $border-radius-large;
-  width: 18%;
-  height: 100vh;
-  padding: 2rem;
-  position: absolute;
-  right: 0;
-  display: flex;
-  flex-direction: column;
-}
 
-.imageButton {
-  width: 20%;
-  height: 100%;
-}
-
-.button-guests {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  width: 70%;
-  height: 5%;
-  background-color: $secondary-color;
-  border-radius: 16px;
-  align-self: center;
-  font-family: $secondary-font;
-  font-weight: 600;
-  margin: $margin;
-  color: $primary-color;
-  gap: 0.2rem;
-  font-size: 1.1rem;
-}
-
-.text-giocaDaGuests {
-  width: 100%;
-  height: 10%;
-  font-family: $primary-font;
-  font-weight: 700;
-  color: $background-color;
-  margin-top: 2rem;
-  font-size: 2.3rem;
-  text-align: center;
-  letter-spacing: 0;
-  line-height: normal;
-}
 
 .chess-web {
   position: relative;
-  left: 7%;
+  left: 16%;
   top: 7%;
   font-family: $primary-font, ui-serif;
   font-weight: 700;
@@ -178,7 +133,7 @@ form {
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 7.3rem;
+  width: 7.5rem;
   height: 8.5rem;
   padding: 0.4rem;
   gap: $gap-small;
@@ -212,11 +167,10 @@ form {
   display: flex;
   flex-direction: row;
   align-items: center;
-  justify-content: flex-start;
   flex-shrink: 0;
   width: 60%;
   padding: $padding;
-  gap: 17rem;
+  justify-content: space-between;
   height: 5%;
 }
 

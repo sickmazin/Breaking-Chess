@@ -5,6 +5,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 @Entity
+@Builder
 @Table(name = "Player")
 public class Player{
     @Id
@@ -31,14 +33,8 @@ public class Player{
     private short blitzPoints;
     @Column(name = "rapidPoints",nullable = false)
     private short rapidPoints;
+    private String avatar;
 
-//    @Enumerated(EnumType.STRING)
-//    private Role role;
-//
-//    @Lob // represented as BLOB (binary data).
-//    @Basic(fetch = FetchType.LAZY) // caricata quando serve
-//    private byte[] profilePicture;
-//
 //    @ManyToMany(fetch = FetchType.LAZY) // caricata quando serve
 //    private List<Player> friends;
 

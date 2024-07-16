@@ -2,25 +2,35 @@ package project.backend.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.backend.data.Game;
 import project.backend.live.LiveGameDTO;
 import project.backend.live.LiveGameService;
+import project.backend.service.GameService;
+import project.backend.service.PlayerService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping("/game")
+@RequestMapping("/api/games")
 public class GameController {
 
-    LiveGameService liveGameService;
-
+    private final LiveGameService liveGameService;
+    private final GameService gameService;
+    private final PlayerService playerService;
     @Autowired
-    public GameController(LiveGameService liveGameService) {
+    public GameController(LiveGameService liveGameService,GameService gameService, PlayerService playerService) {
         this.liveGameService = liveGameService;
+        this.gameService = gameService;
+        this.playerService = playerService;
     }
 //
 //    @GetMapping("/{id}")
@@ -71,6 +81,11 @@ public class GameController {
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+    //TODO
+    @GetMapping("/listOfGame")
+    public ResponseEntity<List<Game>> getListGameFromPlayer(@AuthenticationPrincipal Jwt token) {
+        return new ResponseEntity<>(gameService.getListOfGames(token.getClaimAsString("preferred_username")), HttpStatus.OK);
     }
 
     @GetMapping("/move/{nickname}/{gameId}/{move}")

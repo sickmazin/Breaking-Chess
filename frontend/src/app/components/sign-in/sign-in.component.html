@@ -1,35 +1,36 @@
-<div class="schermata-login">
+<body class="SCHERMATA-CREA">
 
     <div class="CENTRALE">
-        <div class="frame-26">
-            <h1 class="login"> Login </h1>
-            <form #loginForm="ngForm" (ngSubmit)="loginWithEmailAndPassword(loginForm)">
-                <mat-form-field appearance="outline" class="input">
-                    <mat-label>Username</mat-label>
-                    <input matInput type="username" placeholder="" name="username" required ngModel>
-                </mat-form-field>
-                <mat-form-field appearance="outline" class="input">
-                    <mat-label>Password</mat-label>
-                    <input matInput placeholder="" [type]="hide ? 'password' : 'text'" name="password" required ngModel>
-                    <button mat-icon-button matSuffix (click)="viewPassword($event)" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-                        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-                    </button>
-                </mat-form-field>
-                <button mat-flat-button color="warn" type="submit" class="button-login">Login</button>
-            </form>
+        <div class="component">
+                <h1 class="text-CreateAccount"> Login </h1>
+                <form #loginForm="ngForm" (ngSubmit)="loginWithEmailAndPassword(loginForm)" style="height: 30%;">
+                    <mat-form-field appearance="outline" class="input">
+                        <mat-label>Username</mat-label>
+                        <input matInput type="username" placeholder="" name="username" required ngModel>
+                    </mat-form-field>
+                    <mat-form-field  appearance="outline" class="input">
+                        <mat-label>Password</mat-label>
+                        <input  matInput placeholder="" [type]="hide ? 'password' : 'text'" name="password" required ngModel>
+                        <button mat-icon-button matSuffix (click)="viewPassword($event)" type="button" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+                            <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+                        </button>
+                    </mat-form-field>
+                    <button mat-flat-button color="warn" type="submit" class="create-account-button">Login</button>
+                </form>
 
-            <div class="frame-19">
-                <div class="text-under-button"> Forgot your Password or nickname? Recover </div>
-                <div class="frame-20">
-                    <mat-checkbox #checkbox ></mat-checkbox>
-                    <div class="text-under-button"> Remember me </div>
+                <div class="frame-19">
+                    <div class="text-under-button"> Forgot your Password or nickname? Recover </div>
+                    <div class="frame-20">
+                        <mat-checkbox #checkbox ></mat-checkbox>
+                        <div class="text-under-button"> Remember me </div>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
-    <img
-            class="chess2"
-            src="assets/chess2.png"
-            alt=""/>
-    <div class="breaking-chess">Breaking Chess</div>
-</div>
+    <h1 class="chess-web">Breaking<br> Chess</h1>
+</body>
+<img
+        class="SCHACCHI-IMG"
+        src="assets/chess2.png"
+        alt=""/>
+

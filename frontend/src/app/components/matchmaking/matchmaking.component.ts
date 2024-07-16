@@ -16,7 +16,7 @@ export class MatchmakingComponent {
   }
   cancelSearch() {
     console.log("CANCELLO PARTITA AVVIATA")
-    this.gameService.deleteGame(this.game.id)
+    this.gameService.abortGame(this.game.id)
     this.router.navigate(['/homepage'])
   }
 }

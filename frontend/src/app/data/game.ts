@@ -1,8 +1,10 @@
+import {Player} from "./player";
+
 export interface Game {
     id:string;
-    modality: string;
-    player1: string;
-    player2: string;
+    type: string;
+    whitePlayer: Player;
+    blackPlayer: Player;
     result: string;
     date: Date;
 }

@@ -1,11 +1,12 @@
-import { Component } from '@angular/core';
-import {NgForm} from "@angular/forms";
+import {Component , ViewChild} from '@angular/core';
+import {NgForm } from "@angular/forms";
 import {MatDialog} from "@angular/material/dialog";
 import {AvatarComponent} from "../avatar/avatar.component";
 import {AuthService} from "../../auth/auth.service";
 import {Player} from "../../data/player";
-import {ToastrService} from "ngx-toastr";
 import {Router} from "@angular/router";
+import {ToastrService} from "ngx-toastr";
+import {MatCheckbox} from "@angular/material/checkbox";
 
 @Component({
   selector: 'app-sign-up',
@@ -13,9 +14,9 @@ import {Router} from "@angular/router";
   styleUrl: './sign-up.component.scss'
 })
 export class SignUpComponent {
-
-  hide: boolean=false;
-  avatarSelected:string="";
+  hide: boolean=true;
+  avatarSelected:string="Man1.jpg";
+  @ViewChild("checkbox") checkBox:MatCheckbox
   constructor(
       private dialog : MatDialog,
       private authService: AuthService,
@@ -29,6 +30,14 @@ export class SignUpComponent {
   }
 
   registerWithEmailAndPassword(inputForm: NgForm) {
+    if (inputForm.invalid) {
+      this.toastr.error ("Completa il form!");
+      return;
+    }
+    if(inputForm.value.password.length<8) {
+      this.toastr.error("Inserisci una password più lunga");
+      return;
+    }
     const player={
       email: inputForm.value.email,
       password: inputForm.value.password,
@@ -37,7 +46,7 @@ export class SignUpComponent {
       username: inputForm.value.username,
       avatar: this.avatarSelected,
     }
-    this.authService.signUpWithEmailAndPassword(player).then(
+    this.authService.signUpWithEmailAndPassword(player,this.checkBox.checked).then(
         (resp:Player|undefined) => {
           this.toastr.success("Registrazione eseguita con successo!");
           this.router.navigate(['../homepage'] , {state: {player: resp}}).then();
@@ -52,9 +61,9 @@ export class SignUpComponent {
   openAvatarDialog() {
     const dialogRef = this.dialog.open(AvatarComponent, {
     });
-    dialogRef.afterClosed().subscribe((result:any) => {
+    dialogRef.afterClosed().subscribe((result:string) => {
       console.log('The dialog was closed');
-      this.avatarSelected=result;
+      this.avatarSelected=result.substring(result.lastIndexOf("/")+1);
     });
 
   }

@@ -13,7 +13,7 @@ import {MatCheckbox} from "@angular/material/checkbox";
 })
 export class SignInComponent {
   hide: any=true;
-  @ViewChild("checkbox") checkBox: MatCheckbox | undefined;
+  @ViewChild("checkbox") checkBox: MatCheckbox;
 
   constructor(private authService: AuthService,
               private toastr: ToastrService,
@@ -26,15 +26,12 @@ export class SignInComponent {
       username: loginForm.value.username,
       password: loginForm.value.password,
     }
-    this.authService.signInWithEmailAndPassword(user).then(
+    this.authService.signInWithEmailAndPassword(user,this.checkBox.checked).then(
         (response:Player|any) => {
-          console.log("Login eseguito con successo!")
           this.toastr.success("Login eseguito con successo!")
           this.router.navigate(['/homepage'],{state: {player: response}}).then();
         },error => {
-          console.log("Errore durante il login: \n"+ error);
-          this.toastr.error("Errore durante il login: \n"+ error);
-          throw new Error( error);
+          this.toastr.error("Errore durante il login: \n"+ error.message);
         }
     );
   }
