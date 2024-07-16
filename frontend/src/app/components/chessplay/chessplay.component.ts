@@ -43,15 +43,14 @@ export class ChessplayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log("PLAYER ME")
-    console.log(this.playerMe)
-    this.timeInterval = interval(40000) //TODO
+    this.timeInterval = interval(400)
       .pipe(
         switchMap(() => this.backend.getGame()),
         retry(2)
       ).subscribe(res => {
           this.liveGame = res
-          this.game = new Chess(res.fen.at(res.fen.length-1))
+          this.game = new Chess(res.fens[res.fens.length-1])
+          this.board?.board.position(res.fens[res.fens.length-1])
         },
         err => console.log('HTTP Error', err)
       )
@@ -74,14 +73,14 @@ export class ChessplayComponent implements OnInit, OnDestroy {
           if (res) {
             this.liveGame = res;
             //creating from fen for testing purposes
-            this.game = new Chess(res?.fen.at(res?.fen.length-1));
+            this.game = new Chess(res?.fens.pop());
           }
         } catch (err)  {
           console.log(err)
         }
       }
     )
-    this.board?.startGame(this.liveGame.turn)
+    this.board?.refreshGame(this.liveGame.turn)
   }
 
   startBullet() {

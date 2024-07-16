@@ -4,6 +4,7 @@ import {ChessplayService} from "../../service/chessplay.service";
 import {liveGameDTO} from "../../data/liveGameDTO";
 import {interval, retry, startWith, Subscription, switchMap} from "rxjs";
 import {Player} from "../../data/player";
+import {ToastrService} from "ngx-toastr";
 
 @Component({
   selector: 'app-matchmaking',
@@ -15,7 +16,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
   timeInterval: Subscription;
   player: Player
 
-  constructor(private backend: ChessplayService, private router: Router) {
+  constructor(private backend: ChessplayService, private router: Router, private toastr:ToastrService) {
     this.liveGame = this.router.getCurrentNavigation()!.extras.state?.['game'];
     this.player = this.router.getCurrentNavigation()!.extras.state?.['player'];
   }
@@ -40,17 +41,16 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
       navigate ();
     }
     //fai polling per conoscere lo stato della richiesta di avvio partita se il match non è stato trovato
-    this.timeInterval = interval(10000) //RIMETTERE A 300 todo
+    this.timeInterval = interval(300) //RIMETTERE A 300 todo
       .pipe(
         startWith(0),
         switchMap(() => this.backend.getGame()),
         retry()
       ).subscribe(res => {
           this.liveGame = res
-          console.log(res)
           if (res && this.liveGame.turn!="") {
             navigate()
-            console.log("avversario trovato!")
+            this.toastr.success("avversario trovato!")
           }
 
         },

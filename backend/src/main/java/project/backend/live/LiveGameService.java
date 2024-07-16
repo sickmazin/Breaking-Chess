@@ -58,7 +58,6 @@ public class LiveGameService {
     public Optional<LiveGameDTO> getGame(String nickname) throws PlayerNotFoundException, GameException {
         try {
             LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
-            System.out.println(liveGame);
             // catch not yet started game
             if (liveGame.getTurn() == null) {
                 return Optional.empty();
@@ -80,7 +79,6 @@ public class LiveGameService {
     @Transactional(rollbackOn = Exception.class)
     public LiveGameDTO makeMove(String player, String move) throws GameException, LiveGameNotFoundException, PlayerNotFoundException {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(player);
-        System.out.println(liveGame);
         LiveGameDTO liveGameDTO = null;
 
         if (player.equals(liveGame.getTurn())) {

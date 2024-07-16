@@ -93,7 +93,9 @@ export class ChessgameComponent implements OnInit {
           console.log("backend move is "+piece+source+target+promotionP+castle)
 
           this.backend.makeMove(piece+source+target+promotionP+castle).subscribe(
-            res => this.game = new Chess(res.fen.at(res.fen.length-1)),
+            res => {
+              this.game = new Chess (res.fens[res.fens.length-1])
+            },
             err => console.log(err)
           )
 
@@ -132,7 +134,6 @@ export class ChessgameComponent implements OnInit {
     let onSnapEnd = () => {
       this.board.position(this.game.fen()) //TODO get game fen
     }
-
     this.config = {
       draggable: true,
       position: 'start',
@@ -142,10 +143,10 @@ export class ChessgameComponent implements OnInit {
       onMouseoverSquare: onMouseoverSquare,
       onSnapEnd: onSnapEnd
     }
-    this.startGame(this.liveGameDTO.whitePlayer)
+    this.refreshGame(this.liveGameDTO.whitePlayer)
   }
 
-  startGame(white: string) {
+  refreshGame(white: string) {
     this.board = ChessBoard('board1', this.config)
     if (white!==this.player.username) this.board.orientation('black')
   }

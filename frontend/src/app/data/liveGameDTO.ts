@@ -7,5 +7,5 @@ export interface liveGameDTO {
   whiteTime: number;
   blackTime: number;
   drawRequest: boolean;
-  fen: string[];
+  fens: string[];
 }
