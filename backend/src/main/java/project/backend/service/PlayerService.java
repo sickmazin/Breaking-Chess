@@ -2,6 +2,7 @@ package project.backend.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.backend.data.Game;
 import project.backend.data.Player;
 import project.backend.exceptions.PlayerNotFoundException;
 import project.backend.repository.PlayerRepository;

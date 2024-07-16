@@ -3,36 +3,52 @@
 
 <div class="column column-b">
   <div id="second">
-    <img src="" alt="Immagine avversario">
-    <label> Name </label>
-    <label> (Elo) </label>
-    <label> timer </label>
+    <img [ngSrc]="opponent.avatar" fill alt="Immagine avversario" class="image">
+    <label> {{ opponent.username }} </label>
+    <label> ({{ getRating(opponent) }}) </label>
+    <div class="player__digits">
+      <span id="minOpp">{{ opponentTime/60 | number:'0' }}</span>:<span id="secOpp">{{ opponentTime%60 | number:'0' }}</span>
+    </div>
   </div>
 
-  <app-chessgame id="board" [game] = game >
+  <app-chessgame id="board" [game] = game [player] = playerMe [liveGameDTO]="liveGame" >
 
   </app-chessgame>
 
   <div id="first">
-    <img src="" alt="Immagine mia">
-    <label> Name </label>
-    <label> (Elo) </label>
-    <label> timer </label>
+    <img [ngSrc]="playerMe.avatar" fill alt="Immagine mia" class="image">
+    <label> {{ playerMe.username }} </label>
+    <label> ({{ getRating(playerMe) }}) </label>
+    <div class="player__digits">
+      <span id="minMe">{{ playerMeTime/60000 | number:'0' }}</span>:<span id="secMe">{{ playerMeTime%60000 | number:'0' }}</span>
+    </div>
   </div>
 </div>
 
 
 <div class="column column-c" [hidden]="!game.isGameOver()">
-  <button (click)="startBullet();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Gioca bullet
+  <button *ngIf="!isDrawAsked() else elseBlock" (click)="draw();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    Chiedi patta
   </button>
-  <button (click)="startBlitz();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Gioca blitz
-  </button>
-  <button (click)="startRapid();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Gioca rapid
-  </button>
-
+  <ng-template #elseBlock>
+    <button (click)="draw();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Accetta patta
+    </button>
+    <button (click)="deny();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Annulla patta
+    </button>
+  </ng-template>
+  <ul>
+    <button (click)="startBullet();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Gioca bullet
+    </button>
+    <button (click)="startBlitz();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Gioca blitz
+    </button>
+    <button (click)="startRapid();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+      Gioca rapid
+    </button>
+  </ul>
   <!-- Modal
   <div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">

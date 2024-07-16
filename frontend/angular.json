@@ -64,7 +64,7 @@
             ],
             "styles": [
               "src/styles.scss",
-              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css"
+              "./node_modules/@chrisoakman/chessboardjs/dist/chessboard-1.0.0.min.css",
               "@angular/material/prebuilt-themes/cyan-orange.css",
               "src/styles.scss"
             ],

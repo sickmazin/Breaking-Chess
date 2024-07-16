@@ -17,7 +17,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const isFreePathMatch = acceptablePaths.some((path) =>
         url.includes(path)
     );
-    if(!token && isFreePathMatch){ return next.handle(request) }
+    if(!token || isFreePathMatch){ return next.handle(request) }
     else {
       const authorizedRequest = request.clone({ headers: request.headers.set('Authorization', `Bearer ${token}`), });
       return next.handle(authorizedRequest);

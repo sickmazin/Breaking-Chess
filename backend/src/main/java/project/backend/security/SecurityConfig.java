@@ -81,7 +81,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(req ->
                         req.requestMatchers( //RICHIESTE CHE SONO PUBLICHE
-                                        "/api/auth/register"
+                                        "/api/auth/register",
+                                        "/game/move/**",
+                                        "/game/get/",
+                                        "/game/start/**"
 
                                 ).permitAll()
                                 .anyRequest().authenticated()// TUTTE LE ALTRE SONO SOLO DA AUTENTICATI

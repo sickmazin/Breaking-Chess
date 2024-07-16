@@ -11,6 +11,16 @@ html {
   margin-right:-4px;
 }
 
+.image {
+  width: max(50px);
+  height: max(50px);
+}
+
+.player__digits {
+  font-size: 6rem;
+  font-weight: bold;
+}
+
 .btn {
   margin: 5px;
 }

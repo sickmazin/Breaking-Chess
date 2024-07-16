@@ -1,10 +1,12 @@
 package project.backend.data;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.NonNull;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 
 @Data
 @AllArgsConstructor
@@ -18,8 +20,7 @@ public class Game {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-
-    private TYPE type;
+    private TYPE mode;
 
     public enum TYPE {
         BULLET(2),
@@ -33,9 +34,9 @@ public class Game {
         }
     }
     public enum RESULT {
-        BLACK,
-        DRAW,
-        WHITE
+        black,
+        draw,
+        white
     }
 
     @NonNull

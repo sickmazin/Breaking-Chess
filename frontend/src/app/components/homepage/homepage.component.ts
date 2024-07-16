@@ -4,8 +4,9 @@ import {Game} from "../../data/game";
 import {Video} from "../../data/video";
 import {Router} from "@angular/router";
 import {AuthService} from "../../auth/auth.service";
-import {GameService} from "../../service/game.service";
 import {ToastrService} from "ngx-toastr";
+import {ChessplayService} from "../../service/chessplay.service";
+import {liveGameDTO} from "../../data/liveGameDTO";
 
 @Component({
   selector: 'app-homepage',
@@ -22,9 +23,10 @@ export class HomepageComponent implements OnInit{
   player: Player;
   leardBoardModality: string="blitz";
   gettendInfo:boolean;
+
   constructor(private router: Router,
               private authService: AuthService,
-              private gameService: GameService,
+              private backend: ChessplayService,
               private toastrService: ToastrService
               ) {
     if(this.router.getCurrentNavigation()!.extras.state?.['player']!=undefined ){
@@ -46,7 +48,7 @@ export class HomepageComponent implements OnInit{
             }
         )
     }
-    this.gameService.getGames().then(
+    this.backend.getGames().subscribe(
         (response:Game[]|undefined) => {
           if(response!=undefined){
             this.games=response;
@@ -60,7 +62,7 @@ export class HomepageComponent implements OnInit{
     console.log("Player: "+this.player)
   }
 
-  showClassificaByModality( rapid: string ) {
+  showClassificaByModality(mode: string) {
     //TODO
   }
 
@@ -86,12 +88,13 @@ export class HomepageComponent implements OnInit{
     window.open(link)
   }
 
-  postGame( modality: string ) {
-    this.gameService.postGame(modality,this.player).then(
-       (response:Game|undefined) =>{
-        this.router.navigate(['/matchmaking'],{state:{game:response}}).then(r=> {
+  startGame(mode: string ) {
+    this.backend.startGame(mode).toPromise().then(
+       (response: liveGameDTO|undefined) => {
+        this.router.navigate(['/matchmaking'],{state:{player: this.player,game:response}}).then(r=> {
           this.toastrService.success("Matchmaking iniziato!")
         })
+
       },
        err => {
         this.toastrService.error(err)

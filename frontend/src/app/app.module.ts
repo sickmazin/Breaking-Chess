@@ -19,9 +19,13 @@ import {MatchmakingComponent} from "./components/matchmaking/matchmaking.compone
 import {LeaderboardElementComponent} from "./components/leaderboard-element/leaderboard-element.component";
 import { GameDisplayComponent } from './components/game-display/game-display.component';
 import {AuthInterceptor} from "./auth/interceptor.interceptor";
+import {ChessplayComponent} from "./components/chessplay/chessplay.component";
+import {ChessgameComponent} from "./components/chessgame/chessgame.component";
 
 @NgModule({
   declarations: [
+    ChessplayComponent,
+    ChessgameComponent,
     AppComponent,
     SignInComponent,
     SignUpComponent,

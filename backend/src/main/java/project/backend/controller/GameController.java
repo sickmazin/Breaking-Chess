@@ -1,19 +1,20 @@
 package project.backend.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
+import org.springframework.web.bind.annotation.*;
+import project.backend.data.Game;
 import project.backend.live.LiveGameDTO;
 import project.backend.live.LiveGameService;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController()
-@RequestMapping("/game")
+@RequestMapping("/api/game")
 public class GameController {
 
     LiveGameService liveGameService;
@@ -22,64 +23,84 @@ public class GameController {
     public GameController(LiveGameService liveGameService) {
         this.liveGameService = liveGameService;
     }
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<String> getGame(@PathVariable String id) {
-//        return ResponseEntity.ok("Game is running");
-//    }
 
-
-    @GetMapping("/start/{nickname}/{mode}")
+    @GetMapping("/start")
     public ResponseEntity<Optional<LiveGameDTO>> startGame(
-                                                 @PathVariable String nickname,
-                                                 @PathVariable String mode) {
+                                                 @AuthenticationPrincipal Jwt jwt,
+                                                 @RequestParam(name = "mode") String mode) {
         try {
-            Optional<LiveGameDTO> liveGameDTO = liveGameService.startGame(nickname, mode);
+            Optional<LiveGameDTO> liveGameDTO = liveGameService.startGame(jwt.getClaimAsString("preferred_username"), mode);
+            return ResponseEntity.ok(liveGameDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/get")
+    public ResponseEntity<Optional<LiveGameDTO>> getGame(@AuthenticationPrincipal Jwt jwt) {
+        try {
+            Optional<LiveGameDTO> liveGameDTO = liveGameService.getGame(jwt.getClaimAsString("preferred_username"));
             return ResponseEntity.ok(liveGameDTO);
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/get/{nickname}")
-    public ResponseEntity<Optional<LiveGameDTO>> getGame(@PathVariable String nickname) {
-        System.out.println("sono qui "+nickname);
+    @GetMapping("/abort")
+    public ResponseEntity<String> abort(@AuthenticationPrincipal Jwt jwt) {
         try {
-            Optional<LiveGameDTO> liveGameDTO = liveGameService.getGame(nickname);
-            return ResponseEntity.ok(liveGameDTO);
+            liveGameService.abortGame(jwt.getClaimAsString("preferred_username"));
+            return ResponseEntity.ok("Aborted");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/resign/{nickname}")
-    public ResponseEntity<String> resign(@PathVariable String nickname) {
+    @GetMapping("/resign")
+    public ResponseEntity<String> resign(@AuthenticationPrincipal Jwt jwt) {
         try {
-            liveGameService.endGame(nickname, false);
+            liveGameService.endGame(jwt.getClaimAsString("preferred_username"), false);
             return ResponseEntity.ok("Resigned");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/draw/{nickname}")
-    public ResponseEntity<String> draw(@PathVariable String nickname) {
+    @GetMapping("/draw")
+    public ResponseEntity<String> drawRequest(@AuthenticationPrincipal Jwt jwt) {
         try {
-            //TODO gestire la rischiesta di patta
-            liveGameService.endGame(nickname, true);
+            liveGameService.drawRequest(jwt.getClaimAsString("preferred_username"));
             return ResponseEntity.ok("Ask for draw");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
     }
 
-    @GetMapping("/move/{nickname}/{gameId}/{move}")
-    public ResponseEntity<LiveGameDTO> makeMove(@PathVariable String nickname, @PathVariable String move, @PathVariable String gameId) {
+    @GetMapping("/deny")
+    public ResponseEntity<String> denyDrawRequest(@AuthenticationPrincipal Jwt jwt) {
         try {
-            LiveGameDTO liveGameDTO = liveGameService.makeMove(gameId, move, nickname); //TODO put player string
-            return ResponseEntity.ok(liveGameDTO);
+            liveGameService.denyRequest(jwt.getClaimAsString("preferred_username"));
+            return ResponseEntity.ok("Ask for draw");
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
+    }
+
+    @GetMapping("/move")
+    public ResponseEntity<LiveGameDTO> makeMove(@AuthenticationPrincipal Jwt jwt,
+                                                @RequestParam(name = "move") String move) {
+        try {
+            LiveGameDTO liveGameDTO = liveGameService.makeMove(jwt.getClaimAsString("preferred_username"), move); //TODO put player string
+            return ResponseEntity.ok(liveGameDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().build();
+        }
+    }
+
+    @GetMapping("/games/get")
+    public ResponseEntity<List<Game>> getGames(@AuthenticationPrincipal Jwt jwt) {
+        return new ResponseEntity<>(liveGameService.getGames(jwt.getClaimAsString("preferred_username")), HttpStatus.OK);
     }
 }

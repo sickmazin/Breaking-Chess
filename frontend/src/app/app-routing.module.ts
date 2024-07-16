@@ -6,13 +6,16 @@ import {MatchmakingComponent} from "./components/matchmaking/matchmaking.compone
 import {HomepageComponent} from "./components/homepage/homepage.component";
 import {NotfoundComponent} from "./components/notfound/notfound.component";
 import {authGuard , authSignPage} from "./auth/auth.guard";
+import {ChessplayComponent} from "./components/chessplay/chessplay.component";
+
 
 const routes: Routes = [
-  {path:'', redirectTo:'signUp',pathMatch: "full" },
+  {path:'', redirectTo: 'game',pathMatch: "full" },
   {path:'signUp', component: SignUpComponent, canActivate: [authSignPage], pathMatch: 'full'},
   {path:'signIn', component: SignInComponent, canActivate: [authSignPage]},
   {path:'matchmaking', component: MatchmakingComponent, pathMatch: 'full'},
   {path:'homepage', component: HomepageComponent, canActivate: [authGuard]},
+  {path:'game', component: ChessplayComponent },
   {path:'404', component:NotfoundComponent},
   {path:'**', redirectTo:'404'},
 ];
