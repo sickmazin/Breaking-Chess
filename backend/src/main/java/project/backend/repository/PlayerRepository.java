@@ -23,13 +23,13 @@ public interface PlayerRepository extends JpaRepository<Player, String> {
     @Query("SELECT p FROM Player p ORDER BY p.rapidPoints DESC LIMIT 20")
     Optional<List<Player>> getRapidLead();
 
-    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username AND g.result = 'WHITE' AND g.type = :type) OR (g.blackPlayer.username = :username AND g.result = 'BLACK' AND g.type = :type)")
+    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username AND g.result = 'white' AND g.mode = :type) OR (g.blackPlayer.username = :username AND g.result = 'black' AND g.mode = :type)")
     int getAllWinForThisModality(String username,Game.TYPE type);
 
-    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username AND g.result = 'BLACK' AND g.type = :type) OR (g.blackPlayer.username = :username AND g.result = 'WHITE' AND g.type = :type)")
+    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username AND g.result = 'black' AND g.mode = :type) OR (g.blackPlayer.username = :username AND g.result = 'white' AND g.mode = :type)")
     int getAllLossesForThisModality( String username, Game.TYPE type);
 
-    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username OR g.blackPlayer.username = :username) AND g.result = 'DRAW' AND g.type = :type")
+    @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username OR g.blackPlayer.username = :username) AND g.result = 'draw' AND g.mode = :type")
     int getAllDrawsForThisModality(String username,Game.TYPE type);
 
 //    @Query("SELECT p. FROM Player p,Pla")

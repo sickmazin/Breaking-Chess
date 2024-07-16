@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import project.backend.data.Game;
+import project.backend.exceptions.PlayerNotFoundException;
 import project.backend.live.LiveGameDTO;
 import project.backend.live.LiveGameService;
 
@@ -100,7 +101,11 @@ public class GameController {
     }
 
     @GetMapping("/games/get")
-    public ResponseEntity<List<Game>> getGames(@AuthenticationPrincipal Jwt jwt) {
-        return new ResponseEntity<>(liveGameService.getGames(jwt.getClaimAsString("preferred_username")), HttpStatus.OK);
+    public ResponseEntity<?> getGames(@AuthenticationPrincipal Jwt jwt) {
+        try {
+            return new ResponseEntity<>(liveGameService.getGames(jwt.getClaimAsString("preferred_username")), HttpStatus.OK);
+        } catch (PlayerNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
+        }
     }
 }

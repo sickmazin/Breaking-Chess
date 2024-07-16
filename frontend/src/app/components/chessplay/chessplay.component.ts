@@ -43,7 +43,9 @@ export class ChessplayComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    this.timeInterval = interval(400)
+    console.log("PLAYER ME")
+    console.log(this.playerMe)
+    this.timeInterval = interval(40000) //TODO
       .pipe(
         switchMap(() => this.backend.getGame()),
         retry(2)

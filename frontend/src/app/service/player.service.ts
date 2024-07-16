@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import {HttpClient , HttpParams} from "@angular/common/http";
-import {OPTIONS_URL} from "../support/constants";
+import {OPTIONS_URL , PLAYER_URL} from "../support/constants";
+import {Player} from "../data/player";
 
 @Injectable({
   providedIn: 'root'
@@ -8,6 +9,10 @@ import {OPTIONS_URL} from "../support/constants";
 export class PlayerService {
 
   constructor(private http:HttpClient) { }
+
+  getPlayer(username : string) {
+    return this.http.get<Player>(PLAYER_URL+username);
+  }
 
   changeFirstName ( inputValue: string ) {
     const params = new HttpParams().set('firstName', inputValue);

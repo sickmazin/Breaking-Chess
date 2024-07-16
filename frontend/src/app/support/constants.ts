@@ -56,8 +56,9 @@ export const WOMAN_AVATAR=[
 export const BASE_URL = "http://localhost:8081/api/";
 export const HOME_URL = BASE_URL+"home/";
 export const LEADERBOARD_URL= HOME_URL+"leaderboard"
-export const GAMES_URL = BASE_URL+"games"
+export const GAMES_URL = BASE_URL+"game/"
 export const BOOK_URL=HOME_URL+"books"
+export const PLAYER_URL= BASE_URL+"player/get/"
 export const LIKE_URL=BOOK_URL+"/like/"
 export const OPTIONS_URL=BASE_URL+"options"
 // login e registrazione

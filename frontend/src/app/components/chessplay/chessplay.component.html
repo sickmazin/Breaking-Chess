@@ -3,11 +3,11 @@
 
 <div class="column column-b">
   <div id="second">
-    <img [ngSrc]="opponent.avatar" fill alt="Immagine avversario" class="image">
+    <img ngSrc="assets/avatar/{{opponent.avatar}}" width="50" height="50"  alt="Immagine avversario" class="image">
     <label> {{ opponent.username }} </label>
     <label> ({{ getRating(opponent) }}) </label>
     <div class="player__digits">
-      <span id="minOpp">{{ opponentTime/60 | number:'0' }}</span>:<span id="secOpp">{{ opponentTime%60 | number:'0' }}</span>
+      <span id="minOpp">{{ opponentTime/60 | number}}</span>:<span id="secOpp">{{ opponentTime%60 | number }}</span>
     </div>
   </div>
 
@@ -16,11 +16,11 @@
   </app-chessgame>
 
   <div id="first">
-    <img [ngSrc]="playerMe.avatar" fill alt="Immagine mia" class="image">
+    <img ngSrc="assets/avatar/{{playerMe.avatar}}" width="50" height="50" alt="Immagine mia" class="image">
     <label> {{ playerMe.username }} </label>
     <label> ({{ getRating(playerMe) }}) </label>
     <div class="player__digits">
-      <span id="minMe">{{ playerMeTime/60000 | number:'0' }}</span>:<span id="secMe">{{ playerMeTime%60000 | number:'0' }}</span>
+      <span id="minMe">{{ playerMeTime/60000 | number }}</span>:<span id="secMe">{{ playerMeTime%60000 | number }}</span>
     </div>
   </div>
 </div>
@@ -31,10 +31,10 @@
     Chiedi patta
   </button>
   <ng-template #elseBlock>
-    <button (click)="draw();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button (click)="draw();" mat-button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Accetta patta
     </button>
-    <button (click)="deny();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+    <button (click)="deny();" mat-button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
       Annulla patta
     </button>
   </ng-template>

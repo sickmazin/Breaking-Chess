@@ -57,7 +57,8 @@ public class LiveGameService {
     @Transactional(rollbackOn = Exception.class)
     public Optional<LiveGameDTO> getGame(String nickname) throws PlayerNotFoundException, GameException {
         try {
-            LiveGame liveGame = liveGameStorage.getLiveGame(nickname);
+            LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
+            System.out.println(liveGame);
             // catch not yet started game
             if (liveGame.getTurn() == null) {
                 return Optional.empty();
@@ -79,7 +80,7 @@ public class LiveGameService {
     @Transactional(rollbackOn = Exception.class)
     public LiveGameDTO makeMove(String player, String move) throws GameException, LiveGameNotFoundException, PlayerNotFoundException {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(player);
-
+        System.out.println(liveGame);
         LiveGameDTO liveGameDTO = null;
 
         if (player.equals(liveGame.getTurn())) {
@@ -121,6 +122,7 @@ public class LiveGameService {
     public Optional<LiveGameDTO> startGame(String nickname, String mode) throws PlayerNotFoundException {
         try {
             //check if player has already started a game
+            System.out.println(liveGameStorage.getLiveGameByPlayer(nickname));
             return Optional.of(createLiveGameDTO(liveGameStorage.getLiveGameByPlayer(nickname)));
         } catch (LiveGameNotFoundException e) {
             //check if player can connect to already existing NEW game or push new LiveGame in the queue
@@ -249,9 +251,9 @@ public class LiveGameService {
     }
 
 
-    public List<Game> getGames(String playerNickname) {
+    public List<Game> getGames(String playerNickname) throws PlayerNotFoundException {
         // check if player is present
-        Player player= playerService.findByUsername(playerNickname).orElseThrow( () -> new IllegalArgumentException("PLAYER NON PRESENTE NEL DB"));
+        Player player= playerService.getPlayer(playerNickname);
         return gameRepository.findLast20ByPlayer(player.getUsername());
     }
 }

@@ -12,9 +12,9 @@ export class GameDisplayComponent{
   @Input() game: Game;
   @Input() playerUsername: string;
   getResult() {
-    if (this.game.result== "DRAW") { return "DRAW"}
+    if (this.game.result== "draw") { return "DRAW"}
     else {
-      if ((this.game.result == "WHITE" && this.playerUsername == this.game.whitePlayer.username)||this.game.result == "BLACK" && this.playerUsername==this.game.blackPlayer.username) {
+      if ((this.game.result == "white" && this.playerUsername == this.game.whitePlayer.username)||this.game.result == "black" && this.playerUsername==this.game.blackPlayer.username) {
         return "WIN"
       }
       else return "LOSE"

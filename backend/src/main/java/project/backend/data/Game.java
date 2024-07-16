@@ -22,7 +22,7 @@ public class Game {
     @NonNull
     @Enumerated(EnumType.STRING)
 
-    private TYPE type;
+    private TYPE mode;
 
     public enum TYPE {
         BULLET(2),
@@ -36,9 +36,9 @@ public class Game {
         }
     }
     public enum RESULT {
-        BLACK,
-        DRAW,
-        WHITE
+        black,
+        draw,
+        white
     }
 
     @NonNull

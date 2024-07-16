@@ -31,18 +31,24 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     let navigate = () => {
       let otherP = (this.liveGame.whitePlayer===this.player.username)? this.liveGame.blackPlayer: this.liveGame.whitePlayer
       this.router.navigate(['/game'], {state:{game:this.liveGame, playerMe: this.player, opponentUsername: otherP}})
+      console.log(this.liveGame)
+      console.log(this.player)
+      console.log(otherP)
     }
-
-    if (this.liveGame.turn) navigate();
+    if (this.liveGame && this.liveGame.turn!="") {
+      console.log()
+      navigate ();
+    }
     //fai polling per conoscere lo stato della richiesta di avvio partita se il match non è stato trovato
-    this.timeInterval = interval(300)
+    this.timeInterval = interval(10000) //RIMETTERE A 300 todo
       .pipe(
         startWith(0),
         switchMap(() => this.backend.getGame()),
-        retry(2)
+        retry()
       ).subscribe(res => {
           this.liveGame = res
-          if (this.liveGame.turn) {
+          console.log(res)
+          if (res && this.liveGame.turn!="") {
             navigate()
             console.log("avversario trovato!")
           }

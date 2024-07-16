@@ -4,13 +4,13 @@ import {Game} from "../../data/game";
 import {Video} from "../../data/video";
 import {Router} from "@angular/router";
 import {AuthService} from "../../auth/auth.service";
-import {GameService} from "../../service/game.service";
 import {ToastrService} from "ngx-toastr";
 import {LeaderboardService} from "../../service/leaderboard.service";
 import {BookService} from "../../service/book.service";
 import {Book} from "../../data/Book";
 import {YoutubeService} from "../../service/youtube.service";
-import {liveGame} from "../../data/liveGame";
+import {liveGameDTO} from "../../data/liveGameDTO";
+import {ChessplayService} from "../../service/chessplay.service";
 
 @Component({
   selector: 'app-homepage',
@@ -35,7 +35,7 @@ export class HomepageComponent implements OnInit{
 
     constructor( private router: Router ,
                  private authService: AuthService ,
-                 private gameService: GameService ,
+                 private gameService: ChessplayService ,
                  private toastrService: ToastrService ,
                  private leaderboardService: LeaderboardService ,
                  private bookService: BookService ,
@@ -91,7 +91,7 @@ export class HomepageComponent implements OnInit{
 
     showGames() {
         this.loadingGames=true
-        this.gameService.getGames().then (
+        this.gameService.getGames().subscribe (
             ( response: Game[] | undefined ) => {
                 if (response != undefined) {
                     this.games = response;
@@ -149,17 +149,23 @@ export class HomepageComponent implements OnInit{
     }
 
 
-  startGame(mode: string ) {
-    this.backend.startGame(mode).toPromise().then(
-       (response: liveGameDTO|undefined) => {
-        this.router.navigate(['/matchmaking'],{state:{player: this.player,game:response}}).then(r=> {
-          this.toastrService.success("Matchmaking iniziato!")
-            },
-       err => {
-        this.toastrService.error(err)
-      }
-    )}
-  }
+    startGame ( mode: string ) {
+        this.gameService.startGame ( mode ).toPromise ().then (
+            ( response: liveGameDTO | undefined ) => {
+                this.router.navigate ( ['/matchmaking'] , {
+                    state: {
+                        player: this.player ,
+                        game: response
+                    }
+                } ).then ( r => {
+                        this.toastrService.success ( "Matchmaking iniziato!" )
+                    } ,
+                    err => {
+                        this.toastrService.error ( err )
+                    }
+                )
+            })
+    }
     changeModalityEloPoints() {
         if (this.modality==3) this.modality=0;
         this.modality += 1;

@@ -142,6 +142,7 @@ export class ChessgameComponent implements OnInit {
       onMouseoverSquare: onMouseoverSquare,
       onSnapEnd: onSnapEnd
     }
+    this.startGame(this.liveGameDTO.whitePlayer)
   }
 
   startGame(white: string) {
