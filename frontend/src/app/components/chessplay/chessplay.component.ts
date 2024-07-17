@@ -15,6 +15,7 @@ import {PlayerService} from "../../service/player.service";
 })
 
 export class ChessplayComponent implements OnInit, OnDestroy {
+  protected readonly Math = Math;
   liveGame: liveGameDTO;
   liveGameSubscription: Subscription;
   timeInterval: Subscription;
@@ -32,10 +33,10 @@ export class ChessplayComponent implements OnInit, OnDestroy {
   constructor(private backend: ChessplayService, private playerService: PlayerService, private router: Router) {
     this.playerMe = this.router.getCurrentNavigation()!.extras.state?.['playerMe'];
     this.liveGame = this.router.getCurrentNavigation()!.extras.state?.['game'];
-
     let oppUsrnm = this.opponent = this.router.getCurrentNavigation()!.extras.state?.['opponentUsername'];
     playerService.getPlayer(oppUsrnm).subscribe(
-      res => { this.opponent = res }
+    res => { this.opponent = res }
+
     )
 
     this.playerMeTime = this.liveGame.whiteTime/1000
@@ -118,5 +119,9 @@ export class ChessplayComponent implements OnInit, OnDestroy {
       case "RAPID": return player.rapidPoints
       default: return undefined;
     }
+  }
+
+  resign() {
+    this.backend.resign()
   }
 }

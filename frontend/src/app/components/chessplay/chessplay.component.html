@@ -1,70 +1,68 @@
 <div class="column column-a">
 </div>
 
-<div class="column column-b">
-  <div id="second">
-    <img ngSrc="assets/avatar/{{opponent.avatar}}" width="50" height="50"  alt="Immagine avversario" class="image">
-    <label> {{ opponent.username }} </label>
-    <label> ({{ getRating(opponent) }}) </label>
-    <div class="player__digits">
-      <span id="minOpp">{{ opponentTime/60 | number}}</span>:<span id="secOpp">{{ opponentTime%60 | number }}</span>
+
+<div class="column column-b" >
+  <div style="display: flex; justify-content: center">
+    <div id="second" class="player_section">
+      <img ngSrc="assets/avatar/{{opponent.avatar}}" width="50" height="50"  alt="Immagine avversario" class="image">
+      <label> {{ opponent.username }} ({{ getRating(opponent) }}) </label>
+      <div class="player__digits">
+        {{ Math.floor(opponentTime / 60) | number : '2.0-0' }} :
+        {{ opponentTime % 60 | number : '2.0-0' }}
+      </div>
     </div>
   </div>
 
-  <app-chessgame id="board" [game] = game [player] = playerMe [liveGameDTO]="liveGame" >
 
+  <app-chessgame id="board" [game] = game [player] = playerMe [liveGameDTO]="liveGame" class="board" >
   </app-chessgame>
 
-  <div id="first">
-    <img ngSrc="assets/avatar/{{playerMe.avatar}}" width="50" height="50" alt="Immagine mia" class="image">
-    <label> {{ playerMe.username }} </label>
-    <label> ({{ getRating(playerMe) }}) </label>
-    <div class="player__digits">
-      <span id="minMe">{{ playerMeTime/60000 | number }}</span>:<span id="secMe">{{ playerMeTime%60000 | number }}</span>
+  <div style="display: flex; justify-content: center ">
+    <div id="first" class="player_section">
+      <img ngSrc="assets/avatar/{{playerMe.avatar}}" width="50" height="50" alt="Immagine mia" class="image">
+      <label> {{ playerMe.username }} ({{ getRating(playerMe) }}) </label>
+      <div class="player__digits">
+        {{ Math.floor(playerMeTime / 60) | number : '2.0-0' }} :
+        {{ playerMeTime % 60 | number : '2.0-0' }}
+      </div>
     </div>
   </div>
 </div>
 
 
-<div class="column column-c" [hidden]="!game.isGameOver()">
-  <button *ngIf="!isDrawAsked() else elseBlock" (click)="draw();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-    Chiedi patta
-  </button>
-  <ng-template #elseBlock>
-    <button (click)="draw();" mat-button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Accetta patta
-    </button>
-    <button (click)="deny();" mat-button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Annulla patta
-    </button>
-  </ng-template>
-  <ul>
-    <button (click)="startBullet();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Gioca bullet
-    </button>
-    <button (click)="startBlitz();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Gioca blitz
-    </button>
-    <button (click)="startRapid();" type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
-      Gioca rapid
-    </button>
-  </ul>
-  <!-- Modal
-  <div  class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h1 class="modal-title fs-5" id="exampleModalLabel">Ricerca in corso...</h1>
-        </div>
-        <div class="modal-body" style="align-self: center">
-          <div class="spinner-border text-primary" role="status">
-            <span class="visually-hidden">Loading...</span>
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-primary" style="align-self: center">Annulla</button>
-        </div>
-      </div>
+<div class="column column-c" >
+  <div class="rounded-right">
+    <div class="c-div">
+      <button *ngIf="!isDrawAsked() else elseBlock" (click)="draw();" type="button">
+        Chiedi patta
+      </button>
+      <button (click)="resign()" type="button">
+        Abbandona
+      </button>
     </div>
-  </div> -->
+
+    <ng-template #elseBlock class="c-div">
+      <button (click)="draw();" type="button">
+        Accetta patta
+      </button>
+      <button (click)="deny();" type="button">
+        Annulla patta
+      </button>
+    </ng-template>
+
+    <div [hidden]="!game.isGameOver()" class="c-div">
+      <ul>
+        <button (click)="startBullet();" type="button">
+          Gioca bullet
+        </button>
+        <button (click)="startBlitz();" type="button">
+          Gioca blitz
+        </button>
+        <button (click)="startRapid();" type="button">
+          Gioca rapid
+        </button>
+      </ul>
+    </div>
+  </div>
 </div>

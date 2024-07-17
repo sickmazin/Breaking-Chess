@@ -52,9 +52,4 @@ public class LiveGameStorage {
     }
 
 
-//    public LiveGame getLiveGameByPlayer(String nickname) throws LiveGameNotFoundException {
-//        LiveGame liveGame = liveGames.get(gameId);
-//        if (liveGame==null) throw new LiveGameNotFoundException();
-//        return liveGame;
-//    }
 }
