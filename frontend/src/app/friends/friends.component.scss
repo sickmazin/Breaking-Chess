@@ -1,0 +1,321 @@
+.FRIENDS {
+  display: flex;
+  flex-direction: column;
+  height: 1080px;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 90px 80px;
+  position: relative;
+  background-color: #e1ddd3;
+}
+
+.FRIENDS .centrale {
+  display: flex;
+  flex-direction: column;
+  width: 1760px;
+  align-items: center;
+  padding: 5px 10px 15px;
+  position: relative;
+  flex: 0 0 auto;
+  margin-bottom: -20px;
+  background-color: #262a29;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.FRIENDS .header {
+  height: 124px;
+  gap: 51px;
+  padding: 0px 56px;
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+}
+
+.FRIENDS .fi-sr-people-carry {
+  position: relative;
+  width: 70px;
+  height: 70px;
+}
+
+.FRIENDS .text-wrapper {
+  position: relative;
+  width: 745px;
+  height: 107px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #e1ddd3;
+  font-size: 64px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .frameamici-e {
+  display: flex;
+  align-items: flex-start;
+  gap: 35px;
+  padding: 0px 10.5px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+}
+
+.FRIENDS .LISTA-AMICI {
+  height: 776px;
+  gap: 25px;
+  padding: 17px 10px 17px 9px;
+  flex: 1;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.FRIENDS .AMICO {
+  display: flex;
+  width: 1115px;
+  height: 264px;
+  align-items: center;
+  gap: 25px;
+  padding: 5px 25px 5px 24px;
+  position: relative;
+  background-color: #e1ddd3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.FRIENDS .RIMUOVERE {
+  width: 200px;
+  height: 200px;
+  position: relative;
+  background-color: #ffe68f;
+}
+
+.FRIENDS .man {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.FRIENDS .info-AMICO {
+  display: flex;
+  flex-direction: column;
+  width: 483px;
+  height: 182px;
+  align-items: center;
+  justify-content: center;
+  padding: 62px 0px;
+  position: relative;
+}
+
+.FRIENDS .div {
+  margin-top: -29px;
+  font-size: 36px;
+  position: relative;
+  align-self: stretch;
+  height: 57px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .first-name-last-name {
+  position: relative;
+  align-self: stretch;
+  height: 57px;
+  margin-bottom: -27px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 24px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .frame {
+  display: inline-flex;
+  align-items: center;
+  gap: 43px;
+  padding: 0px 59px;
+  position: relative;
+  flex: 0 0 auto;
+  margin-right: -25px;
+}
+
+.FRIENDS .img {
+  position: relative;
+  width: 55px;
+  height: 55px;
+}
+
+.FRIENDS .richieste-AMICI {
+  display: flex;
+  flex-direction: column;
+  width: 544px;
+  align-items: flex-start;
+  gap: 2px;
+  padding: 0px 10px 11px;
+  position: relative;
+  align-self: stretch;
+  background-color: #e1ddd3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.FRIENDS .header-richieste {
+  justify-content: space-between;
+  padding: 10px 22px 10px 30px;
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+}
+
+.FRIENDS .richieste-di {
+  position: relative;
+  width: 403px;
+  height: 97px;
+  margin-top: -1px;
+  font-family: "Inter-SemiBold", Helvetica;
+  font-weight: 600;
+  color: #000000;
+  font-size: 32px;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .lista-richieste {
+  height: 641px;
+  gap: 10px;
+  padding: 31px 12px;
+  align-self: stretch;
+  width: 100%;
+  background-color: #262a29;
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  position: relative;
+}
+
+.FRIENDS .richiesta {
+  display: flex;
+  align-items: center;
+  gap: 33px;
+  padding: 0px 30px 0px 29px;
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  flex: 0 0 auto;
+  background-color: #e1ddd3;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.FRIENDS .frame-2 {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.FRIENDS .man-wrapper {
+  width: 70px;
+  height: 70px;
+  position: relative;
+  background-color: #ffe68f;
+}
+
+.FRIENDS .man-2 {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 0;
+  left: 0;
+  object-fit: cover;
+}
+
+.FRIENDS .info-AMICO-2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 0px;
+  position: relative;
+  flex: 1;
+  flex-grow: 1;
+}
+
+.FRIENDS .text-wrapper-2 {
+  margin-top: -1px;
+  font-size: 32px;
+  position: relative;
+  align-self: stretch;
+  height: 57px;
+  font-family: "Inter-Bold", Helvetica;
+  font-weight: 700;
+  color: #000000;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .p {
+  position: relative;
+  align-self: stretch;
+  height: 29px;
+  font-family: "Inter-Medium", Helvetica;
+  font-weight: 500;
+  color: #000000;
+  font-size: 20px;
+  text-align: center;
+  letter-spacing: 0;
+  line-height: normal;
+}
+
+.FRIENDS .frame-3 {
+  display: flex;
+  width: 69px;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.FRIENDS .fi-rr-checkbox {
+  position: relative;
+  width: 24px;
+  height: 24px;
+}
+
+.FRIENDS .component {
+  position: relative;
+  width: 24px;
+  height: 24px;
+  background-image: url(./img/fi-rr-cross-small.svg);
+  background-size: 100% 100%;
+}
+
+.FRIENDS .fi-rr-checkbox-2 {
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: 0;
+      left: 0;
+}

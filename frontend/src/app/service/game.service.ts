@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import {Game} from "../data/game";
 import {GAMES_URL} from "../support/constants";
 import {HttpClient} from "@angular/common/http";
-import {Player} from "../data/player";
 
 @Injectable({
   providedIn: 'root'

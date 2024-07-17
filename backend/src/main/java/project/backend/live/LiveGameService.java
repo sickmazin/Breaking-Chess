@@ -39,20 +39,9 @@ public class LiveGameService {
         this.liveGameStorage = liveGameStorage;
         this.playerService = playerService;
         this.gameService = gameService;
-
-        //testing started game
-//        LiveGame liveGame = new LiveGame("first", Game.TYPE.valueOf("BULLET"));
-//        liveGame.setRemainingPlayer("second");
-//        liveGame.setFENs(List.of(Constant.STARTING_POSITION));
-//        liveGameStorage.setLiveGame(liveGame);
-
-        //testing creation of game
-//        LiveGame liveGame = new LiveGame("first", Game.TYPE.valueOf("BULLET"));
-//        liveGame.setRemainingPlayer("second");
-//        liveGame.setFENs(List.of(Constant.STARTING_POSITION));
-//        liveGameStorage.setLiveGame(liveGame);
         this.gameRepository = gameRepository;
     }
+
 
     @Transactional(rollbackOn = Exception.class)
     public Optional<LiveGameDTO> getGame(String nickname) throws PlayerNotFoundException, GameException {
@@ -74,7 +63,6 @@ public class LiveGameService {
             return Optional.empty();
         }
     }
-
 
     @Transactional(rollbackOn = Exception.class)
     public LiveGameDTO makeMove(String player, String move) throws GameException, LiveGameNotFoundException, PlayerNotFoundException {
@@ -117,10 +105,9 @@ public class LiveGameService {
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public Optional<LiveGameDTO> startGame(String nickname, String mode) throws PlayerNotFoundException {
+    public Optional<LiveGameDTO> startGame(String nickname, String mode) {
         try {
             //check if player has already started a game
-            System.out.println(liveGameStorage.getLiveGameByPlayer(nickname));
             return Optional.of(createLiveGameDTO(liveGameStorage.getLiveGameByPlayer(nickname)));
         } catch (LiveGameNotFoundException e) {
             //check if player can connect to already existing NEW game or push new LiveGame in the queue
