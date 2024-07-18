@@ -39,10 +39,10 @@ public class LiveGameStorage {
     }
 
     @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
-    public List<LiveGame> getGamesByModeAndState(Game.TYPE type, GameState findingOpponent) {
+    public List<LiveGame> getGamesByModeAndState(Game.TYPE type, LiveGame.GameState state) {
         return liveGames.values()
                         .stream()
-                        .filter(g -> g.getType()==type && g.getGameState()==findingOpponent)
+                        .filter(g -> g.getType()==type && g.getGameState()==state)
                         .toList();
     }
 
@@ -52,4 +52,7 @@ public class LiveGameStorage {
     }
 
 
+    public void removeEndedGames () {
+        liveGames.entrySet().removeIf(g -> g.getValue().getGameState() == LiveGame.GameState.ENDED);
+    }
 }

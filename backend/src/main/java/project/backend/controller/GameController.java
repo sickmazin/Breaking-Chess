@@ -7,6 +7,7 @@ import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import project.backend.data.Game;
+import project.backend.exceptions.LiveGameNotFoundException;
 import project.backend.exceptions.PlayerNotFoundException;
 import project.backend.live.LiveGameDTO;
 import project.backend.live.LiveGameService;
@@ -26,77 +27,74 @@ public class GameController {
     }
 
     @GetMapping("/start")
-    public ResponseEntity<Optional<LiveGameDTO>> startGame(
-                                                 @AuthenticationPrincipal Jwt jwt,
-                                                 @RequestParam(name = "mode") String mode) {
+    public ResponseEntity<?> startGame(
+                                       @AuthenticationPrincipal Jwt jwt,
+                                       @RequestParam(name = "mode") String mode) {
         try {
             Optional<LiveGameDTO> liveGameDTO = liveGameService.startGame(jwt.getClaimAsString("preferred_username"), mode);
             return ResponseEntity.ok(liveGameDTO);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/get")
-    public ResponseEntity<Optional<LiveGameDTO>> getGame(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> getGame(@AuthenticationPrincipal Jwt jwt) {
         try {
             Optional<LiveGameDTO> liveGameDTO = liveGameService.getGame(jwt.getClaimAsString("preferred_username"));
             return ResponseEntity.ok(liveGameDTO);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/abort")
-    public ResponseEntity<String> abort(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> abort(@AuthenticationPrincipal Jwt jwt) {
         try {
             liveGameService.abortGame(jwt.getClaimAsString("preferred_username"));
-            return ResponseEntity.ok("Aborted");
+            return ResponseEntity.ok("Aborted game");
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/resign")
-    public ResponseEntity<String> resign(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> resign(@AuthenticationPrincipal Jwt jwt) {
         try {
-            liveGameService.endGame(jwt.getClaimAsString("preferred_username"), false);
-            return ResponseEntity.ok("Resigned");
+            return ResponseEntity.ok(liveGameService.endGame(jwt.getClaimAsString("preferred_username"), false));
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/draw")
-    public ResponseEntity<String> drawRequest(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> drawRequest(@AuthenticationPrincipal Jwt jwt) {
         try {
-            liveGameService.drawRequest(jwt.getClaimAsString("preferred_username"));
-            return ResponseEntity.ok("Ask for draw");
+            Optional<LiveGameDTO> optional =liveGameService.drawRequest(jwt.getClaimAsString("preferred_username"));
+            return ResponseEntity.ok(optional);
         } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/deny")
-    public ResponseEntity<String> denyDrawRequest(@AuthenticationPrincipal Jwt jwt) {
+    public ResponseEntity<?> denyDrawRequest(@AuthenticationPrincipal Jwt jwt) {
         try {
             liveGameService.denyRequest(jwt.getClaimAsString("preferred_username"));
             return ResponseEntity.ok("Ask for draw");
-        } catch (Exception e) {
-            return ResponseEntity.internalServerError().build();
+        } catch (LiveGameNotFoundException e) {
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @GetMapping("/move")
-    public ResponseEntity<LiveGameDTO> makeMove(@AuthenticationPrincipal Jwt jwt,
+    public ResponseEntity<?> makeMove(@AuthenticationPrincipal Jwt jwt,
                                                 @RequestParam(name = "move") String move) {
         try {
             LiveGameDTO liveGameDTO = liveGameService.makeMove(jwt.getClaimAsString("preferred_username"), move); //TODO put player string
             return ResponseEntity.ok(liveGameDTO);
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().build();
+            return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

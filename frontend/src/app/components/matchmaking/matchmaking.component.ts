@@ -23,7 +23,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
 
 
   cancelSearch() {
-    this.backend.abort()
+    this.backend.abort().subscribe()
     console.log("CANCELLO PARTITA AVVIATA")
     this.router.navigate(['/homepage'])
   }
@@ -32,14 +32,10 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     let navigate = () => {
       let otherP = (this.liveGame.whitePlayer===this.player.username)? this.liveGame.blackPlayer: this.liveGame.whitePlayer
       this.router.navigate(['/game'], {state:{game:this.liveGame, playerMe: this.player, opponentUsername: otherP}})
-      console.log(this.liveGame)
-      console.log(this.player)
-      console.log(otherP)
     }
-    if (this.liveGame && this.liveGame.turn!="") {
-      console.log()
-      navigate ();
-    }
+
+    if (this.liveGame && this.liveGame.whitePlayer!=="" && this.liveGame.blackPlayer!=="") navigate();
+
     //fai polling per conoscere lo stato della richiesta di avvio partita se il match non è stato trovato
     this.timeInterval = interval(300) //RIMETTERE A 300 todo
       .pipe(
@@ -48,7 +44,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
         retry()
       ).subscribe(res => {
           this.liveGame = res
-          if (res && this.liveGame.turn!="") {
+          if (res && (this.liveGame.blackPlayer!=="" && this.liveGame.whitePlayer!=="")) {
             navigate()
             this.toastr.success("avversario trovato!")
           }

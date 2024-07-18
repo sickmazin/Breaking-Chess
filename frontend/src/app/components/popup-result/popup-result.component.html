@@ -1,0 +1,15 @@
+<body style="background: #e1ddd3">
+<h2  style=" padding: 0.5rem !important; color: #262a29; display: flex; justify-content: space-evenly">
+    <img ngSrc="assets/popup_result/{{data.title}}.svg" style="align-self: center"  width="30" height="30" alt="">
+    <label>{{data.title}}</label>
+</h2>
+
+<mat-dialog-content style="width: 100%">
+    {{text}}
+</mat-dialog-content>
+<mat-dialog-actions style="align-items: center">
+    <button mat-raised-button color="primary" (click)="startNewGame()">Gioca un'altra</button>
+    <button  mat-raised-button (click)="goHome()">Home</button>
+</mat-dialog-actions>
+
+</body>

@@ -303,6 +303,7 @@ public class Board {
     public static long getBit(long bitboard, int square) {
         return bitboard & (1L << square);
     }
+
     public boolean makeMove(String move) {
         boolean increment = true;
         saveState();
@@ -367,6 +368,11 @@ public class Board {
                     break;
                 }
 
+        // update occupancies
+        WO = WP | WN | WB | WR | WQ | WK;
+        BO = BP | BN | BB | BR | BQ | BK;
+        O = WO | BO;
+
 
 
         if (isSquareAttacked((side==WHITE)? Utils.getLSB1Index(WK) : Utils.getLSB1Index(BK), side)) {
@@ -378,11 +384,6 @@ public class Board {
             // update castling rights
             castle &= castlingRights[squareStart];
             castle &= castlingRights[squareEnd];
-
-            // update occupancies
-            WO = WP | WN | WB | WR | WQ | WK;
-            BO = BP | BN | BB | BR | BQ | BK;
-            O = WO | BO;
 
             // change side
             side ^= 1;
@@ -408,6 +409,10 @@ public class Board {
     private void takeBack() {
         WN=state[WHITE][0]; WB=state[WHITE][1]; WR=state[WHITE][2]; WQ=state[WHITE][3]; WK=state[WHITE][4]; WP=state[WHITE][5];
         BN=state[BLACK][0]; BB=state[BLACK][1]; BR=state[BLACK][2]; BQ=state[BLACK][3]; BK=state[BLACK][4]; BP=state[BLACK][5];
+        // update occupancies
+        WO = WP | WN | WB | WR | WQ | WK;
+        BO = BP | BN | BB | BR | BQ | BK;
+        O = WO | BO;
     }
 
     private static void generateSliderAttack(boolean isBishop) {
@@ -741,14 +746,6 @@ public class Board {
 
     }
 
-    public int getSide() {
-        return side;
-    }
-
-    public boolean isGameEnded() {
-        return false; //TODO
-    }
-
     public boolean isEmpty(int square) {
         return (O & (1L << square)) != 0;
     }
@@ -766,34 +763,4 @@ public class Board {
         }
         return sb.toString();
     }
-
-//    public void nextTurn() {
-//        side = 1-side;
-//    }
 }
-
-
-
-//    private static int state = 1804289383;
-//    private static int randomNumb() {
-//        int number = state;
-//
-//        // XOR shift algorithm
-//        number ^= number << 13;
-//        number ^= number >>> 17;
-//        number ^= number << 5;
-//        state = number;
-//        return number;
-//    }
-//    private static long random64Numb() {
-//
-//        long n1 = randomNumb() & 0xffff;
-//        long n2 = randomNumb() & 0xffff;
-//        long n3 = randomNumb() & 0xffff;
-//        long n4 = randomNumb() & 0xffff;
-//
-//        return n1 | (n2 << 16) | (n3 << 32) | (n4 << 48);
-//    }
-//    private static long candidateMagic() {
-//        return random64Numb() & random64Numb() & random64Numb();
-//    }

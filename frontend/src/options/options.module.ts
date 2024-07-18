@@ -21,7 +21,7 @@ import {MatDialogActions , MatDialogClose , MatDialogContent , MatDialogTitle} f
         HomeSettingsPageComponent ,
         UserPageComponent ,
         StatisticModalityComponent,
-        ModificaDialogComponent
+        ModificaDialogComponent,
     ] ,
     exports: [
         UserPageComponent

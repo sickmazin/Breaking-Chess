@@ -15,7 +15,7 @@
   </div>
 
 
-  <app-chessgame id="board" [game] = game [player] = playerMe [liveGameDTO]="liveGame" class="board" >
+  <app-chessgame id="board" (liveGameChange)="setGame($event)" [game] = game [player] = playerMe [liveGameDTO]="liveGame" class="board" >
   </app-chessgame>
 
   <div style="display: flex; justify-content: center ">
@@ -50,19 +50,20 @@
         Annulla patta
       </button>
     </ng-template>
-
-    <div [hidden]="!game.isGameOver()" class="c-div">
-      <ul>
-        <button (click)="startBullet();" type="button">
-          Gioca bullet
-        </button>
-        <button (click)="startBlitz();" type="button">
-          Gioca blitz
-        </button>
-        <button (click)="startRapid();" type="button">
-          Gioca rapid
-        </button>
-      </ul>
-    </div>
   </div>
 </div>
+
+
+<!-- <div [hidden]="!isGameOver()" class="c-div">
+    <ul>
+        <button (click)="startBullet();" type="button">
+            Gioca bullet
+        </button>
+        <button (click)="startBlitz();" type="button">
+            Gioca blitz
+        </button>
+        <button (click)="startRapid();" type="button">
+            Gioca rapid
+        </button>
+    </ul>
+</div>  -->

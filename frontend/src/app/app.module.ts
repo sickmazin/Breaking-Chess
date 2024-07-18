@@ -27,7 +27,8 @@ import { CustomSideNavComponent } from './components/custom-side-nav/custom-side
 import { OptionsModule } from '../options/options.module';
 import {ChessplayComponent} from "./components/chessplay/chessplay.component";
 import {ChessgameComponent} from "./components/chessgame/chessgame.component";
-import { FriendsComponent } from './friends/friends.component';
+import { FriendsComponent } from './components/friends/friends.component';
+import { PopupResultComponent } from './components/popup-result/popup-result.component';
 
 @NgModule({
   declarations: [
@@ -47,6 +48,7 @@ import { FriendsComponent } from './friends/friends.component';
     SidePageComponent,
     CustomSideNavComponent,
     FriendsComponent,
+    PopupResultComponent,
   ],
   imports: [
     BrowserModule,

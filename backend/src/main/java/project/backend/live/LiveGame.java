@@ -26,6 +26,7 @@ public class LiveGame {
     private GameState gameState;
     @Version
     private Long version;
+    private String result;
     private List<String> FENs = new ArrayList<>(20);
     private long timeBeforeMoveMillis;
     private long wRemainingTime;
@@ -33,6 +34,11 @@ public class LiveGame {
     private boolean whiteAsked;
     private boolean blackAsked;
 
+    public enum GameState {
+        FINDING_OPPONENT,
+        STARTED,
+        ENDED
+    }
 
     public LiveGame(String player1, Game.TYPE type) {
         this.type = type;
@@ -69,5 +75,10 @@ public class LiveGame {
     }
     public void addFEN(String fen) {
         this.FENs.add(fen);
+    }
+
+    public void setResult (String result) {
+        this.gameState = GameState.ENDED;
+        this.result = result;
     }
 }

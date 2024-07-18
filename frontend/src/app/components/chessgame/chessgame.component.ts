@@ -1,4 +1,4 @@
-import {Component, inject, Input, OnDestroy, OnInit} from '@angular/core';
+import {Component , EventEmitter , inject , Input , OnDestroy , OnInit , Output} from '@angular/core';
 import { Chess } from 'chess.js'
 import $, {error} from 'jquery';
 import {NgbActiveModal, NgbModal} from '@ng-bootstrap/ng-bootstrap';
@@ -45,6 +45,7 @@ export class ChessgameComponent implements OnInit {
   @Input() game!: Chess;
   @Input() liveGameDTO: liveGameDTO;
   @Input() player: Player;
+  @Output() liveGameChange = new EventEmitter<any>();
 
   constructor(private backend: ChessplayService) {
   }
@@ -94,7 +95,9 @@ export class ChessgameComponent implements OnInit {
 
           this.backend.makeMove(piece+source+target+promotionP+castle).subscribe(
             res => {
+              this.liveGameDTO = res
               this.game = new Chess (res.fens[res.fens.length-1])
+              this.liveGameChange.emit(this.liveGameDTO);
             },
             err => console.log(err)
           )

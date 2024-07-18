@@ -5,6 +5,7 @@ import jakarta.transaction.Transactional;
 import org.keycloak.common.util.Time;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Lock;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import project.backend.bitboard.Board;
 import project.backend.bitboard.Constant;
@@ -43,10 +44,14 @@ public class LiveGameService {
     }
 
 
+    //todo ottieni game appena terminato
     @Transactional(rollbackOn = Exception.class)
     public Optional<LiveGameDTO> getGame(String nickname) throws PlayerNotFoundException, GameException {
         try {
             LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
+            if (liveGame.getGameState() == LiveGame.GameState.ENDED)
+                return Optional.of(createLiveGameDTO(liveGame, nickname));
+
             // catch not yet started game
             if (liveGame.getTurn() == null) {
                 return Optional.empty();
@@ -57,7 +62,7 @@ public class LiveGameService {
             if (timePassed >= timeRemaining) {
                 return Optional.of(endGame(liveGame.getTurn(), false));
             }
-            else return Optional.of(createLiveGameDTO(liveGame));
+            else return Optional.of(createLiveGameDTO(liveGame, nickname));
 
         } catch (LiveGameNotFoundException e) {
             return Optional.empty();
@@ -86,9 +91,6 @@ public class LiveGameService {
             List<String> list = liveGame.getFENs();
             Board board = new Board(list);
 
-            System.out.println(move);
-            System.out.println(board.getMoves());
-
             if (board.getMoves().contains(move) && board.makeMove(move)) {
                 liveGame.addFEN(board.getFEN());
                 liveGame.switchTurn();
@@ -100,7 +102,8 @@ public class LiveGameService {
             else throw new GameException(GameException.TYPE.INVALID_MOVE);
         } else throw new GameException(GameException.TYPE.INVALID_MOVE);
 
-        if (liveGameDTO==null) return createLiveGameDTO(liveGame);
+        if (liveGameDTO==null) return createLiveGameDTO(liveGame, player);
+        System.out.println("Check Result:"+liveGameDTO);
         return liveGameDTO;
     }
 
@@ -108,10 +111,10 @@ public class LiveGameService {
     public Optional<LiveGameDTO> startGame(String nickname, String mode) {
         try {
             //check if player has already started a game
-            return Optional.of(createLiveGameDTO(liveGameStorage.getLiveGameByPlayer(nickname)));
+            return Optional.of(createLiveGameDTO(liveGameStorage.getLiveGameByPlayer(nickname), nickname));
         } catch (LiveGameNotFoundException e) {
             //check if player can connect to already existing NEW game or push new LiveGame in the queue
-            List<LiveGame> list = liveGameStorage.getGamesByModeAndState(Game.TYPE.valueOf(mode), GameState.FINDING_OPPONENT);
+            List<LiveGame> list = liveGameStorage.getGamesByModeAndState(Game.TYPE.valueOf(mode), LiveGame.GameState.FINDING_OPPONENT);
 
             if (list.isEmpty()) {
                 LiveGame liveGame = new LiveGame(nickname, Game.TYPE.valueOf(mode));
@@ -122,7 +125,7 @@ public class LiveGameService {
                 LiveGame liveGame = list.get(0);
                 liveGame.setRemainingPlayer(nickname);
                 liveGame.addFEN(Constant.STARTING_POSITION);
-                return Optional.of(createLiveGameDTO(liveGame));
+                return Optional.of(createLiveGameDTO(liveGame, nickname));
             }
         }
     }
@@ -132,14 +135,14 @@ public class LiveGameService {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
 
         //should not happen
-        if (liveGame.getGameState() == GameState.FINDING_OPPONENT)
-            throw new GameException(GameException.TYPE.GAME_NOT_STARTED);
+        if (liveGame.getGameState() == LiveGame.GameState.FINDING_OPPONENT || liveGame.getGameState() == LiveGame.GameState.ENDED)
+            throw new GameException(GameException.TYPE.GAME_NOT_STARTED_OR_ENDED);
 
+        //setup db game
         Game game = new Game();
         game.setWhitePlayer(playerService.getPlayer(liveGame.getWhitePlayer()));
         game.setBlackPlayer(playerService.getPlayer(liveGame.getBlackPlayer()));
         game.setMode(liveGame.getType());
-
         if (isDraw) game.setResult(Game.RESULT.draw);
         else
             game.setResult(liveGame.getWhitePlayer().equals(nickname)?
@@ -148,12 +151,13 @@ public class LiveGameService {
         //TODO set PGN
         game.setDate(LocalDateTime.now());
         gameService.save(game);
-        liveGameStorage.removeLiveGame(liveGame.getId());
-        updatePoints(game);
 
-        LiveGameDTO liveGameDTO = createLiveGameDTO(liveGame);
-        liveGameDTO.setResult(game.getResult().name());
-        return liveGameDTO;
+        //update elo points and liveGame result
+        updatePoints(game);
+        liveGame.setResult(game.getResult().name());
+
+        //create and return liveGameDTO
+        return createLiveGameDTO(liveGame, nickname);
     }
 
     private void updatePoints(Game game) throws PlayerNotFoundException {
@@ -191,13 +195,13 @@ public class LiveGameService {
     @Transactional(rollbackOn = Exception.class)
     public void abortGame(String nickname) throws LiveGameNotFoundException, CannotAbortException {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
-        if (liveGame.getGameState() == GameState.FINDING_OPPONENT) {
+        if (liveGame.getGameState() == LiveGame.GameState.FINDING_OPPONENT) {
             liveGameStorage.removeLiveGame(liveGame.getId());
         }
         else throw new CannotAbortException();
     }
 
-    private LiveGameDTO createLiveGameDTO(LiveGame liveGame) {
+    private LiveGameDTO createLiveGameDTO(LiveGame liveGame, String nickname) {
         LiveGameDTO result = new LiveGameDTO();
 
         result.setTurn(liveGame.getTurn());
@@ -208,24 +212,29 @@ public class LiveGameService {
         result.setWhiteTime(liveGame.getWRemainingTime());
         result.setBlackTime(liveGame.getBRemainingTime());
         result.setFENs(liveGame.getFENs());
-        result.setDrawRequest(liveGame.getWhitePlayer().equals(liveGame.getTurn())?
+        result.setDrawRequest(nickname.equals(liveGame.getTurn())?
                 liveGame.isBlackAsked() : liveGame.isWhiteAsked());
+        result.setResult(liveGame.getResult());
         return result;
     }
 
     @Transactional(rollbackOn = Exception.class)
-    public void drawRequest(String nickname) throws LiveGameNotFoundException, PlayerNotFoundException, GameException {
+    public Optional<LiveGameDTO> drawRequest(String nickname) throws LiveGameNotFoundException, PlayerNotFoundException, GameException {
         LiveGame liveGame = liveGameStorage.getLiveGameByPlayer(nickname);
+        LiveGameDTO liveGameDTO = null;
+
         if (nickname.equals(liveGame.getWhitePlayer())) {
             if (liveGame.isBlackAsked())
-                endGame(nickname, true);
+                liveGameDTO = endGame(nickname, true);
             else liveGame.setWhiteAsked(true);
         }
         else {
             if (liveGame.isWhiteAsked())
-                endGame(nickname, true);
+                liveGameDTO = endGame(nickname, true);
             else liveGame.setBlackAsked(true);
         }
+        if (liveGameDTO == null) return Optional.empty();
+        return Optional.of(liveGameDTO);
     }
 
     @Transactional(rollbackOn = Exception.class)
@@ -240,5 +249,11 @@ public class LiveGameService {
         // check if player is present
         Player player= playerService.getPlayer(playerNickname);
         return gameRepository.findLast20ByPlayer(player.getUsername());
+    }
+
+
+    @Scheduled(fixedRate = 3000)
+    public void removeEndedGames() {
+        liveGameStorage.removeEndedGames();
     }
 }
