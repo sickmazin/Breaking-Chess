@@ -726,7 +726,7 @@ public class Board {
 
     public final static String CUSTOM = "r3kbnr/ppp1pppp/8/8/3pP3/P4N2/1PPP1PPP/RNBQKB1R b KQkq e3 1 2";
 
-    public static void main(String[] args) {
+//    public static void main(String[] args) {
 //        Board b = new Board(CUSTOM);
 //
 //        String moves = b.getMoves();
@@ -738,13 +738,13 @@ public class Board {
 //        while (tokenizer.hasMoreTokens()) {
 //            System.out.println(tokenizer.nextToken());
 //        }
-
-        Board b = new Board(CUSTOM);
-
-        System.out.println(new StringTokenizer(CUSTOM).nextToken());
-        System.out.println(b.getFEN());
-
-    }
+//
+//        Board b = new Board(CUSTOM);
+//
+//        System.out.println(new StringTokenizer(CUSTOM).nextToken());
+//        System.out.println(b.getFEN());
+//
+//    }
 
     public boolean isEmpty(int square) {
         return (O & (1L << square)) != 0;

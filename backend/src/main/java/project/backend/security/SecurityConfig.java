@@ -82,6 +82,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests(req ->
                         req.requestMatchers( //RICHIESTE CHE SONO PUBLICHE
                                         "/api/auth/register",
+                                        "/api/auth/games", //TODO DA ELIMINARE
                                         "/game/move/**",
                                         "/game/get/",
                                         "/game/start/**"

@@ -29,7 +29,7 @@
                 <img src="assets/scacchiera.jpg" alt=""/>
                 <div class="text-Image-giocaBox">
                     <img src="assets/modality/bullet.svg" class="iconGioca" alt="">
-                    <div class="textGioca"> Gioca a 1 minuto </div>
+                    <div class="textGioca"> Gioca a 2 minuti </div>
                 </div>
             </div>
             <div  class="boxGioca" (click)="startGame('BLITZ')" >
@@ -53,18 +53,21 @@
                 <div class="text-Libri-Video">Studia dai libri</div>
                 <img class="iconQueen" src="assets/queen.svg" alt=""/>
             </div>
-            <div class="scroll-orizzontale-video">
+            <div class="scroll-libri-orizzontale">
                 <div *ngIf="loadingBooks" class="spinnerGame">
                     <p class="textLoading">Stai attendo una risposta dal backend !</p>
                     <mat-spinner></mat-spinner>
                 </div>
-                @for(libro of books; track $index;){
-                    <div class="libro">
-                        <img class="imgBook" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
-                        <div class="like-unlike">
-                            <app-animated-like (dataEvent)="handleDataFromChild($event)" [libro]="libro" [isThereLike]="isThereLike(libro)" ></app-animated-like>
-                            <p style="margin:0;text-align: center">{{libro.like}}</p>
+                @for(libro of books; track libro){
+                    <div style="display: block">
+                        <div class="libro">
+                            <img class="imgBook" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
+                            <div class="like-unlike">
+                                <app-animated-like (dataEvent)="handleDataFromChild($event)" [libro]="libro" [isThereLike]="isThereLike(libro)" ></app-animated-like>
+                                <label style="margin:0;text-align: center">{{libro.like}}</label>
+                            </div>
                         </div>
+
                     </div>
                 }
             </div>

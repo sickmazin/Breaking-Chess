@@ -13,10 +13,11 @@ export class StatisticModalityComponent implements OnInit{
   ngOnInit(): void {
     this.statistic (this.modality)
   }
+  @Input() player_username:string;
   @Input() modality: string;
   stat: Stat;
   statistic ( modality: string ) {
-    this.playerService.getStatFor(modality).subscribe(
+    this.playerService.getStatFor(modality,this.player_username).subscribe(
         response =>{
           this.stat=response as Stat;
         },

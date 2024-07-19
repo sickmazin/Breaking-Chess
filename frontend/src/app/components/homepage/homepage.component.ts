@@ -136,7 +136,7 @@ export class HomepageComponent implements OnInit{
     }
 
     openFriendsPage() {
-        //TODO
+        this.router.navigate(["/friends"])
     }
 
     changeTheme() {

@@ -7,6 +7,7 @@ import {HomepageComponent} from "./components/homepage/homepage.component";
 import {NotfoundComponent} from "./components/notfound/notfound.component";
 import {authGuard , authSignPage} from "./auth/auth.guard";
 import {ChessplayComponent} from "./components/chessplay/chessplay.component";
+import {FriendsComponent} from "./components/friends/friends.component";
 
 
 const routes: Routes = [
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path:'signIn', component: SignInComponent, canActivate: [authSignPage]},
   {path:'matchmaking', component: MatchmakingComponent, pathMatch: 'full'},
   {path:'homepage', component: HomepageComponent, canActivate: [authGuard]},
-  {path:'game', component: ChessplayComponent },
+  {path:'friends', component: FriendsComponent, canActivate: [authGuard]},
+  {path:'game', component: ChessplayComponent,  canActivate: [authGuard] },
     //{path:'**', redirectTo:'404',},
     {path:'404', component:NotfoundComponent, outlet:"primary"},
 ];

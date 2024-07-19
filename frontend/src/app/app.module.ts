@@ -29,6 +29,7 @@ import {ChessplayComponent} from "./components/chessplay/chessplay.component";
 import {ChessgameComponent} from "./components/chessgame/chessgame.component";
 import { FriendsComponent } from './components/friends/friends.component';
 import { PopupResultComponent } from './components/popup-result/popup-result.component';
+import { PopupStatisticComponent } from './components/popup-statistic/popup-statistic.component';
 
 @NgModule({
   declarations: [
@@ -49,6 +50,7 @@ import { PopupResultComponent } from './components/popup-result/popup-result.com
     CustomSideNavComponent,
     FriendsComponent,
     PopupResultComponent,
+    PopupStatisticComponent,
   ],
   imports: [
     BrowserModule,

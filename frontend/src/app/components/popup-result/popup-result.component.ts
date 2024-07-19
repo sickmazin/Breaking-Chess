@@ -6,6 +6,7 @@ import {Router} from "@angular/router";
 import {ChessplayService} from "../../service/chessplay.service";
 import {data} from "jquery";
 import { Player } from '../../data/player';
+import {liveGameDTO} from "../../data/liveGameDTO";
 
 @Component({
   selector: 'app-popup-result',
@@ -19,6 +20,7 @@ export class PopupResultComponent {
                private router: Router,
                private playerService: PlayerService,
                private chessplayService: ChessplayService,
+               private toastr: ToastrService,
                public dialogRef: MatDialogRef<PopupResultComponent>,
   ) {
     //playerService.getPlayer(this.data.player.username).subscribe(
@@ -27,12 +29,21 @@ export class PopupResultComponent {
   }
 
   startNewGame() {
-    this.chessplayService.startGame(this.data.type).subscribe(
-        res => this.router.navigate(['/matchmaking'], { state: {
-            player: this.data.player ,
-            game: res
-      }})
-    )
+    this.chessplayService.startGame ( this.data.type ).toPromise ().then (
+        ( response: liveGameDTO | undefined ) => {
+          this.router.navigate ( ['/matchmaking'] , {
+            state: {
+              player: this.data.player ,
+              game: response
+            }
+          } ).then ( r => {
+                this.toastr.success ( "Matchmaking iniziato!" )
+              } ,
+              err => {
+                this.toastr.error ( err )
+              }
+          )
+        })
     this.dialogRef.close()
   }
 

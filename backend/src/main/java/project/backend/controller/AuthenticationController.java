@@ -12,10 +12,15 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
+import project.backend.data.Game;
 import project.backend.data.Player;
 import project.backend.data.PlayerRegistrationRepresentation;
+import project.backend.repository.GameRepository;
 import project.backend.security.keycloak.KeycloakUserServiceImpl;
 import project.backend.service.PlayerService;
+
+import java.util.List;
+import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -23,11 +28,13 @@ public class AuthenticationController {
 
     private final KeycloakUserServiceImpl keycloakUserService;
     private final PlayerService playerService;
+    private final GameRepository gameRepository;
 
     @Autowired
-    public AuthenticationController(KeycloakUserServiceImpl keycloakUserService, PlayerService playerService) {
+    public AuthenticationController(KeycloakUserServiceImpl keycloakUserService, PlayerService playerService, GameRepository gameRepository) {
         this.keycloakUserService = keycloakUserService;
         this.playerService = playerService;
+        this.gameRepository = gameRepository;
     }
 
     //TESTED
@@ -41,4 +48,5 @@ public class AuthenticationController {
     public ResponseEntity<?> login(@AuthenticationPrincipal Jwt jwt){
         return playerService.findPlayerByUsername(jwt.getClaimAsString("preferred_username"));
     }
+
 }

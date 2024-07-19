@@ -1,7 +1,13 @@
 import { Injectable } from '@angular/core';
-import {HttpClient , HttpParams} from "@angular/common/http";
+import {HttpClient , HttpHeaders , HttpParams} from "@angular/common/http";
 import {OPTIONS_URL , PLAYER_URL} from "../support/constants";
 import {Player} from "../data/player";
+
+const httpOptions = {
+  headers: new HttpHeaders({
+    'Content-Type':  'application/json',
+  })
+};
 
 @Injectable({
   providedIn: 'root'
@@ -38,7 +44,7 @@ export class PlayerService {
     return this.http.put(OPTIONS_URL+"/changeAvatar", null, { params }).toPromise();
   }
 
-  getStatFor ( modality: string ) {
-    return this.http.get(OPTIONS_URL+"/statisticFor"+modality);
+  getStatFor ( modality: string, username_player: string ) {
+    return this.http.get(OPTIONS_URL+"/statistic",{headers: httpOptions.headers ,params: { 'player' : username_player , 'mode':modality }});
   }
 }

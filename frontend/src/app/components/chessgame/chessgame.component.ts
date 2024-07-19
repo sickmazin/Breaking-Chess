@@ -96,6 +96,7 @@ export class ChessgameComponent implements OnInit {
           this.backend.makeMove(piece+source+target+promotionP+castle).subscribe(
             res => {
               this.liveGameDTO = res
+              sessionStorage.setItem("liveGame",JSON.stringify(res))
               this.game = new Chess (res.fens[res.fens.length-1])
               this.liveGameChange.emit(this.liveGameDTO);
             },

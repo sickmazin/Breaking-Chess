@@ -1,47 +1,63 @@
-<body>
+
 <div class="FRIENDS">
   <div class="centrale">
+
     <header class="header">
-      <img class="fi-sr-people-carry" src="assets/friends/amici.svg" />
-      <div class="text-wrapper">AMICI</div>
-    </header>
-    <div class="frameamici-e">
-      <div class="LISTA-AMICI">
-        <div class="AMICO">
-          <div class="RIMUOVERE"><img class="man" src="img/image.png" /></div>
-          <div class="info-AMICO">
-            <div class="div">NICKNAME</div>
-            <p class="first-name-last-name">First name &amp; Last name</p>
-          </div>
-          <div class="frame">
-            <img class="img" src="assets/friends/stats.svg" />
-            <img class="img" src="assets/friends/removeUser.svg" />
-            <img class="img" src="assets/friends/sfidaAmico.svg" />
-          </div>
-        </div> <!-- AMICO NGFOR  -->
-      </div>
-      <div class="richieste-AMICI">
-        <div class="header-richieste">
-          <img class="img" src="assets/friends/richieste.svg" />
-          <p class="richieste-di">Richieste di amicizia <br />in sospeso</p>
+        <div class="header-start">
+            <img src="assets/friends/amici.svg" />
+            <label class="text-amici">AMICI</label>
         </div>
-        <div class="lista-richieste">
-          <div class="richiesta"> <!-- RICHIESTA AMICIZIA NGFOR  -->
-            <div class="frame-2">
-              <div class="man-wrapper"><img class="man-2" src="img/man3-1-2.png" /></div>
-              <div class="info-AMICO-2">
-                <div class="text-wrapper-2">NICKNAME</div>
-                <p class="p">First name &amp; Last name</p>
+
+        <div class="header-start">
+            <img ngSrc="assets/optionsImg/back.svg" (click)="turnBackHome()" alt="back"
+                 height="24" width="24"/>
+            <div style="color: red"> Torna indietro </div>
+        </div>
+    </header>
+
+    <div class="frameamici-e">
+
+      <div class="list-friends">
+          @for(friend of friends; track $index;) {
+              <div class="friend">
+                  <img class="avatar" ngSrc="assets/avatar/{{friend.avatar}}" width="25" height="25"  alt=""/>
+                  <div class="info-AMICO">
+                      <label class="usernameFriend">{{friend.username}}</label>
+                      <label class="first-name-last-name">{{friend.firstName}} {{friend.lastName}}</label>
+                  </div>
+                  <div style="justify-content: space-between;display: flex;gap: 4vw;margin-right: 3vw">
+                      <img class="icon" src="assets/friends/stats.svg"  (click)="statsFriend(friend.username)" alt="stats"/>
+                      <img class="icon" src="assets/friends/removeUser.svg" (click)="delete(friend.username)" alt="removeUser"/>
+                      <img class="icon" src="assets/friends/sfidaAmico.svg" (click)="challenge(friend.username)" alt="sfidaAmico"/>
+                  </div>
+
               </div>
-            </div>
-            <div class="frame-3">
-              <img class="fi-rr-checkbox" src="assets/friends/accettaRichiesta.svg" />
-              <div class="component"><img class="fi-rr-checkbox-2" src="assets/friends/rifiutaRichiesta.svg" /></div>
-            </div>
-          </div>
+          }
+      </div>
+      <div class="box-request">
+
+        <header class="header-request">
+          <img class="icon-request" src="assets/friends/richieste.svg" />
+          <label class="request-title">Richieste di amicizia in sospeso</label>
+        </header>
+
+        <div class="list-request">
+            @for (request of requests; track $index){
+                <div class="friend">
+                        <img class="avatar" ngSrc="assets/avatar/{{request.avatar}}" width="25" height="25" alt="" />
+                        <div class="info-AMICO">
+                            <label class="usernameFriend">{{ request.username }}</label>
+                            <label class="first-name-last-name">{{request.firstName}} {{request.lastName}}</label>
+                        </div>
+                    <div  style="justify-content: space-between;display: flex;gap: 1vw;">
+                        <img class="icon" src="assets/friends/accettaRichiesta.svg"  (click)="acceptRequest(request.username)" alt="accettaRichiesta"/>
+                        <img class="icon" src="assets/friends/rifiutaRichiesta.svg" (click)="delete(request.username)"  alt="rifiutaRichiesta"/>
+                    </div>
+                </div>
+            }
         </div>
       </div>
     </div>
   </div>
 </div>
-</body>
+

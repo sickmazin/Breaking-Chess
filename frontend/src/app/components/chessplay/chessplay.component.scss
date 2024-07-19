@@ -6,8 +6,11 @@ $text-color: #e1ddd3;
 $secondary-text-color: #e0dbcf;
 $accent-color: #3f3f3f;
 
-.column {
-  float: left;
+.base {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
 }
 
 
@@ -42,9 +45,12 @@ $accent-color: #3f3f3f;
 }
 
 .column-a {
+  float: left;
   background-color: $dark-background;
-  width:25vw;
-  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  width: 25%;
+  height: 100%;
 }
 
 .board {
@@ -54,13 +60,22 @@ $accent-color: #3f3f3f;
 
 .column-b {
   background-color: $dark-background;
-  justify-items: center;
-  width: 50vw;
-  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  width: 50%;
+  height: 100%;
+}
+
+
+.column-c {
+  background-color: $dark-background;
+  width: 25%;
+  height: 100%;
 }
 
 .c-div {
-  padding-top: 5vh;
+  padding-top: 80vh;
   justify-content: space-evenly;
   display: flex;
 }
@@ -86,9 +101,3 @@ button:hover {
 }
 
 
-.column-c {
-  background-color: $dark-background;
-  width: 25vw;
-  height: 100vh;
-  float: right;
-}

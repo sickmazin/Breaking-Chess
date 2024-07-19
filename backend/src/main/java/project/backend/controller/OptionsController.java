@@ -38,19 +38,8 @@ public class OptionsController {
         return playerService.changeAvatar(token.getClaimAsString("preferred_username"),avatar);
     }
 
-    @GetMapping(value = "/statisticForblitz")
-    public ResponseEntity<?> statisticForBlitz(@AuthenticationPrincipal Jwt token) {
-        return playerService.statisticGamesForModality(token.getClaimAsString("preferred_username"), Game.TYPE.BLITZ);
+    @GetMapping(value = "/statistic")
+    public ResponseEntity<?> statistic( @RequestParam(name = "player") String player,  @RequestParam(name = "mode") String mode) {
+        return playerService.statisticGamesForModality(player, Game.TYPE.valueOf(mode));
     }
-
-    @GetMapping(value = "/statisticForbullet")
-    public ResponseEntity<?> statisticForBullet(@AuthenticationPrincipal Jwt token) {
-        return playerService.statisticGamesForModality(token.getClaimAsString("preferred_username"), Game.TYPE.BULLET);
-    }
-
-    @GetMapping(value = "/statisticForrapid")
-    public ResponseEntity<?> statisticForRapid(@AuthenticationPrincipal Jwt token) {
-        return playerService.statisticGamesForModality(token.getClaimAsString("preferred_username"), Game.TYPE.RAPID);
-    }
-
 }

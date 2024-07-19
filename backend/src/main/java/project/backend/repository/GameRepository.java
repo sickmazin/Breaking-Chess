@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository;
 import project.backend.data.Game;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public interface GameRepository extends JpaRepository<Game, Long> {
@@ -15,4 +16,5 @@ public interface GameRepository extends JpaRepository<Game, Long> {
             "WHERE (g.whitePlayer.username = :username OR g.blackPlayer.username = :username)" +
             "ORDER BY g.date DESC LIMIT 20")
     List<Game> findLast20ByPlayer(String username);
+
 }

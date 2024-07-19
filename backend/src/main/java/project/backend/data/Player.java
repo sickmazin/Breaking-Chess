@@ -1,13 +1,13 @@
 package project.backend.data;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.Set;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Builder
 @Table(name = "Player")
-public class Player{
+public class Player {
     @Id
     @Column(name = "username",unique = true, nullable = false,length = 20)
     private String username;
@@ -35,25 +35,9 @@ public class Player{
     private short rapidPoints;
     private String avatar;
 
-//    @ManyToMany(fetch = FetchType.LAZY) // caricata quando serve
-//    private List<Player> friends;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL) // caricata quando serve
+    private Set<Friend> senderFriends;
 
-    //@OneToMany
-    //private List<Game> matches;
-
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.ALL) // caricata quando serve
+    private Set<Friend> receiverFriends;
 }
-
-/*
-*  To create an image from bytes
-public Image generateImage(User user) {
-    Long id = user.getId();
-    StreamResource sr = new StreamResource("user", () ->  {
-        User attached = userRepository.findWithPropertyPictureAttachedById(id);
-        return new ByteArrayInputStream(attached.getProfilePicture());
-    });
-    sr.setContentType("image/png");
-    Image image = new Image(sr, "profile-picture");
-    return image;
-}
-*
-* */

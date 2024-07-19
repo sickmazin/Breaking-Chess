@@ -11,8 +11,8 @@ import project.backend.data.Game;
 import project.backend.data.Player;
 import project.backend.data.Statistic;
 import project.backend.exceptions.PlayerNotFoundException;
+import project.backend.repository.FriendRepository;
 import project.backend.repository.PlayerRepository;
-import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,10 +22,13 @@ import java.util.Optional;
 public class PlayerService {
 
     private final PlayerRepository playerRepository;
+    private final FriendRepository friendRepository;
+
 
     @Autowired
-    public PlayerService (PlayerRepository playerRepository) {
+    public PlayerService (PlayerRepository playerRepository, FriendRepository friendRepository) {
         this.playerRepository = playerRepository;
+        this.friendRepository = friendRepository;
     }
 
 
@@ -145,6 +148,8 @@ public class PlayerService {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
         }
     }
+
+
 
 //    public Optional<List<Player>> findFriendsByUsername(String username) {
 //        return playerRepository.findFriendsFor(username);

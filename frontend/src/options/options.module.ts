@@ -24,7 +24,8 @@ import {MatDialogActions , MatDialogClose , MatDialogContent , MatDialogTitle} f
         ModificaDialogComponent,
     ] ,
     exports: [
-        UserPageComponent
+        UserPageComponent ,
+        StatisticModalityComponent
     ] ,
     imports: [
         CommonModule ,

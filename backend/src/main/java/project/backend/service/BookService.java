@@ -18,13 +18,17 @@ import project.backend.repository.LikeRepository;
 import java.util.List;
 
 @Transactional
-@AllArgsConstructor
 @Service
 public class BookService {
+
+    private final BookRepository bookRepository;
+    private final LikeRepository likeRepository;
+
     @Autowired
-    private BookRepository bookRepository;
-    @Autowired
-    private LikeRepository likeRepository;
+    public BookService (BookRepository bookRepository, LikeRepository likeRepository) {
+        this.bookRepository = bookRepository;
+        this.likeRepository = likeRepository;
+    }
 
     public ResponseEntity<?> findAll() {
         List<Book> books = bookRepository.findAll();
