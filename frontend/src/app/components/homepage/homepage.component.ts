@@ -11,6 +11,7 @@ import {Book} from "../../data/Book";
 import {YoutubeService} from "../../service/youtube.service";
 import {liveGameDTO} from "../../data/liveGameDTO";
 import {ChessplayService} from "../../service/chessplay.service";
+import {interval, retry, startWith, Subscription, switchMap} from "rxjs";
 
 @Component({
   selector: 'app-homepage',
@@ -32,6 +33,7 @@ export class HomepageComponent implements OnInit{
     player: Player;
     leardBoardModality: string = "blitz";
     gettendInfo: boolean;
+    timeInterval: Subscription;
 
     constructor( private router: Router ,
                  private authService: AuthService ,
@@ -70,8 +72,7 @@ export class HomepageComponent implements OnInit{
         //GETTING BOOk FROM DB
         this.getBooks()
         //VIDEO FROM API
-        this.videos = this.youtubeService.getVideos() // TODO DOVREBBE ESSER FIXATO IL FATTO CHE SE VAI IN MATCH E TORNI INDIETRO I VIDEO SI RADDOPPIANO
-
+        this.getVideos()
     }
 
     showClassificaByModality( modality: string ) {
@@ -116,15 +117,21 @@ export class HomepageComponent implements OnInit{
                 }
             }
         )
-        this.bookService.getLikes().then (
-            ( response: Book[] | undefined ) => {
-                if (response != undefined) {
-                    this.likes = response as Book[];
-                } else {
-                    this.likes = [];
-                }
-            }
-        )
+
+        this.timeInterval = interval(2000)
+          .pipe(
+            startWith(0),
+            switchMap(() => this.bookService.getLikes()),
+            retry()
+          ).subscribe(res => {
+              if (res != undefined) {
+                this.likes = res as Book[];
+              } else {
+                this.likes = [];
+              }
+            },
+            err => console.log('HTTP Error', err)
+          )
     }
 
     openOptionsPage() {
@@ -211,5 +218,22 @@ export class HomepageComponent implements OnInit{
                 this.books[i]=$event;
             }
         }
+    }
+
+    getVideos() {
+      this.youtubeService.getVideos().then(response => response.json()).then(
+        data => {
+          for (const video of data.items) {
+            const id=video.snippet.resourceId.videoId;
+            const title= video.snippet.title;
+            const linkImg= video.snippet.thumbnails.maxres.url;
+            const v= new Video(id,title,linkImg);
+            this.videos.push(v);
+          }
+        },
+        error => {
+          this.videos=[]
+          console.log(error);
+        })
     }
 }
