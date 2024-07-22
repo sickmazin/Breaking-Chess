@@ -116,7 +116,7 @@ export class ChessgameComponent implements OnInit {
     let onMouseoverSquare = (square: any, piece: any) => {
       // get list of possible moves for this square
       try {
-        var moves = this.game.moves({ //TODO get moves from square
+        var moves = this.game.moves({
           square: square,
           verbose: true
         })
@@ -136,7 +136,7 @@ export class ChessgameComponent implements OnInit {
       }
     }
     let onSnapEnd = () => {
-      this.board.position(this.game.fen()) //TODO get game fen
+      this.board.position(this.game.fen())
     }
     this.config = {
       draggable: true,

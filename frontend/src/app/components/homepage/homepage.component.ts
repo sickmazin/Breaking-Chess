@@ -44,8 +44,6 @@ export class HomepageComponent implements OnInit{
         if (this.router.getCurrentNavigation ()!.extras.state?.[ 'player' ] != undefined) {
             this.player = this.router.getCurrentNavigation ()!.extras.state?.[ 'player' ]
             console.log ("settato il player dal navigate")
-            //refreshing del token
-            //this.authService.loginWithToken().then()
             this.gettendInfo = true;
         }
     }
@@ -70,7 +68,7 @@ export class HomepageComponent implements OnInit{
         //GETTING BOOk FROM DB
         this.getBooks()
         //VIDEO FROM API
-        this.videos = this.youtubeService.getVideos() // TODO DOVREBBE ESSER FIXATO IL FATTO CHE SE VAI IN MATCH E TORNI INDIETRO I VIDEO SI RADDOPPIANO
+        this.getVideos() // TODO DOVREBBE ESSER FIXATO IL FATTO CHE SE VAI IN MATCH E TORNI INDIETRO I VIDEO SI RADDOPPIANO
 
     }
 
@@ -212,4 +210,21 @@ export class HomepageComponent implements OnInit{
             }
         }
     }
+
+  getVideos() {
+    this.youtubeService.getVideos().then(response => response.json()).then(
+      data => {
+        for (const video of data.items) {
+          const id=video.snippet.resourceId.videoId;
+          const title= video.snippet.title;
+          const linkImg= video.snippet.thumbnails.maxres.url;
+          const v= new Video(id,title,linkImg);
+          this.videos.push(v);
+        }
+      },
+      error => {
+        this.videos=[]
+        console.log(error);
+      })
+  }
 }

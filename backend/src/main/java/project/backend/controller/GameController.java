@@ -91,7 +91,7 @@ public class GameController {
     public ResponseEntity<?> makeMove(@AuthenticationPrincipal Jwt jwt,
                                                 @RequestParam(name = "move") String move) {
         try {
-            LiveGameDTO liveGameDTO = liveGameService.makeMove(jwt.getClaimAsString("preferred_username"), move); //TODO put player string
+            LiveGameDTO liveGameDTO = liveGameService.makeMove(jwt.getClaimAsString("preferred_username"), move);
             return ResponseEntity.ok(liveGameDTO);
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.INTERNAL_SERVER_ERROR);

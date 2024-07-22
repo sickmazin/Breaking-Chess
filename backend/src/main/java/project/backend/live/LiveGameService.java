@@ -42,8 +42,6 @@ public class LiveGameService {
         this.gameRepository = gameRepository;
     }
 
-
-    //todo ottieni game appena terminato
     @Transactional(rollbackOn = Exception.class)
     public Optional<LiveGameDTO> getGame(String nickname) throws PlayerNotFoundException, GameException {
         try {
@@ -147,7 +145,6 @@ public class LiveGameService {
             game.setResult(liveGame.getWhitePlayer().equals(nickname)?
                                     Game.RESULT.black :
                                     Game.RESULT.white);
-        //TODO set PGN
         game.setDate(LocalDateTime.now());
         gameService.save(game);
 

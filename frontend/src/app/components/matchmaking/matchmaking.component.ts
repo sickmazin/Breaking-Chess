@@ -37,7 +37,7 @@ export class MatchmakingComponent implements OnInit, OnDestroy {
     if (this.liveGame && this.liveGame.whitePlayer!=="" && this.liveGame.blackPlayer!=="") navigate();
 
     //fai polling per conoscere lo stato della richiesta di avvio partita se il match non è stato trovato
-    this.timeInterval = interval(300) //RIMETTERE A 300 todo
+    this.timeInterval = interval(300)
       .pipe(
         startWith(0),
         switchMap(() => this.backend.getGame()),
