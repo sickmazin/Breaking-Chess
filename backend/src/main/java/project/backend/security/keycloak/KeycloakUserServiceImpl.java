@@ -47,6 +47,7 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
         user.setLastName(userReg.lastName());
         user.setEmailVerified(true); // SAREBBE DA VERIFICARRE MA UN PO COMPLICATO A LIVELLO DI API ECC...
 
+
         CredentialRepresentation password = new CredentialRepresentation();
         password.setType(CredentialRepresentation.PASSWORD);
         password.setValue(userReg.password());
