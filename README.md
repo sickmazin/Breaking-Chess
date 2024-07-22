@@ -1,5 +1,8 @@
 # Breaking-Chess
 
+## Logo sito
+![iconWebWhite](https://github.com/user-attachments/assets/ae6639e8-d394-48ab-8003-534c24e471e4)
+
 
 Benvenuto nel progetto Breaking Chess progettato e sviluppato da Paolo Costa e Mattia Corigliano ! Questa repository contiene il codice per una piattaforma web di scacchi dove i giocatori possono godersi partite in diverse modalità, monitorare i propri progressi e connettersi con gli amici.
 
