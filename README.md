@@ -17,7 +17,7 @@ Benvenuto nel progetto Breaking Chess progettato e sviluppato da Paolo Costa e M
 Breaking Chess offre un'ampia gamma di funzionalità per migliorare la tua esperienza di gioco:
 
 ### Autenticazione
-- **Registrazione / Accesso:** Autenticazione sicura degli utenti per accedere alla piattaforma.
+- **Registrazione / Accesso:** Autenticazione sicura degli utenti per accedere alla piattaforma tramite il servizio Keycloak.
 
 ### Homepage
 - **Classifica:** Visualizza le classifiche dei giocatori basate sui punti ELO nelle diverse modalità: Bullet, Blitz e Rapid.
