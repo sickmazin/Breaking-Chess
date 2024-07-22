@@ -45,6 +45,7 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
         user.setEmail(userReg.email());
         user.setFirstName(userReg.firstName());
         user.setLastName(userReg.lastName());
+        user.setEmailVerified(true); // SAREBBE DA VERIFICARRE MA UN PO COMPLICATO A LIVELLO DI API ECC...
 
         CredentialRepresentation password = new CredentialRepresentation();
         password.setType(CredentialRepresentation.PASSWORD);
@@ -100,15 +101,17 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
 
     @Override
     public void forgotPassword (String username) throws UserNotFoundException {
-        UsersResource resource = getUsersResource();
-        List<UserRepresentation> userRepresentationList = resource.searchByUsername(username,true);
+        UsersResource usersResource = getUsersResource();
+        List<UserRepresentation> list = usersResource.searchByUsername(username,true);
 
-        var userRepresentation = userRepresentationList.stream().findFirst().orElse(null);
+        var userRepresentation = list.stream().findFirst().orElse(null);
         if (userRepresentation != null) {
-            UserResource utente = resource.get(userRepresentation.getId());
+
+            UserResource utente = usersResource.get(userRepresentation.getId());
             List<String> actions = new ArrayList<>();
             actions.add(UPDATE_PASSWORD);
             utente.executeActionsEmail(actions);
+
         }
         throw new UserNotFoundException();
     }

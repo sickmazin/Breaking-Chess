@@ -70,7 +70,7 @@ export class HomepageComponent implements OnInit{
         //GETTING BOOk FROM DB
         this.getBooks()
         //VIDEO FROM API
-        this.videos = this.youtubeService.getVideos() // TODO DOVREBBE ESSER FIXATO IL FATTO CHE SE VAI IN MATCH E TORNI INDIETRO I VIDEO SI RADDOPPIANO
+        this.videos = this.youtubeService.getVideos()
 
     }
 

@@ -88,7 +88,7 @@ export class ChessplayComponent implements OnInit, OnDestroy {
   }
 
   startPolling() {
-    this.timeInterval = interval(400) //todo set 400
+    this.timeInterval = interval(400)
         .pipe(
             startWith(0),
             switchMap(() => this.backend.getGame()),

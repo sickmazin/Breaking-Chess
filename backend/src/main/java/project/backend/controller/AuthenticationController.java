@@ -52,11 +52,11 @@ public class AuthenticationController {
     public ResponseEntity<?> forgotPassword(@RequestParam("username") String username){
         try {
             keycloakUserService.forgotPassword(username);
-            return ResponseEntity.ok("Email recupero password inviata");
+            return ResponseEntity.ok("Email recupero password inviata !");
         }catch (UserNotFoundException e){
-            return new ResponseEntity<>("Username not found",HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>("Username: "+username+ "not found",HttpStatus.NOT_FOUND);
         }catch (Exception e){
-            return new ResponseEntity<>("Non hai verificato l'email quando hai creato l'account",HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>("Non hai verificato l'email quando hai creato l'account, verificala e riprova!",HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 

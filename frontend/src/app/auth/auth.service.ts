@@ -144,19 +144,6 @@ export class AuthService {
     });
   }
 
-  // @ts-ignore
-  getToken () {
-    const token= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
-    let refresh_token= localStorage.getItem ("refresh_token")!=null? localStorage.getItem ("refresh_token"):sessionStorage.getItem("refresh_token");
-    let  saveTokenOnLocalStorage = localStorage.getItem ("token") != null;
-    if(this.jwtHelper.isTokenExpired(token) && token!=null && refresh_token!=null ){
-      this.refreshToken(refresh_token,saveTokenOnLocalStorage).subscribe()
-      let tokenDopo= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
-      return tokenDopo as string;
-    }
-    return token;
-  }
-
   forgotPassword(username: string){
     const params = new HttpParams()
         .set('username', username)
@@ -169,5 +156,18 @@ export class AuthService {
         else this.toastr.error(err.message || 'Error during forgot-password')
       }
     })
+  }
+
+  // @ts-ignore
+  getToken () {
+    const token= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
+    let refresh_token= localStorage.getItem ("refresh_token")!=null? localStorage.getItem ("refresh_token"):sessionStorage.getItem("refresh_token");
+    let  saveTokenOnLocalStorage = localStorage.getItem ("token") != null;
+    if(this.jwtHelper.isTokenExpired(token) && token!=null && refresh_token!=null ){
+      this.refreshToken(refresh_token,saveTokenOnLocalStorage).subscribe()
+      let tokenDopo= localStorage.getItem ("token")!=null? localStorage.getItem ("token"):sessionStorage.getItem("token");
+      return tokenDopo as string;
+    }
+    return token;
   }
 }
