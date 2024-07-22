@@ -10,7 +10,7 @@ import project.backend.repository.LikeRepository;
 import java.util.List;
 
 @Service
-public class LikeService { //TODO PROBABILMENTE VA ELIMINATA
+public class LikeService {
     private final LikeRepository likeRepository;
 
     @Autowired

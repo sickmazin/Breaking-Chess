@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-//TODO make methods transactions
 
 @Service
 public class LiveGameService {

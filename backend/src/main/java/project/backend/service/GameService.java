@@ -16,40 +16,7 @@ public class GameService {
     @Autowired
     private PlayerRepository playerRepository;
 
-    //@Transactional
-    public Game generateNewGameFromPlayer(Player playerWhoWantToPlay, String modality) {
-        return null; //TODO
-    }
-
-    //@Transactional
-    public Game generateNewGameForGuest(String modality) {
-        return null;//TODO
-    }
-
-    //@Transactional
-    public List<Game> getListOfGames(String playerNickname) {
-        //CHECK SE IL PLAYER CHE L'HA RICHIESTO C'è NEL DB
-        Player player= playerRepository.findByUsername(playerNickname).orElseThrow( () -> new IllegalArgumentException(" PLAYER NON PRESENTE NEL DB"));
-        System.out.println(player.getUsername());
-        return gameRepository.findLast20ByPlayer(player.getUsername());
-    }
-
-  
     public void save(Game game) {
         gameRepository.save(game);
-    }
-  
-    public Game getGameByID(long id) {
-        return gameRepository.getById(id);
-    }
-
-    //@Transactional
-    public void deleteGameByID(Long gameId) {
-        gameRepository.deleteById(gameId);
-    }
-
-    //@Transactional
-    public Game generateNewGameVsFriends(Player playerWhoWantToPlay, Player playerFriend, String modality) {
-        return null;//TODO
     }
 }

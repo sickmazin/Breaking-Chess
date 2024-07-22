@@ -22,6 +22,10 @@ export class SignInComponent {
   }
 
   loginWithEmailAndPassword(loginForm: NgForm) {
+    if (loginForm.invalid) {
+      this.toastr.error ("Completa il form!");
+      return;
+    }
     const user={
       username: loginForm.value.username,
       password: loginForm.value.password,
@@ -39,5 +43,14 @@ export class SignInComponent {
   viewPassword(event: MouseEvent) {
     this.hide = !this.hide;
     event.stopPropagation();
+  }
+
+  forgotPassword ( username: string ) {
+    if (!username) {
+      this.toastr.error ("Devi inserire l'username");
+      this.toastr.error (username);
+      return;
+    }
+    this.authService.forgotPassword(username)
   }
 }

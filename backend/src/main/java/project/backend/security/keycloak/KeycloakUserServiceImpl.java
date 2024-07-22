@@ -1,9 +1,13 @@
 package project.backend.security.keycloak;
 
 import jakarta.ws.rs.core.Response;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
+import lombok.val;
+import org.apache.catalina.User;
 import org.keycloak.admin.client.Keycloak;
 import org.keycloak.admin.client.resource.RealmResource;
+import org.keycloak.admin.client.resource.UserResource;
 import org.keycloak.admin.client.resource.UsersResource;
 import org.keycloak.representations.idm.CredentialRepresentation;
 import org.keycloak.representations.idm.UserRepresentation;
@@ -14,14 +18,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import project.backend.data.Player;
 import project.backend.data.PlayerRegistrationRepresentation;
+import project.backend.exceptions.UserNotFoundException;
 import project.backend.repository.PlayerRepository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
 @Slf4j
 public class KeycloakUserServiceImpl implements KeycloakUserService {
 
+    private final String UPDATE_PASSWORD = "UPDATE_PASSWORD";
     private final Keycloak keycloakService;
     @Autowired
     private PlayerRepository playerRepository;
@@ -89,5 +96,20 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
     @Override
     public void deleteUser(String username) {
         getUsersResource().delete(username);
+    }
+
+    @Override
+    public void forgotPassword (String username) throws UserNotFoundException {
+        UsersResource resource = getUsersResource();
+        List<UserRepresentation> userRepresentationList = resource.searchByUsername(username,true);
+
+        var userRepresentation = userRepresentationList.stream().findFirst().orElse(null);
+        if (userRepresentation != null) {
+            UserResource utente = resource.get(userRepresentation.getId());
+            List<String> actions = new ArrayList<>();
+            actions.add(UPDATE_PASSWORD);
+            utente.executeActionsEmail(actions);
+        }
+        throw new UserNotFoundException();
     }
 }

@@ -66,3 +66,4 @@ export const FRIEND_URL= BASE_URL+"friend/"
 export const ACCOUNT_URL= BASE_URL+"auth";
 export const LOGIN_URL =ACCOUNT_URL+"/login"
 export const CREATE_USER=ACCOUNT_URL+"/register";
+export const FORGOT_PASSWORD=ACCOUNT_URL+"/forgotPassword";

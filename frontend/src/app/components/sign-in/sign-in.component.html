@@ -19,7 +19,7 @@
                 </form>
 
                 <div class="frame-19">
-                    <div class="text-under-button"> Forgot your Password or nickname? Recover </div>
+                    <div class="text-under-button"> Forgot your Password or nickname? <a (click)="forgotPassword(loginForm.value.username)">Recover</a></div>
                     <div class="frame-20">
                         <mat-checkbox #checkbox ></mat-checkbox>
                         <div class="text-under-button"> Remember me </div>

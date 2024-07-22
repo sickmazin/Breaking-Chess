@@ -6,7 +6,7 @@ import {
   ADDRESS_AUTHENTICATION_SERVER ,
   CLIENT_ID ,
   CLIENT_SECRET ,
-  CREATE_USER ,
+  CREATE_USER , FORGOT_PASSWORD ,
   LOGIN_URL ,
   REQUEST_LOGIN , REQUEST_LOGOUT
 } from "../support/constants";
@@ -155,5 +155,19 @@ export class AuthService {
       return tokenDopo as string;
     }
     return token;
+  }
+
+  forgotPassword(username: string){
+    const params = new HttpParams()
+        .set('username', username)
+    this.http.get(FORGOT_PASSWORD, {params:params}).subscribe({
+      next: (value:any) => {
+        this.toastr.success(value.message)
+      },
+      error: err => {
+        if(err.error)        this.toastr.error(err.error)
+        else this.toastr.error(err.message || 'Error during forgot-password')
+      }
+    })
   }
 }
