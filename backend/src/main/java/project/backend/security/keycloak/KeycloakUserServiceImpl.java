@@ -76,9 +76,9 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
                 .email(userReg.email())
                 .firstName(userReg.firstName())
                 .lastName(userReg.lastName())
-                .blitzPoints((short) 600)
-                .bulletPoints((short) 600)
-                .rapidPoints((short) 600)
+                .blitzPoints((short) 600) // settato di default a 600
+                .bulletPoints((short) 600) // settato di default a 600
+                .rapidPoints((short) 600) // settato di default a 600
                 .avatar(userReg.avatar())
                 .build();
     }

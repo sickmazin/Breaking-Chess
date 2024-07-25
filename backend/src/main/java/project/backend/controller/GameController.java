@@ -6,13 +6,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import project.backend.data.Game;
 import project.backend.exceptions.LiveGameNotFoundException;
 import project.backend.exceptions.PlayerNotFoundException;
 import project.backend.live.LiveGameDTO;
 import project.backend.live.LiveGameService;
-
-import java.util.List;
 import java.util.Optional;
 
 @RestController()

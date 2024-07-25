@@ -11,7 +11,7 @@ export class BookService {
   constructor(private http:HttpClient) { }
 
   getBooks(){
-    return this.http.get<Book[]>(`${BOOK_URL}`).toPromise();
+    return this.http.get<Book[]>(`${BOOK_URL}`);
   }
 
   addLike( book: Book ) {
