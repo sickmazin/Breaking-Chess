@@ -25,5 +25,4 @@ public class Like {
     @JoinColumn(name = "player_id", nullable = false)
     private Player player;
 
-
 }

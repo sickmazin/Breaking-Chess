@@ -1,6 +1,5 @@
 package project.backend.live;
 
-import jakarta.persistence.Version;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -9,7 +8,6 @@ import project.backend.data.Game;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 @Data
 public class LiveGame {
@@ -24,8 +22,6 @@ public class LiveGame {
     private String turn;
     @Setter(AccessLevel.NONE)
     private GameState gameState;
-    @Version
-    private Long version;
     private String result;
     private List<String> FENs = new ArrayList<>(20);
     private long timeBeforeMoveMillis;

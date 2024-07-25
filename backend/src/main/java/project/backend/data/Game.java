@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 import java.time.LocalDateTime;
-import java.util.Date;
 
 @Data
 @AllArgsConstructor
@@ -21,7 +20,6 @@ public class Game {
 
     @NonNull
     @Enumerated(EnumType.STRING)
-
     private TYPE mode;
 
     public enum TYPE {

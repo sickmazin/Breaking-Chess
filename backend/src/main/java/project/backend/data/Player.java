@@ -1,12 +1,12 @@
 package project.backend.data;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.List;
 import java.util.Set;
 
 @NoArgsConstructor
@@ -35,9 +35,11 @@ public class Player {
     private short rapidPoints;
     private String avatar;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "sender", cascade = CascadeType.ALL) // caricata quando serve
     private Set<Friend> senderFriends;
 
+    @JsonIgnore
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.ALL) // caricata quando serve
     private Set<Friend> receiverFriends;
 }

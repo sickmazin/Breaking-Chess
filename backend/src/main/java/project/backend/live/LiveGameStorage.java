@@ -1,33 +1,23 @@
 package project.backend.live;
 
-import jakarta.persistence.LockModeType;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.stereotype.Component;
 import project.backend.data.Game;
 import project.backend.exceptions.LiveGameNotFoundException;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 public class LiveGameStorage {
 
-    private final Map<String, LiveGame> liveGames = new HashMap<String, LiveGame>();
+    private final Map<String, LiveGame> liveGames = new ConcurrentHashMap<>();
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
-    public LiveGame getLiveGame(String gameId) throws LiveGameNotFoundException {
-        LiveGame liveGame = liveGames.get(gameId);
-        if (liveGame==null) throw new LiveGameNotFoundException();
-        return liveGame;
-    }
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     public void setLiveGame(LiveGame liveGame) {
         liveGames.put(liveGame.getId(), liveGame);
     }
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     public LiveGame getLiveGameByPlayer(String nickname) throws LiveGameNotFoundException {
         List<LiveGame> games =  liveGames.values()
                                          .stream()
@@ -38,7 +28,6 @@ public class LiveGameStorage {
         return games.get(0);
     }
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     public List<LiveGame> getGamesByModeAndState(Game.TYPE type, LiveGame.GameState state) {
         return liveGames.values()
                         .stream()
@@ -46,7 +35,6 @@ public class LiveGameStorage {
                         .toList();
     }
 
-    @Lock(LockModeType.OPTIMISTIC_FORCE_INCREMENT)
     public void removeLiveGame(String gameId) {
         liveGames.remove(gameId);
     }

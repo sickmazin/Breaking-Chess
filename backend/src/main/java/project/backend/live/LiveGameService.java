@@ -1,10 +1,8 @@
 package project.backend.live;
 
-import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.keycloak.common.util.Time;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import project.backend.bitboard.Board;
@@ -30,7 +28,7 @@ public class LiveGameService {
     private final static float FACTOR = 0.03f;
 
     private final GameRepository gameRepository;
-    private LiveGameStorage liveGameStorage;
+    private final LiveGameStorage liveGameStorage;
     private PlayerService playerService;
     private GameService gameService;
 
@@ -111,18 +109,21 @@ public class LiveGameService {
             return Optional.of(createLiveGameDTO(liveGameStorage.getLiveGameByPlayer(nickname), nickname));
         } catch (LiveGameNotFoundException e) {
             //check if player can connect to already existing NEW game or push new LiveGame in the queue
-            List<LiveGame> list = liveGameStorage.getGamesByModeAndState(Game.TYPE.valueOf(mode), LiveGame.GameState.FINDING_OPPONENT);
 
-            if (list.isEmpty()) {
-                LiveGame liveGame = new LiveGame(nickname, Game.TYPE.valueOf(mode));
-                liveGameStorage.setLiveGame(liveGame);
-                return Optional.empty();
-            }
-            else {
-                LiveGame liveGame = list.get(0);
-                liveGame.setRemainingPlayer(nickname);
-                liveGame.addFEN(Constant.STARTING_POSITION);
-                return Optional.of(createLiveGameDTO(liveGame, nickname));
+            synchronized (liveGameStorage) {
+                List<LiveGame> list = liveGameStorage.getGamesByModeAndState(Game.TYPE.valueOf(mode), LiveGame.GameState.FINDING_OPPONENT);
+
+                if (list.isEmpty()) {
+                    LiveGame liveGame = new LiveGame(nickname, Game.TYPE.valueOf(mode));
+                    liveGameStorage.setLiveGame(liveGame);
+                    return Optional.empty();
+                }
+                else {
+                    LiveGame liveGame = list.get(0);
+                    liveGame.setRemainingPlayer(nickname);
+                    liveGame.addFEN(Constant.STARTING_POSITION);
+                    return Optional.of(createLiveGameDTO(liveGame, nickname));
+                }
             }
         }
     }
@@ -156,7 +157,7 @@ public class LiveGameService {
         return createLiveGameDTO(liveGame, nickname);
     }
 
-    private void updatePoints(Game game) throws PlayerNotFoundException {
+    private void updatePoints(Game game) {
         Player whitePlayer = game.getWhitePlayer();
         Player blackPlayer = game.getBlackPlayer();
 
