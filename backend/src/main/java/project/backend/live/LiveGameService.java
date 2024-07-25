@@ -1,10 +1,8 @@
 package project.backend.live;
 
-import jakarta.persistence.LockModeType;
 import jakarta.transaction.Transactional;
 import org.keycloak.common.util.Time;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Lock;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import project.backend.bitboard.Board;
@@ -30,9 +28,9 @@ public class LiveGameService {
     private final static float FACTOR = 0.03f;
 
     private final GameRepository gameRepository;
-    private LiveGameStorage liveGameStorage;
-    private PlayerService playerService;
-    private GameService gameService;
+    private final LiveGameStorage liveGameStorage;
+    private final PlayerService playerService;
+    private final GameService gameService;
 
     @Autowired
     public LiveGameService(LiveGameStorage liveGameStorage, PlayerService playerService, GameService gameService, GameRepository gameRepository) {

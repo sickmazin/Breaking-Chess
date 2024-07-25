@@ -8,9 +8,6 @@ import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import project.backend.service.FriendService;
 
-import static project.backend.data.Friend.RequestState.accepted;
-import static project.backend.data.Friend.RequestState.sent;
-
 @RestController
 @RequestMapping("/api/friend")
 public class FriendController {

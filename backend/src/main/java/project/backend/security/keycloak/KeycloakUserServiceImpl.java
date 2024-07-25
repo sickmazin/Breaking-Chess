@@ -91,7 +91,6 @@ public class KeycloakUserServiceImpl implements KeycloakUserService {
 
     @Override
     public ResponseEntity<?> getUserByID(String userId) {
-        System.out.println(getUsersResource().get(userId).toString());
         return new ResponseEntity<>(getUsersResource().get(userId).toRepresentation(),HttpStatus.OK);
     }
 

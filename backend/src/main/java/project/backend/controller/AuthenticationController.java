@@ -1,27 +1,16 @@
 package project.backend.controller;
 
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
-import project.backend.data.Game;
-import project.backend.data.Player;
 import project.backend.data.PlayerRegistrationRepresentation;
 import project.backend.exceptions.UserNotFoundException;
-import project.backend.repository.GameRepository;
 import project.backend.security.keycloak.KeycloakUserServiceImpl;
 import project.backend.service.PlayerService;
-
-import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping("/api/auth")

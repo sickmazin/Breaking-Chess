@@ -13,7 +13,6 @@ import project.backend.data.Statistic;
 import project.backend.exceptions.PlayerNotFoundException;
 import project.backend.repository.FriendRepository;
 import project.backend.repository.PlayerRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;

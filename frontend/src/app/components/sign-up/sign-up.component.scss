@@ -80,18 +80,30 @@ form {
   justify-content: space-between;
 }
 
+.titleImg{
+  z-index: 1;
+  height: 90vh;
+  align-self: center;
+  gap: 2vh;
+  left: 12vw;
+  position: relative;
+  padding-top: 4vh;
+  display: flex;
+  flex-direction: column;
+}
+
 .SCHERMATA-CREA {
   background-color: $background-color;
   display: flex;
   flex-direction: row;
-  width: 100vh;
+  width: 100vw;
   height: 100vh;
 
   .CENTRALE {
     position: absolute;
-    width: 100%;
+    width: 75%;
     height: 100vh;
-    left: 16%;
+    left: 25%;
     align-items: center;
     background-color: #ffffff;
     border-radius: $border-radius-large 0 0 $border-radius-large;
@@ -100,11 +112,9 @@ form {
 }
 
 .SCHACCHI-IMG {
-  width: 25rem;
-  height: 25rem;
+  width: 25vw;
+  height: 25vw;
   position: relative;
-  right: 10rem;
-  top: 20%;
   object-fit: cover;
 }
 
@@ -117,13 +127,11 @@ form {
 
 
 .chess-web {
-  position: relative;
-  left: 16%;
-  top: 7%;
+  z-index: 100;
   font-family: $primary-font, ui-serif;
   font-weight: 700;
   color: #000000;
-  font-size: 3.6rem;
+  font-size: 4vw;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

@@ -75,9 +75,9 @@ form {
 
   .CENTRALE {
     position: absolute;
-    width: 83%;
+    width: 75%;
     height: 100vh;
-    left: 16%;
+    left: 25%;
     align-items: center;
     justify-self: center;
     background-color: #ffffff;
@@ -87,24 +87,28 @@ form {
 }
 
 .SCHACCHI-IMG {
-  position: absolute;
-  width: 25rem;
-  height: 25rem;
-  left: 5%;
-  top: 27%;
+  width: 25vh;
+  height: 25vh;
   object-fit: cover;
 }
-
+.titleImg{
+  z-index: 1;
+  height: 90vh;
+  align-self: center;
+  gap: 2vh;
+  left: 12vw;
+  position: relative;
+  padding-top: 4vh;
+  display: flex;
+  flex-direction: column;
+}
 
 .chess-web {
-  position: relative;
-  left: 16%;
-  top: 7%;
   height: 20%;
   font-family: $primary-font, ui-serif;
   font-weight: 700;
   color: #000000;
-  font-size: 3.6rem;
+  font-size: 4vw;
   text-align: center;
   letter-spacing: 0;
   line-height: normal;

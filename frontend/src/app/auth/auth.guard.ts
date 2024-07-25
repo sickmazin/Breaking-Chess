@@ -1,9 +1,10 @@
 import {CanActivateFn, Router} from '@angular/router';
 import {inject} from "@angular/core";
 import {ToastrService} from "ngx-toastr";
+import {AuthService} from "./auth.service";
 
 export const authGuard: CanActivateFn = (route, state) => {
-  if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
+  if (inject(AuthService).getToken()) {
     // User is logged in, so return true
     return true;
   }else {
@@ -15,11 +16,13 @@ export const authGuard: CanActivateFn = (route, state) => {
   }
 };
 export const authSignPage: CanActivateFn = (route, state) => {
-  if (localStorage.getItem('token') || sessionStorage.getItem('token')) {
+  if (inject(AuthService).getToken()) {
+    console.log("Sei connesso")
     // User is logged in, so return true
     inject(Router).navigate(['/homepage']).then(r => false);
     return false;
   }else {
+    console.log("NOn sei connesso")
     // User is not logged in, so he can stay at login page
     return true;
   }
