@@ -33,10 +33,18 @@ public class HomeController {
     }
 
 
+    // QUESTO METODO DOVREBBE ESSER IMPLEMENTATO PER ESSER DISPONIBILE ALL'ADMIN CHE DA FRONTEND POSSA AGGIUNGERE UN NUOVO LIBRO.
+    // MA è UNA NUOVA FEATURE IN ARRIVO COMING SOON...
+//    @PostMapping("/book")
+//    public ResponseEntity<?> createBook(){
+//        return bookService.createBook();
+//    }
+
+
     //TO TEST
     @GetMapping("/books")
-    public ResponseEntity<?> books() {
-        return bookService.findAll();
+    public ResponseEntity<?> books(@AuthenticationPrincipal Jwt jwt) {
+        return bookService.findAll(jwt.getClaimAsString("preferred_username"));
     }
 
     // TESTED
@@ -45,7 +53,7 @@ public class HomeController {
         return playerService.getLeaderboard(modality);
     }
 
-    //TO TEST
+    // TESTED
     @PutMapping(value = "/books/like/{bookID}")
     public ResponseEntity<?> addLike (@PathVariable @Valid int bookID, @AuthenticationPrincipal Jwt jwt) {
         var remainingRetries = 100;
@@ -64,6 +72,7 @@ public class HomeController {
         }
         return ResponseEntity.internalServerError().build();
     }
+
     @DeleteMapping(value = "/books/like/{bookID}")
     public ResponseEntity<?> deleteLike (@PathVariable @Valid int  bookID, @AuthenticationPrincipal Jwt jwt) {
         var remainingRetries = 100;
@@ -82,9 +91,10 @@ public class HomeController {
         }
         return ResponseEntity.internalServerError().build();
     }
+
+    // GET LIKE DEL PLAYER
     @GetMapping(value = "/books/likes")
     public ResponseEntity<?> likes(@AuthenticationPrincipal Jwt jwt) {
-        //NON SO SE FARE LO STESSO MODO DI SOPRA CHE RIPROVO VEDIAMO
         try {
             Player p = playerService.getPlayer(jwt.getClaimAsString("preferred_username"));
             List<Book> likedBooks=this.likeService.getLikes(p);
@@ -93,15 +103,6 @@ public class HomeController {
             return new ResponseEntity<>("Player not found", HttpStatus.NOT_FOUND);
         }
     }
-
-    //TO TEST
-//    @GetMapping(value = "/friends")
-//    public ResponseEntity<?> friends(@AuthenticationPrincipal Principal principal) {
-//        List<Player> friends = playerService.findFriendsByUsername(principal.getName()).orElse(null);
-//        if (friends==null) return ResponseEntity.noContent().build();
-//        return ResponseEntity.ok().body(friends);
-//    }
-
 
 }
 

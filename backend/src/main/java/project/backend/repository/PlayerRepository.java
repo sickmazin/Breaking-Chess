@@ -33,6 +33,4 @@ public interface PlayerRepository extends JpaRepository<Player, String> {
     @Query("SELECT COUNT(g) FROM Game g WHERE (g.whitePlayer.username = :username OR g.blackPlayer.username = :username) AND g.result = 'draw' AND g.mode = :type")
     int getAllDrawsForThisModality(String username,Game.TYPE type);
 
-//    @Query("SELECT p. FROM Player p,Pla")
-//    Optional<List<Player>> findFriendsFor(String username);
 }

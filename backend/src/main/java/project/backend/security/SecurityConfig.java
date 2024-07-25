@@ -71,27 +71,23 @@ public class SecurityConfig {
         ));
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
-
     }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .cors(Customizer.withDefaults())
-                .csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(req ->
-                        req.requestMatchers( //RICHIESTE CHE SONO PUBLICHE
+            .cors(Customizer.withDefaults())
+            .csrf(AbstractHttpConfigurer::disable)
+            .authorizeHttpRequests(req ->
+                        req.requestMatchers( //RICHIESTE PUBLICHE
                                         "/api/auth/register",
                                         "/api/auth/forgotPassword"
                                 ).permitAll()
                                 .anyRequest().authenticated()// TUTTE LE ALTRE SONO SOLO DA AUTENTICATI
-                )
-                .oauth2ResourceServer(auth ->
-                        auth.jwt(token ->
-                                token.jwtAuthenticationConverter(new KeyCloackJwtAuthenticationConverter())))
-                .sessionManagement(session ->
-                        session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                );;
+            )
+            .oauth2ResourceServer(auth ->
+                    auth.jwt(token -> token.jwtAuthenticationConverter(new KeyCloackJwtAuthenticationConverter())))
+            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS));;
         return http.build();
     }
 

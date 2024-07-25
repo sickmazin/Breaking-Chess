@@ -63,7 +63,7 @@
                         <div class="libro">
                             <img class="imgBook" (click)="openLink(libro.link)"  ngSrc="{{libro.srcImg}}" alt="" height="466" width="311"/>
                             <div class="like-unlike">
-                                <app-animated-like (dataEvent)="handleDataFromChild($event)" [libro]="libro" [isThereLike]="isThereLike(libro)" ></app-animated-like>
+                                <app-animated-like (dataEvent)="handleDataFromChild($event)" [libro]="libro" [isThereLike]="libro.likedByThisPlayer" ></app-animated-like>
                                 <label style="margin:0;text-align: center">{{libro.like}}</label>
                             </div>
                         </div>

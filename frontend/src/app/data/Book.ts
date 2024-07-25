@@ -4,4 +4,5 @@ export interface Book{
     srcImg: string;
     link: string;
     like:number;
+    likedByThisPlayer:boolean;
 }

@@ -1,4 +1,4 @@
-import {Component , OnInit} from '@angular/core';
+import {Component , OnDestroy , OnInit} from '@angular/core';
 import {Player} from "../../data/player";
 import {Game} from "../../data/game";
 import {Video} from "../../data/video";
@@ -12,13 +12,14 @@ import {YoutubeService} from "../../service/youtube.service";
 import {liveGameDTO} from "../../data/liveGameDTO";
 import {ChessplayService} from "../../service/chessplay.service";
 import {interval, retry, startWith, Subscription, switchMap} from "rxjs";
+import {data , error} from "jquery";
 
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
   styleUrl: './homepage.component.scss'
 })
-export class HomepageComponent implements OnInit{
+export class HomepageComponent implements OnInit, OnDestroy {
     loadingBooks: boolean;
     loadingLeaderboard: boolean;
     loadingGames: boolean;
@@ -26,9 +27,8 @@ export class HomepageComponent implements OnInit{
     leaderboard: Player[];
     isLightTheme: boolean;
     books: Book[];
-    likes: Book[];
     games: Game[];
-    videos: Video[];
+    videos: Video[] = [];
     modality: number = 1;
     player: Player;
     leardBoardModality: string = "blitz";
@@ -106,32 +106,22 @@ export class HomepageComponent implements OnInit{
     }
 
     getBooks() {
-        this.loadingBooks=true
-        this.bookService.getBooks().then (
-            ( response: Book[] | undefined ) => {
-                if (response != undefined) {
-                    this.loadingBooks=false;
-                    this.books = response;
-                } else {
-                    this.books = [];
-                }
-            }
-        )
-
         this.timeInterval = interval(2000)
-          .pipe(
-            startWith(0),
-            switchMap(() => this.bookService.getLikes()),
-            retry()
-          ).subscribe(res => {
-              if (res != undefined) {
-                this.likes = res as Book[];
-              } else {
-                this.likes = [];
-              }
-            },
-            err => console.log('HTTP Error', err)
-          )
+            .pipe(
+                startWith(0),
+                switchMap(() =>this.bookService.getBooks()),
+                retry()
+            ).subscribe(response => {
+                    if (response != undefined) {
+                        this.loadingBooks=false;
+                        this.books = response;
+                    } else {
+                        this.books = [];
+                    }
+                },
+                err => console.log('HTTP Error', err)
+            )
+
     }
 
     openOptionsPage() {
@@ -204,18 +194,10 @@ export class HomepageComponent implements OnInit{
         else return item.id;
     }
 
-    isThereLike ( libro: Book ) {
-        //return this.likes.includes(libro) NON FUNZIONA
-        for (const book of this.likes) {
-            if (book.id == libro.id) return true
-        }
-        return false;
-    }
-
     handleDataFromChild ( $event: Book ) {
         for (let i = 0; i < this.books.length; i++) {
             if(this.books[i].id==$event.id){
-                this.books[i]=$event;
+                this.books[i].like=$event.like;
             }
         }
     }
@@ -235,5 +217,9 @@ export class HomepageComponent implements OnInit{
           this.videos=[]
           console.log(error);
         })
+    }
+
+    ngOnDestroy (): void {
+        this.timeInterval.unsubscribe()
     }
 }

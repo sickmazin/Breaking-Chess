@@ -29,8 +29,8 @@ public class LiveGameService {
 
     private final GameRepository gameRepository;
     private final LiveGameStorage liveGameStorage;
-    private PlayerService playerService;
-    private GameService gameService;
+    private final PlayerService playerService;
+    private final GameService gameService;
 
     @Autowired
     public LiveGameService(LiveGameStorage liveGameStorage, PlayerService playerService, GameService gameService, GameRepository gameRepository) {
