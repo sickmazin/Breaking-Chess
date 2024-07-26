@@ -9,7 +9,7 @@ export const REQUEST_LOGOUT: string = "/realms/" + REALM + "/protocol/openid-con
 export const ADDRESS_AUTHENTICATION_SERVER: string = "http://localhost:8080";
 
 //CONSTANT FOR YOUTUBE VIDEOS
-export const YOUTUBE_KEY="AIzaSyBjPKQx2aNnpVeFE_vC-1Kpo_Nby4IFzy8"
+export const YOUTUBE_KEY="YOUTUBE_API_KEY"
 export const channelID="UCQHX6ViZmPsWiYSFAyS0a3Q" //ID CANALE DI GOTHAM CHESS
 export const PLAYLIST_ID="UUQHX6ViZmPsWiYSFAyS0a3Q"// ID PLAYLIST ULTIMI VIDEO DI GOTHAM
 export const MAX_RESULTS_OF_VIDEOS=7
