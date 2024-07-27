@@ -60,6 +60,6 @@ Una volta che l'applicazione è in esecuzione, puoi:
 
 Se hai domande o suggerimenti, non esitare a contattarci:
 - **Email:** support@breakingchess.com
-- **GitHub Issues:** [https://github.com/yourusername/breaking-chess/issues](https://github.com/yourusername/breaking-chess/issues)
+- **GitHub Issues:** [https://github.com/sickmazin/breaking-chess/issues](https://github.com/sickmazin/breaking-chess/issues)
 
 Buon divetimento!
