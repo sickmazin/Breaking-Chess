@@ -18,6 +18,9 @@ Breaking Chess offre un'ampia gamma di funzionalità per migliorare la tua esper
 
 ### Autenticazione
 - **Registrazione / Accesso:** Autenticazione sicura degli utenti per accedere alla piattaforma tramite il servizio Keycloak.
+  
+![image](https://github.com/user-attachments/assets/5f3dde7d-d54f-49fe-be55-d5ef075f70f3)
+
 
 ### Homepage
 - **Classifica:** Visualizza le classifiche dei giocatori basate sui punti ELO nelle diverse modalità: Bullet, Blitz e Rapid.
